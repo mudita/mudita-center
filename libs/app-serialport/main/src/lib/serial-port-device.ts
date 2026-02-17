@@ -427,10 +427,11 @@ export class SerialPortDevice {
             priority: priority + 1,
             retries: retriesLeft - 1,
             timeout:
-              (request.options?.timeout ||
-                this.instance.defaultRequestTimeout) + 1000,
+              request.options?.timeout || this.instance.defaultRequestTimeout,
           },
         })
+      } else if ((isSerialPortTimeout || isQueueTimeout) && retriesLeft === 0) {
+        // this.attachPort(this.info, 1)
       } else {
         AppLogger.log(
           "error",

@@ -73,7 +73,8 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   useEffect(() => {
     void performSystemAction(device, {
       action: "serial-port-setup",
-      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 8,
+      // TODO: Increase chunk size factor when properly tested
+      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 1,
       outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
     })
   }, [device])

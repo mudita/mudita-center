@@ -65,14 +65,6 @@ export const useDevicesListener = () => {
 
   useEffect(() => {
     AppSerialPort.onDevicesChanged(async ({ added, removed, all }) => {
-      console.log(
-        "Devices changed. Added:",
-        added,
-        "Removed:",
-        removed,
-        "All:",
-        all
-      )
       const pathname = getCurrentPath()
       const activeDevice = getActiveDevice(queryClient)
 

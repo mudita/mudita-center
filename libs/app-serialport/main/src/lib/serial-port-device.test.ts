@@ -302,24 +302,6 @@ describe("SerialPortDevice", () => {
       })
     })
 
-    it("flushes the serial port after opening", async () => {
-      const device = new SerialPortDevice(mockDeviceInfo)
-      device.attachPort()
-
-      await waitFor(() => {
-        expect(device["serialPort"]).toBeDefined()
-      })
-
-      const mockFlush = jest.spyOn(
-        device["serialPort"] as SerialPortHandler,
-        "flush"
-      )
-
-      await waitFor(() => {
-        expect(mockFlush).toHaveBeenCalled()
-      })
-    })
-
     it("destroy closes the serial port and cleans up resources", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()

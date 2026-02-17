@@ -11,7 +11,7 @@ export const getOutbox = (device: ApiDevice) => {
     ...buildOutboxGetRequest(),
     options: {
       timeout: 2_000,
-      retries: 5,
+      retries: 1,
     },
   })
 }

@@ -44,7 +44,7 @@ export class SerialPortHandler extends SerialPort {
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
   static readonly nonSerialPortDevice: boolean = false
-  static readonly defaultRequestTimeout = 30_000
+  static readonly defaultRequestTimeout = 10_000
   readonly requestIdKey: string = "id"
 
   constructor(options: SerialPortHandlerOptions) {

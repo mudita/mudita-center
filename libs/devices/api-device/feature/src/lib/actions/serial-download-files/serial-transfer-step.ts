@@ -8,6 +8,7 @@ import {
   PreFileTransferReadyGetResponse,
 } from "devices/api-device/models"
 import { getFileTransfer } from "../../api/get-file-transfer"
+import logger from "electron-log"
 
 interface TransferStepParams {
   device: ApiDevice
@@ -36,6 +37,8 @@ export const serialTransferStep = async ({
       chunkNumber,
     })
     if (!chunkResponse.ok) {
+      logger.error(chunkResponse)
+      logger.info(transferData)
       throw new Error(`Failed to download file chunk ${chunkNumber}`)
     }
     onProgress(Math.round((chunkNumber / chunksCount) * 100))

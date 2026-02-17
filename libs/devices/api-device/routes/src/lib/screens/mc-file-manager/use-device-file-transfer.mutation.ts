@@ -51,7 +51,12 @@ const mutationFn = async ({
   let refetchProgress = 0
 
   const handleProgress = (file?: FileManagerFile) => {
-    const progress = Math.floor(transferProgress * 0.9 + refetchProgress * 0.1)
+    let progress = transferProgress * 0.9 + refetchProgress * 0.1
+    if (progress > 0 && progress < 1) {
+      progress = 1
+    } else {
+      progress = Math.floor(progress)
+    }
 
     const refreshingMessageFile =
       transferProgress === 100
