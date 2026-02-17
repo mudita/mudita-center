@@ -19,6 +19,7 @@ import {
   SerialPortHandlerOptions,
 } from "app-serialport/devices"
 import { AppLogger, SerialPortError } from "app-serialport/utils"
+import { delay } from "app-utils/common"
 
 const DEFAULT_QUEUE_INTERVAL = 10
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -387,15 +388,24 @@ export class SerialPortDevice {
     }
 
     try {
+      console.log("retries left", request.options?.retries)
+      console.log("PORT ID", this.portInstanceId)
+      if (this.portInstanceId < 4) {
+        throw new SerialPortError(SerialPortErrorType.ResponseTimeout)
+      }
       return await this.requestsQueue.add(
         ({ signal }) => this.makeRequest(request, signal),
         {
-          timeout: request.options?.timeout,
+          timeout:
+            request.options?.timeout || this.instance.defaultRequestTimeout,
           priority,
           signal: this.requestsQueueAbortController.signal,
         }
       )
     } catch (error) {
+      const { body, data, ...rest } = request
+      const requestInfo = JSON.stringify(rest)
+
       const isFrozen = this.freezeHandler.isFrozen
       const isSerialPortTimeout =
         error instanceof SerialPortError &&
@@ -405,7 +415,7 @@ export class SerialPortDevice {
       if (isFrozen) {
         AppLogger.log(
           "debug",
-          `Device at path ${this.info.path} is currently frozen. Request will be retried once the device is unfrozen.`,
+          `Device at path ${this.info.path} is currently frozen. Request ${requestInfo} will be retried once the device is unfrozen.`,
           { color: "yellow" }
         )
 
@@ -416,7 +426,7 @@ export class SerialPortDevice {
       } else if ((isSerialPortTimeout || isQueueTimeout) && retriesLeft > 0) {
         AppLogger.log(
           "warn",
-          `Request timed out for device at path ${this.info.path}. Retries left: ${retriesLeft}. Retrying request...`,
+          `Request ${requestInfo} timed out for device at path ${this.info.path}. Retries left: ${retriesLeft}. Retrying request...`,
           { color: "yellow" }
         )
 
@@ -426,16 +436,25 @@ export class SerialPortDevice {
             ...request.options,
             priority: priority + 1,
             retries: retriesLeft - 1,
-            timeout:
-              request.options?.timeout || this.instance.defaultRequestTimeout,
           },
         })
-      } else if ((isSerialPortTimeout || isQueueTimeout) && retriesLeft === 0) {
-        // this.attachPort(this.info, 1)
+      } else if (retriesLeft === 0) {
+        AppLogger.log(
+          "warn",
+          `Request ${requestInfo} failed for device at path ${this.info.path}. No more retries left. Reattaching device and retrying request one more time.`,
+          { color: "red" }
+        )
+        this.attachPort()
+        await delay(1000)
+
+        return await this.request({
+          ...request,
+          options: { ...request.options, priority: priority + 1, retries: -1 },
+        })
       } else {
         AppLogger.log(
           "error",
-          `Error making request for device at path ${this.info.path}: ${
+          `Error making request ${requestInfo} for device at path ${this.info.path}: ${
             error instanceof SerialPortError
               ? error.type
               : error instanceof Error
