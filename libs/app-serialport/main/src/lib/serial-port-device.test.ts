@@ -14,6 +14,7 @@ import {
   SerialPortHandlerMock,
 } from "app-serialport/devices"
 import { waitFor } from "@testing-library/dom"
+import { TimeoutError } from "p-queue"
 
 Object.assign(window, {
   electron: {
@@ -327,17 +328,12 @@ describe("SerialPortDevice", () => {
       const detachSpy = jest.fn()
       device["detachPort"] = detachSpy
 
-      const removeEventEmittersSpy = jest.spyOn(
-        device["eventEmitter"],
-        "removeAllListeners"
-      )
       const clearQueueSpy = jest.spyOn(device["requestsQueue"], "clear")
       const freezeHandlerCleanupSpy = jest.spyOn(device["freezeHandler"], "off")
 
       device.destroy()
 
       await waitFor(() => {
-        expect(removeEventEmittersSpy).toHaveBeenCalled()
         expect(clearQueueSpy).toHaveBeenCalled()
         expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
         expect(freezeHandlerCleanupSpy).toHaveBeenCalledWith()
@@ -456,17 +452,72 @@ describe("SerialPortDevice", () => {
       })
     })
 
+    it("reattaches port and retries request once when timeout occurs and retries are exhausted", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      const attachPortSpy = jest.spyOn(device, "attachPort")
+
+      device.attachPort()
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(new TimeoutError("Request timed out"))
+        .mockResolvedValueOnce({ ok: true })
+
+      const requestPromise = device.request({ endpoint: 1 })
+
+      await jest.advanceTimersByTimeAsync(1000)
+
+      await expect(requestPromise).resolves.toEqual({ ok: true })
+      expect(attachPortSpy).toHaveBeenCalledTimes(2)
+      expect(device["requestsQueue"].add).toHaveBeenCalledTimes(2)
+      expect(device["requestsQueue"].add).toHaveBeenNthCalledWith(
+        2,
+        expect.any(Function),
+        { priority: 2, signal: expect.any(AbortSignal) }
+      )
+    })
+
+    it("throws error when request still fails after reattach attempt", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      const attachPortSpy = jest.spyOn(device, "attachPort")
+
+      device.attachPort()
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(new TimeoutError("Initial timeout"))
+        .mockRejectedValueOnce(new TimeoutError("Still timed out after reattach"))
+
+      const requestPromise = device.request({ endpoint: 1 })
+      const requestExpectation = expect(requestPromise).rejects.toThrow(
+        "Still timed out after reattach"
+      )
+
+      await jest.advanceTimersByTimeAsync(1000)
+
+      await requestExpectation
+      expect(attachPortSpy).toHaveBeenCalledTimes(2)
+      expect(device["requestsQueue"].add).toHaveBeenCalledTimes(2)
+    })
+
     it("throws error when request fails from reason other than device being frozen", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
 
-      jest.spyOn(device["requestsQueue"], "add").mockImplementationOnce(() => {
-        throw new Error("Some other error")
-      })
+      jest.useRealTimers()
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(new Error("Some other error"))
 
       await expect(device.request({ endpoint: 1 })).rejects.toThrow(
         "Some other error"
       )
-    })
+    }, 10_000)
   })
 })
