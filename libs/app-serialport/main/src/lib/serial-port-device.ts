@@ -509,7 +509,7 @@ export class SerialPortDevice {
   }
 
   /**
-   * Returns whether the device uses real serial port or only simulates it.
+   * Returns whether the device uses a real serial port or only simulates it.
    */
   isNonSerialPort() {
     return this.instance.nonSerialPortDevice

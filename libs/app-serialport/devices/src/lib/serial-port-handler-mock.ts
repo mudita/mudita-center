@@ -14,6 +14,7 @@ import {
 } from "app-serialport/models"
 import EventEmitter from "events"
 import { SerialPortHandlerOptions } from "./serial-port-handler"
+import { usb } from "usb"
 
 const DEFAULT_REQUEST_TIMEOUT = 30_000
 
@@ -71,6 +72,22 @@ export class SerialPortHandlerMock extends SerialPortMock {
           this.cleanup()
         })
     }
+
+    usb.on("detach", (device) => {
+      const { matchingVendorIds, matchingProductIds } = this
+        .constructor as typeof SerialPortHandlerMock
+      const isDetached =
+        matchingVendorIds.includes(
+          device.deviceDescriptor.idVendor.toString()
+        ) &&
+        matchingProductIds.includes(
+          device.deviceDescriptor.idProduct.toString()
+        )
+
+      if (isDetached) {
+        super.emit("close")
+      }
+    })
   }
 
   cleanup() {

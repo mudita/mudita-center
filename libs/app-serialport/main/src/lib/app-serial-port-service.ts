@@ -14,7 +14,6 @@ import { usb } from "usb"
 import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import EventEmitter from "events"
 import { AppLogger } from "app-serialport/utils"
-import { delay } from "app-utils/common"
 
 type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 
@@ -37,9 +36,6 @@ export class AppSerialPortService {
     usb.on("attach", () => {
       this.initialScan = false
       void this.handleAttach()
-    })
-    usb.on("detach", () => {
-      void this.handleDetach()
     })
   }
 
@@ -101,36 +97,6 @@ export class AppSerialPortService {
         }
         existingDevice.attachPort(deviceInfo)
       }
-    }
-  }
-
-  // Method only for detecting detach of non-serialport devices
-  private async handleDetach(): Promise<void> {
-    AppLogger.log("silly", "Handling USB detach event.")
-
-    await delay(500)
-
-    const connectedDevices = await AppSerialportDeviceScanner.scan()
-    let devicesRemoved = false
-
-    for (const device of this.devices.values()) {
-      const notConnectedAnymore = !connectedDevices.some(
-        (connectedDevice) => connectedDevice.id === device.info.id
-      )
-      const isNonSerialPortDevice = device.isNonSerialPort()
-
-      if (notConnectedAnymore && isNonSerialPortDevice) {
-        AppLogger.log(
-          "debug",
-          `Device at path ${device.info.path} (id: ${device.info.id}) is no longer connected. Destroying device instance...`
-        )
-        device.destroy()
-        devicesRemoved = true
-      }
-    }
-
-    if (devicesRemoved) {
-      this.debounceDevicesChanged()
     }
   }
 
