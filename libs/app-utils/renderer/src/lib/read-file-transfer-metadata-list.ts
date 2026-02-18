@@ -26,8 +26,7 @@ export type TransferFileEntryWithMetadata = TransferFileFromPathEntry &
 
 export const readFileTransferMetadataList = async (
   files: TransferFileFromPathEntry[],
-  abortController: AbortController,
-  options?: { base64?: boolean }
+  abortController: AbortController
 ): Promise<{
   files: TransferFileEntryWithMetadata[]
   failed: FailedTransferItem[]
@@ -44,10 +43,7 @@ export const readFileTransferMetadataList = async (
         })
         continue
       }
-      const meta = await readFileTransferMetadata(
-        file.source.fileLocation,
-        options?.base64
-      )
+      const meta = await readFileTransferMetadata(file.source.fileLocation)
       fileEntryWithMetadata.push({
         ...file,
         ...meta,
@@ -68,29 +64,8 @@ export const readFileTransferMetadataList = async (
 }
 
 const readFileTransferMetadata = async (
-  options: AppFileSystemGuardOptions,
-  base64?: boolean
+  options: AppFileSystemGuardOptions
 ): Promise<FileTransferMetadata> => {
-  if (base64) {
-    const file = await AppFileSystem.readFile({
-      ...options,
-      encoding: "base64",
-    })
-    if (!file.ok) {
-      throw new Error("File read error")
-    }
-    const crc32Response = await AppFileSystem.calculateFileCrc32({
-      data: file.data,
-    })
-    if (!crc32Response.ok) {
-      throw ReadFileTransferMetadataErrorName.Crc32Error
-    }
-    return {
-      fileSize: file.data.length,
-      crc32: crc32Response.data,
-    }
-  }
-
   const crc32Response = await AppFileSystem.calculateFileCrc32(options)
   if (!crc32Response.ok) {
     throw ReadFileTransferMetadataErrorName.Crc32Error
