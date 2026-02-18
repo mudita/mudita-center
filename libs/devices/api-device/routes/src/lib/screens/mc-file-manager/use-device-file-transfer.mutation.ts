@@ -19,6 +19,7 @@ import {
   AnalyticsEventCategory,
   AppError,
   AppResultFactory,
+  Platform,
 } from "app-utils/models"
 import {
   FileManagerFile,
@@ -26,6 +27,8 @@ import {
 } from "devices/common/ui"
 import { useTrack } from "app-utils/renderer"
 import { useCallback } from "react"
+import path from "node:path"
+import { platform } from "app-utils/common"
 
 type Payload = Parameters<UseManageFilesTransferFlowArgs["transferFiles"]>[0]
 
@@ -51,7 +54,10 @@ const mutationFn = async ({
   let refetchProgress = 0
 
   const handleProgress = (file?: FileManagerFile) => {
-    let progress = transferProgress * 0.9 + refetchProgress * 0.1
+    let progress =
+      actionType === TransferFilesActionType.Download
+        ? transferProgress
+        : transferProgress * 0.9 + refetchProgress * 0.1
     if (progress > 0 && progress < 1) {
       progress = 1
     } else {
@@ -59,7 +65,7 @@ const mutationFn = async ({
     }
 
     const refreshingMessageFile =
-      transferProgress === 100
+      transferProgress === 100 && actionType === TransferFilesActionType.Upload
         ? {
             id: "",
             path: "",
@@ -104,18 +110,23 @@ const mutationFn = async ({
             path: `${targetDirectoryPath}${file.name}`,
           },
         }))
-      : files.map((file) => ({
-          id: file.id,
-          source: {
-            type: "path",
-            path: file.path,
-            fileSize: file.size,
-          },
-          target: {
-            type: "path",
-            path: file.id,
-          },
-        }))
+      : files.map((file) => {
+          return {
+            id: file.id,
+            source: {
+              type: "path",
+              path: file.path,
+              fileSize: file.size,
+            },
+            target: {
+              type: "path",
+              path:
+                platform === Platform.windows
+                  ? `${targetDirectoryPath}\\${file.name}`
+                  : `${targetDirectoryPath}/${file.name}`,
+            },
+          }
+        })
 
   const result = await transferFiles({
     device,
@@ -150,7 +161,7 @@ const mutationFn = async ({
   })
 
   handleProgress()
-  if (succeededLength > 0) {
+  if (succeededLength > 0 && actionType === TransferFilesActionType.Upload) {
     await refetch((progress) => {
       refetchProgress = progress
       handleProgress()
@@ -210,7 +221,7 @@ export const useDeviceFileTransferMutation = (
         ...payload,
         device,
         entityType,
-        targetDirectoryPath,
+        targetDirectoryPath: payload.targetDirectoryPath || targetDirectoryPath,
         track,
         refetch,
       })
