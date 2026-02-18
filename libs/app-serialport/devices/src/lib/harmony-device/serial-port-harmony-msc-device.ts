@@ -22,8 +22,8 @@ const getDeviceName = () => {
 }
 
 export class SerialPortHarmonyMscDevice extends SerialPortHandlerMock {
-  static readonly matchingVendorIds = ["3310"]
-  static readonly matchingProductIds = ["0103"]
+  static readonly matchingVendorIds = ["3310", "13072"]
+  static readonly matchingProductIds = ["0103", "259"]
   static readonly deviceType = SerialPortDeviceType.HarmonyMsc
   private deviceFlash = DeviceFlashFactory.createDeviceFlashService()
   private mscHarmonyAbsoluteDir = path.join(

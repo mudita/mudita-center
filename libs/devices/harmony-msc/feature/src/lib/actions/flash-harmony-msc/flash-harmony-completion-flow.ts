@@ -15,7 +15,6 @@ import { AppSerialPort } from "app-serialport/renderer"
 import { waitForFlashCompletion } from "../wait-for-flash-completion"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 
-const FREEZE_TIMEOUT_MS = 5 * 60_000
 const POLL_INTERVAL_MS = 500
 
 type FreezeAndReconnectParams = flashHarmonyMscParams & {
@@ -28,7 +27,6 @@ const freezeUntilReconnect = async ({
   signal,
   onFrozenState,
 }: FreezeAndReconnectParams): Promise<void> => {
-  AppSerialPort.freeze(device.id, FREEZE_TIMEOUT_MS)
   console.log("[flash-completion] Waiting for device to disconnect and freeze")
   while (!(await AppSerialPort.isFrozen(device.id))) {
     console.log("[flash-completion] Device not frozen yet, waiting...")
@@ -82,7 +80,7 @@ const freezeUntilReconnect = async ({
 const flashHarmonyMacOsCompletionFlow = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
-  const { device, onProgress } = params
+  const { device, onProgress, signal } = params
 
   onProgress?.({
     state: HarmonyMscProcessState.FlashingProcess,
@@ -90,7 +88,7 @@ const flashHarmonyMacOsCompletionFlow = async (
   })
   onProgress?.({ state: HarmonyMscProcessState.SetupTerminal })
 
-  const isFlashCompleted = await waitForFlashCompletion(device)
+  const isFlashCompleted = await waitForFlashCompletion(device, { signal })
 
   if (!isFlashCompleted) {
     return AppResultFactory.failed(
