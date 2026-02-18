@@ -71,6 +71,10 @@ export class SerialPortHandlerMock extends SerialPortMock {
           onError?.(error)
           this.cleanup()
         })
+    } else {
+      this.on("data", (data) => {
+        this.processResponse(data)
+      })
     }
 
     usb.on("detach", (device) => {
