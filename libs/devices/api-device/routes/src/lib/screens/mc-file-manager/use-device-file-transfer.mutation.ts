@@ -27,7 +27,6 @@ import {
 } from "devices/common/ui"
 import { useTrack } from "app-utils/renderer"
 import { useCallback } from "react"
-import path from "node:path"
 import { platform } from "app-utils/common"
 
 type Payload = Parameters<UseManageFilesTransferFlowArgs["transferFiles"]>[0]
