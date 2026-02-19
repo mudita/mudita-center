@@ -14,5 +14,11 @@ export const dataTransferGet = (
   device: ApiDevice,
   body: DataTransferGetRequest
 ) => {
-  return ApiDeviceSerialPort.request(device, buildDataTransferGetRequest(body))
+  return ApiDeviceSerialPort.request(device, {
+    ...buildDataTransferGetRequest(body),
+    options: {
+      timeout: 3_000,
+      retries: 2,
+    },
+  })
 }
