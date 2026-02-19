@@ -47,7 +47,17 @@ export const ProgressBar: FunctionComponent<Props> = ({
 
     barRef.current.style.left = "100%"
     barRef.current.style.width = "20%"
-    barRef.current.style.transition = `width ${widthTransitionDuration}s linear, left 1s linear`
+
+    // For the very first render, start the indeterminate animation from the right side
+    if (isFirstRender.current) {
+      setTimeout(() => {
+        if (!barRef.current) return
+        barRef.current.style.left = "-20%"
+        barRef.current.style.transition = "left 1s linear"
+      }, 0)
+    } else {
+      barRef.current.style.transition = `width ${widthTransitionDuration}s linear, left 1s linear`
+    }
   }, [percentage])
 
   const startDeterminateAnimation = useCallback(() => {
