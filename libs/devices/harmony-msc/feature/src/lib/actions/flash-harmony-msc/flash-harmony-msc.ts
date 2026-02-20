@@ -20,14 +20,10 @@ import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 import { flashHarmonyCompletionFlow } from "./flash-harmony-completion-flow"
-import { AppSerialPort } from "app-serialport/renderer"
-
-const FREEZE_TIMEOUT_MS = 5 * 60_000
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
-  AppSerialPort.freeze(params.device.id, FREEZE_TIMEOUT_MS)
 
   await AppFileSystem.rm({
     ...getMscHarmonyLocation(),

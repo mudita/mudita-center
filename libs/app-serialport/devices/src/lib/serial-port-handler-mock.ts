@@ -15,6 +15,7 @@ import {
 import EventEmitter from "events"
 import { SerialPortHandlerOptions } from "./serial-port-handler"
 import { usb } from "usb"
+import { delay } from "app-utils/common"
 
 const DEFAULT_REQUEST_TIMEOUT = 30_000
 
@@ -50,7 +51,8 @@ export class SerialPortHandlerMock extends SerialPortMock {
       this.on("open", onOpen)
     }
     if (onClose) {
-      this.on("close", () => {
+      this.on("close", async () => {
+        await delay(1000)
         onClose?.()
         this.cleanup()
       })
@@ -120,7 +122,7 @@ export class SerialPortHandlerMock extends SerialPortMock {
     const id = parseInt(uniqueId()) % 99999999 || 1
 
     const dataWithId = set(cloneDeep(data), this.requestIdKey, id)
-    await this.writeAsync(dataWithId)
+    void this.writeAsync(dataWithId)
 
     return new Promise((resolve, reject) => {
       const cleanupListeners = () => {

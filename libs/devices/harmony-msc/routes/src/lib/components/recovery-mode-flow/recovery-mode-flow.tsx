@@ -19,6 +19,9 @@ import { GenericFailedModal, GenericProgressModal } from "app-theme/ui"
 import { formatMessage } from "app-localize/utils"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import { flashHarmonyMsc } from "devices/harmony-msc/feature"
+import { DevicesPaths } from "devices/common/models"
+import { useAppNavigate } from "app-routing/utils"
+import { AppSerialPort } from "app-serialport/renderer"
 import { McHarmonyMscRecoveryModeMessages } from "../../harmony-msc-recovery-mode.messages"
 import { RecoveryModeTerminalSetupModal } from "./recovery-mode-terminal-setup-modal/recovery-mode-terminal-setup-modal"
 import { RecoveryModeProgressModal } from "./recovery-mode-progress-modal"
@@ -38,6 +41,7 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
   opened,
   onClose,
 }) => {
+  const navigate = useAppNavigate()
   const [flowState, setFlowState] = useState<HarmonyMscProcessState>(
     HarmonyMscProcessState.Idle
   )
@@ -58,6 +62,10 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
 
     if (result.ok) {
       setFlowState(HarmonyMscProcessState.Complete)
+
+      await AppSerialPort.reset()
+      navigate({ pathname: DevicesPaths.Connecting })
+      window.location.reload()
     }
 
     if (
@@ -66,7 +74,7 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
     ) {
       setFlowState(HarmonyMscProcessState.Failed)
     }
-  }, [])
+  }, [navigate])
 
   const clearState = useCallback(() => {
     setFlowState(HarmonyMscProcessState.Idle)

@@ -50,6 +50,6 @@ export const AppSerialPort = {
     return window.api.serialPort.isFrozen(id)
   },
   reset: (id?: SerialPortDeviceId) => {
-    window.api.serialPort.reset(id)
+    return window.api.serialPort.reset(id)
   },
 }
