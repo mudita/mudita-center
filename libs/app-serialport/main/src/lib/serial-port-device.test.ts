@@ -24,6 +24,15 @@ Object.assign(window, {
   },
 })
 
+jest.mock("usb", () => {
+  return {
+    usb: {
+      on: jest.fn(),
+      off: jest.fn(),
+    },
+  }
+})
+
 const mockSerialPortHandler = jest.fn().mockImplementation((options) => {
   return new SerialPortHandlerMock(options)
 })
@@ -428,6 +437,43 @@ describe("SerialPortDevice", () => {
       expect(() => new SerialPortDevice(mockDeviceInfo)).toThrow(
         "No matching instance found for device at path /dev/ttyUSB0."
       )
+    })
+
+    it("allows request for non-serial devices when port is closed and status is disconnected", async () => {
+      ;(
+        AppSerialportDeviceScanner.getMatchingInstance as jest.Mock
+      ).mockReturnValue(SerialPortHandlerMock)
+
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device["serialPort"]?.emit("close")
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockImplementation(async (task) => task({}))
+
+      const requestSpy = jest
+        .spyOn(device["serialPort"] as SerialPortHandlerMock, "request")
+        .mockResolvedValueOnce({ status: 200, endpoint: 1 })
+
+      await expect(
+        device.request({
+          endpoint: 1,
+        })
+      ).resolves.toEqual({
+        status: 200,
+        endpoint: 1,
+      })
+      expect(requestSpy).toHaveBeenCalledTimes(1)
     })
 
     it("adds failed request back to the queue with higher priority if it failed due to device being frozen", async () => {

@@ -108,9 +108,6 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
   }, [])
 
   const handleUpdateAvailabilityCheck = useCallback(async () => {
-    void queryClient.resetQueries({
-      queryKey: useHarmonyOsUpdateInfoQuery.queryKey(device.id),
-    })
     setUpdateStatus(UpdateStatus.Checking)
     const response = await checkForUpdates()
 
@@ -121,7 +118,7 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
     } else {
       setUpdateStatus(UpdateStatus.NotAvailable)
     }
-  }, [checkForUpdates, device.id, queryClient])
+  }, [checkForUpdates])
 
   const cancelUpdateAvailabilityCheck = useCallback(async () => {
     await queryClient.cancelQueries({

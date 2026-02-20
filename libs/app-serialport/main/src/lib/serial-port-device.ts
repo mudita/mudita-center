@@ -342,12 +342,16 @@ export class SerialPortDevice {
     request: SerialPortRequest,
     signal?: AbortSignal
   ): Promise<SerialPortResponse> {
-    if (!this.serialPort) {
-      throw new Error("SerialPortHandler is not initialized.")
-    }
+    const isRealSerialPort = !this.instance.nonSerialPortDevice
 
-    if (!this.serialPort.isOpen) {
-      throw new Error("Serial port is not open.")
+    if (isRealSerialPort) {
+      if (!this.serialPort) {
+        throw new Error("SerialPortHandler is not initialized.")
+      }
+
+      if (!this.serialPort.isOpen) {
+        throw new Error("Serial port is not open.")
+      }
     }
 
     return new Promise((resolve, reject) => {
@@ -380,7 +384,10 @@ export class SerialPortDevice {
     const retriesLeft = request.options?.retries || 0
     const priority = request.options?.priority ?? 1
 
-    if (this.status === SerialPortDeviceStatus.DeviceDisconnected) {
+    if (
+      this.status === SerialPortDeviceStatus.DeviceDisconnected &&
+      !this.instance.nonSerialPortDevice
+    ) {
       throw new Error(
         `Cannot make request to device at path ${this.info.path} because it is disconnected.`
       )
@@ -506,12 +513,5 @@ export class SerialPortDevice {
    */
   isFrozen() {
     return this.freezeHandler.isFrozen
-  }
-
-  /**
-   * Returns whether the device uses a real serial port or only simulates it.
-   */
-  isNonSerialPort() {
-    return this.instance.nonSerialPortDevice
   }
 }

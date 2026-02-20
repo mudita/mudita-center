@@ -40,12 +40,15 @@ export class AppSerialPortService {
   }
 
   private debounceDevicesChanged() {
-    if (this.devicesChangedTimeout) {
-      clearTimeout(this.devicesChangedTimeout)
-    }
-    this.devicesChangedTimeout = setTimeout(() => {
-      this.eventEmitter.emit(Events.DevicesChanged)
-    }, DEVICE_CHANGE_DEBOUNCE_TIME)
+    return new Promise<void>((resolve) => {
+      if (this.devicesChangedTimeout) {
+        clearTimeout(this.devicesChangedTimeout)
+      }
+      this.devicesChangedTimeout = setTimeout(() => {
+        this.eventEmitter.emit(Events.DevicesChanged)
+        resolve()
+      }, DEVICE_CHANGE_DEBOUNCE_TIME)
+    })
   }
 
   private initializeDevice(deviceInfo: SerialPortDeviceInfo): void {
@@ -55,14 +58,14 @@ export class AppSerialPortService {
           "debug",
           `Device connected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
-        this.debounceDevicesChanged()
+        void this.debounceDevicesChanged()
       },
       onDisconnect: () => {
         AppLogger.log(
           "debug",
           `Device disconnected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
-        this.debounceDevicesChanged()
+        void this.debounceDevicesChanged()
       },
     })
 
@@ -177,16 +180,15 @@ export class AppSerialPortService {
         return
       }
       device.destroy()
-      this.devices.delete(deviceId)
     } else {
       for (const device of this.devices.values()) {
         device.destroy()
       }
-      this.devices.clear()
     }
 
     this.initialScan = true
     if (rescan) {
+      await this.debounceDevicesChanged()
       await this.handleAttach()
     }
   }

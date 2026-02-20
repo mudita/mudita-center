@@ -5,7 +5,7 @@
 
 import { SerialPortMock } from "serialport"
 import { cloneDeep, get, set, uniqueId } from "lodash"
-import { SerialPortError } from "app-serialport/utils"
+import { AppLogger, SerialPortError } from "app-serialport/utils"
 import {
   SerialPortDeviceSubtype,
   SerialPortDeviceType,
@@ -37,8 +37,9 @@ export class SerialPortHandlerMock extends SerialPortMock {
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
   static readonly nonSerialPortDevice = true
-  static readonly defaultRequestTimeout = 30_000
+  static readonly defaultRequestTimeout = DEFAULT_REQUEST_TIMEOUT
   readonly requestIdKey: string = "id"
+  private detachListener: (device: usb.Device) => void
 
   constructor(options: Omit<SerialPortHandlerOptions, "baudRate">) {
     SerialPortMock.binding.createPort(options.path)
@@ -77,9 +78,10 @@ export class SerialPortHandlerMock extends SerialPortMock {
       })
     }
 
-    usb.on("detach", (device) => {
+    this.detachListener = (device: usb.Device) => {
       const { matchingVendorIds, matchingProductIds } = this
         .constructor as typeof SerialPortHandlerMock
+
       const isDetached =
         matchingVendorIds.includes(
           device.deviceDescriptor.idVendor.toString()
@@ -91,12 +93,15 @@ export class SerialPortHandlerMock extends SerialPortMock {
       if (isDetached) {
         super.emit("close")
       }
-    })
+    }
+
+    usb.on("detach", this.detachListener)
   }
 
   cleanup() {
     this.removeAllListeners()
     this.eventEmitter.removeAllListeners()
+    usb.off("detach", this.detachListener)
   }
 
   async writeAsync(data: unknown): Promise<void> {
@@ -150,18 +155,57 @@ export class SerialPortHandlerMock extends SerialPortMock {
       }
 
       const onTimeout = () => {
+        AppLogger.log(
+          "warn",
+          `Request timeout for device at path ${this.path}, request id: ${id}. No response received within ${data.options?.timeout || SerialPortHandlerMock.defaultRequestTimeout}ms.`,
+          { color: "yellow" }
+        )
         cleanupListeners()
         reject(new SerialPortError(SerialPortErrorType.ResponseTimeout, id))
       }
 
       const timeoutId = setTimeout(
         onTimeout,
-        data.options?.timeout || DEFAULT_REQUEST_TIMEOUT
+        data.options?.timeout || SerialPortHandlerMock.defaultRequestTimeout
       )
 
       this.eventEmitter.on(SerialPortHandlerEvent.Response, onResponse)
       this.eventEmitter.on(SerialPortHandlerEvent.Error, onError)
       this.once("close", onClose)
+
+      if (process.env.NODE_ENV === "development") {
+        AppLogger.log(
+          "debug",
+          `Request sent for device at path ${this.path}:`,
+          {
+            color: "magenta",
+          }
+        )
+        AppLogger.log("debug", JSON.stringify(dataWithId), {
+          color: "gray",
+          addNewLine: true,
+        })
+      } else {
+        const { body, data: _, ...rest } = dataWithId
+        AppLogger.log(
+          "debug",
+          `Request sent for device at path ${this.path}:`,
+          {
+            color: "magenta",
+          }
+        )
+        AppLogger.log("debug", JSON.stringify(rest), {
+          color: "gray",
+          addNewLine: true,
+        })
+      }
+
+      const { options, ...rest } = dataWithId
+
+      this.writeAsync(rest).catch((error) => {
+        cleanupListeners()
+        reject(error)
+      })
     })
   }
 

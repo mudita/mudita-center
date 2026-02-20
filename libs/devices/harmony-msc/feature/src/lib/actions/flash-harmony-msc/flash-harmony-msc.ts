@@ -8,8 +8,6 @@ import {
   HarmonyMscFlashingProgress,
   HarmonyMscProcessState,
 } from "devices/harmony-msc/models"
-import { AppFileSystem } from "app-utils/renderer"
-import { getMscHarmonyLocation } from "../../msc-harmony"
 import {
   getMscFlashDetails,
   GetMscFlashDetailsParams,
@@ -20,19 +18,12 @@ import { postFlash } from "../../api/post-flash"
 import { flashHarmonyMscRunStep } from "./flash-harmony-msc-run-step"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 import { flashHarmonyCompletionFlow } from "./flash-harmony-completion-flow"
-import { AppSerialPort } from "app-serialport/renderer"
-
-const FREEZE_TIMEOUT_MS = 5 * 60_000
+import { clearDownloadedFiles } from "../clear-downloaded-files"
 
 export const flashHarmonyMsc = async (
   params: flashHarmonyMscParams
 ): Promise<AppResult> => {
-  AppSerialPort.freeze(params.device.id, FREEZE_TIMEOUT_MS)
-
-  await AppFileSystem.rm({
-    ...getMscHarmonyLocation(),
-    options: { recursive: true, force: true },
-  })
+  await clearDownloadedFiles()
 
   const getMscFlashDetailsParams: GetMscFlashDetailsParams = {
     product: "MscHarmony",
@@ -87,5 +78,11 @@ export const flashHarmonyMsc = async (
     return flashDeviceResult
   }
 
-  return flashHarmonyCompletionFlow(params)
+  const result = await flashHarmonyCompletionFlow(params)
+
+  if (result.ok) {
+    await clearDownloadedFiles()
+  }
+
+  return result
 }

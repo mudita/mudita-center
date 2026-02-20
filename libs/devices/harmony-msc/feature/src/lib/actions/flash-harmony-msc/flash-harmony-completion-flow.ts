@@ -9,73 +9,14 @@ import {
   AppResultFactory,
   Platform,
 } from "app-utils/models"
-import { delay, platform } from "app-utils/common"
+import { platform } from "app-utils/common"
 import { HarmonyMscProcessState } from "devices/harmony-msc/models"
 import { AppSerialPort } from "app-serialport/renderer"
 import { waitForFlashCompletion } from "../wait-for-flash-completion"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
+import { waitUntilUnfreeze } from "../wait-until-unfreeze"
 
-const POLL_INTERVAL_MS = 500
-
-type FreezeAndReconnectParams = flashHarmonyMscParams & {
-  onFrozenState?: HarmonyMscProcessState
-}
-
-const freezeUntilReconnect = async ({
-  device,
-  onProgress,
-  signal,
-  onFrozenState,
-}: FreezeAndReconnectParams): Promise<void> => {
-  console.log("[flash-completion] Waiting for device to disconnect and freeze")
-  while (!(await AppSerialPort.isFrozen(device.id))) {
-    console.log("[flash-completion] Device not frozen yet, waiting...")
-    if (signal.aborted) {
-      console.log("[flash-completion] Aborted before device freeze")
-      return
-    }
-    await delay(POLL_INTERVAL_MS)
-  }
-
-  console.log(
-    "[flash-completion] Device is disconnected and frozen, waiting for reconnect"
-  )
-
-  if (onFrozenState) {
-    onProgress?.({ state: onFrozenState })
-  }
-
-  let listenerActive = true
-
-  const unlistenDevicesChanged = AppSerialPort.onDevicesChanged((changes) => {
-    if (!listenerActive) return
-
-    if (changes.added.length > 0) {
-      console.log("[flash-completion] Device reconnected, unfreezing...")
-      listenerActive = false
-      unlistenDevicesChanged()
-      AppSerialPort.unfreeze(device.id)
-    }
-  })
-
-  try {
-    while (await AppSerialPort.isFrozen(device.id)) {
-      console.log("[flash-completion] Device still frozen, waiting...")
-      if (signal.aborted) {
-        console.log("[flash-completion] Aborted while waiting for reconnect")
-        listenerActive = false
-        unlistenDevicesChanged()
-        AppSerialPort.unfreeze(device.id)
-        break
-      }
-      await delay(POLL_INTERVAL_MS)
-    }
-  } finally {
-    AppSerialPort.unfreeze(device.id)
-  }
-
-  console.log("[flash-completion] Device restarted and unfrozen")
-}
+const FREEZE_TIMEOUT_MS = 5 * 60_000
 
 const flashHarmonyMacOsCompletionFlow = async (
   params: flashHarmonyMscParams
@@ -88,20 +29,24 @@ const flashHarmonyMacOsCompletionFlow = async (
   })
   onProgress?.({ state: HarmonyMscProcessState.SetupTerminal })
 
+  AppSerialPort.freeze(device.id, FREEZE_TIMEOUT_MS)
+
   const isFlashCompleted = await waitForFlashCompletion(device, { signal })
+
+  if (signal.aborted) {
+    AppSerialPort.unfreeze(device.id)
+    return AppResultFactory.failed(new AppError("Flashing process was aborted"))
+  }
 
   if (!isFlashCompleted) {
     return AppResultFactory.failed(
       new AppError("Flashing process did not complete successfully")
     )
   }
+  console.log("Flash completed, waiting for device to freeze and reconnect")
 
   onProgress?.({ state: HarmonyMscProcessState.Restarting })
-  console.log(
-    "[flash-completion] Freezing device before terminal setup and reconnect"
-  )
-
-  await freezeUntilReconnect({
+  await waitUntilUnfreeze({
     ...params,
     onFrozenState: HarmonyMscProcessState.Complete,
   })
@@ -120,7 +65,8 @@ const flashHarmonyWindowsCompletionFlow = async (
   })
   onProgress?.({ state: HarmonyMscProcessState.FinalStep })
 
-  await freezeUntilReconnect({
+  AppSerialPort.freeze(params.device.id, FREEZE_TIMEOUT_MS)
+  await waitUntilUnfreeze({
     ...params,
     onFrozenState: HarmonyMscProcessState.Complete,
   })
@@ -139,7 +85,8 @@ const flashHarmonyLinuxCompletionFlow = async (
   })
   onProgress?.({ state: HarmonyMscProcessState.Restarting })
 
-  await freezeUntilReconnect({
+  AppSerialPort.freeze(params.device.id, FREEZE_TIMEOUT_MS)
+  await waitUntilUnfreeze({
     ...params,
     onFrozenState: undefined,
   })

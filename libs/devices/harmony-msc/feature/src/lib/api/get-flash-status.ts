@@ -16,8 +16,7 @@ export const getFlashStatus = async (device: HarmonyMsc) => {
     endpoint: HarmonyMscEndpointNamed.Flash,
     method: HarmonyMscMethodNamed.Get,
     options: {
-      timeout: 10_000,
-      retries: 30,
+      timeout: 200_000,
     },
   })
 
