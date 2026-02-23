@@ -10,6 +10,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "types-preload": ["src/preload/api.d.ts"],
       "*": ["../../libs/*/src/index.ts"]
     }
   }
