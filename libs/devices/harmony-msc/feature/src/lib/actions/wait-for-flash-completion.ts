@@ -17,7 +17,7 @@ export const waitForFlashCompletion = async (
   device: HarmonyMsc,
   options: waitForFlashCompletionOption = {}
 ): Promise<boolean> => {
-  const { intervalAttemptsLeft = 60, intervalTime = 5000, signal } = options
+  const { intervalAttemptsLeft = 300, intervalTime = 1000, signal } = options
 
   if (intervalAttemptsLeft <= 0 || signal?.aborted) {
     return false
@@ -26,14 +26,13 @@ export const waitForFlashCompletion = async (
   console.log(`Checking flash status, attempts left: ${intervalAttemptsLeft}`)
 
   const flashStatusResult = await getFlashStatus(device)
-
-  console.log("Flash status result:", flashStatusResult)
-
   if (!flashStatusResult.ok) {
     return false
   }
 
   const flashStatus = flashStatusResult.data.body
+
+  console.log(`Flash status: ${flashStatus}`)
 
   if (flashStatus === "FLASH_STATUS_COMPLETED") {
     return true

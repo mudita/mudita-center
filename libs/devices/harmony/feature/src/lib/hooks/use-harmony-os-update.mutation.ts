@@ -12,7 +12,10 @@ import {
   HarmonyOSUpdateError,
   HarmonyOSUpdateStatus,
 } from "devices/harmony/models"
-import { FailedTransferErrorName } from "devices/common/models"
+import {
+  DevicesQueryKeys,
+  FailedTransferErrorName,
+} from "devices/common/models"
 import { AnalyticsEventCategory } from "app-utils/models"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { track } from "app-utils/renderer"
@@ -210,7 +213,10 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
       if (!device) {
         return
       }
-      void queryClient.refetchQueries({
+      await queryClient.invalidateQueries({
+        queryKey: [DevicesQueryKeys.All, device.id, "config"],
+      })
+      await queryClient.refetchQueries({
         queryKey: useHarmonyTimeQuery.queryKey(device.id),
       })
       await queryClient.invalidateQueries({

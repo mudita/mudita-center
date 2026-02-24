@@ -13,7 +13,8 @@ export const getFeatureConfig = (device: ApiDevice, feature: string) => {
       feature,
     }),
     options: {
-      timeout: 3000,
+      timeout: 3_000,
+      retries: 2,
     },
   })
 }

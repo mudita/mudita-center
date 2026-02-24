@@ -10,7 +10,6 @@ import {
   SerialPortRequest,
   SerialPortResponse,
 } from "app-serialport/models"
-import EventEmitter from "events"
 import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import { DeviceFreezeHandler } from "./helpers/device-freeze-handler"
 import {
@@ -19,6 +18,7 @@ import {
   SerialPortHandlerOptions,
 } from "app-serialport/devices"
 import { AppLogger, SerialPortError } from "app-serialport/utils"
+import { delay } from "app-utils/common"
 
 const DEFAULT_QUEUE_INTERVAL = 10
 const DEFAULT_QUEUE_CONCURRENCY = 1
@@ -74,11 +74,10 @@ export class SerialPortDevice {
 
   private requestsQueue: PQueue
   private requestsQueueAbortController = new AbortController()
-  private eventEmitter = new EventEmitter()
   private freezeHandler = new DeviceFreezeHandler()
   private serialPort?: SerialPortHandler | SerialPortHandlerMock
   private hasConnectedOnce = false
-  private portInstanceId = 1
+  private portInstanceId = 0
   private readonly instance:
     | typeof SerialPortHandler
     | typeof SerialPortHandlerMock
@@ -266,7 +265,9 @@ export class SerialPortDevice {
       },
     } as SerialPortHandlerOptions)
 
-    this.serialPort.open()
+    if (!this.serialPort?.isOpen && !this.serialPort?.opening) {
+      this.serialPort?.open()
+    }
   }
 
   /**
@@ -319,7 +320,6 @@ export class SerialPortDevice {
     )
 
     try {
-      this.eventEmitter.removeAllListeners()
       this.requestsQueue.clear()
       this.freezeHandler.off()
       this.status = SerialPortDeviceStatus.DeviceDisconnected
@@ -342,12 +342,16 @@ export class SerialPortDevice {
     request: SerialPortRequest,
     signal?: AbortSignal
   ): Promise<SerialPortResponse> {
-    if (!this.serialPort) {
-      throw new Error("SerialPortHandler is not initialized.")
-    }
+    const isRealSerialPort = !this.instance.nonSerialPortDevice
 
-    if (!this.serialPort.isOpen) {
-      throw new Error("Serial port is not open.")
+    if (isRealSerialPort) {
+      if (!this.serialPort) {
+        throw new Error("SerialPortHandler is not initialized.")
+      }
+
+      if (!this.serialPort.isOpen) {
+        throw new Error("Serial port is not open.")
+      }
     }
 
     return new Promise((resolve, reject) => {
@@ -377,10 +381,13 @@ export class SerialPortDevice {
    * In case of errors, if the device is freezable, it will retry the request once the device is unfrozen.
    */
   async request(request: SerialPortRequest): Promise<SerialPortResponse> {
-    const retriesLeft = request.options?.retries ?? 0
+    const retriesLeft = request.options?.retries || 0
     const priority = request.options?.priority ?? 1
 
-    if (this.status === SerialPortDeviceStatus.DeviceDisconnected) {
+    if (
+      this.status === SerialPortDeviceStatus.DeviceDisconnected &&
+      !this.instance.nonSerialPortDevice
+    ) {
       throw new Error(
         `Cannot make request to device at path ${this.info.path} because it is disconnected.`
       )
@@ -390,22 +397,29 @@ export class SerialPortDevice {
       return await this.requestsQueue.add(
         ({ signal }) => this.makeRequest(request, signal),
         {
-          timeout: request.options?.timeout,
+          timeout:
+            request.options?.timeout || this.instance.defaultRequestTimeout,
           priority,
           signal: this.requestsQueueAbortController.signal,
         }
       )
     } catch (error) {
+      const { body, data, ...rest } = request
+      const requestInfo = JSON.stringify(rest)
+
       const isFrozen = this.freezeHandler.isFrozen
+      const isFreezable = this.freezeHandler.isFreezable
+
       const isSerialPortTimeout =
         error instanceof SerialPortError &&
         error.type === SerialPortErrorType.ResponseTimeout
       const isQueueTimeout = error instanceof TimeoutError
+      const isTimeout = isSerialPortTimeout || isQueueTimeout
 
       if (isFrozen) {
         AppLogger.log(
           "debug",
-          `Device at path ${this.info.path} is currently frozen. Request will be retried once the device is unfrozen.`,
+          `Device at path ${this.info.path} is currently frozen. Request ${requestInfo} will be retried once the device is unfrozen.`,
           { color: "yellow" }
         )
 
@@ -413,10 +427,22 @@ export class SerialPortDevice {
           ...request,
           options: { ...request.options, priority: priority + 1 },
         })
-      } else if ((isSerialPortTimeout || isQueueTimeout) && retriesLeft > 0) {
+      } else if (isFreezable) {
+        AppLogger.log(
+          "debug",
+          `Device at path ${this.info.path} is not frozen but is freezable. Request ${requestInfo} will be retried with a freeze attempt. Freezing`,
+          { color: "yellow" }
+        )
+        this.freezeHandler.freeze()
+
+        return await this.request({
+          ...request,
+          options: { ...request.options, priority: priority + 1 },
+        })
+      } else if (isTimeout && retriesLeft > 0) {
         AppLogger.log(
           "warn",
-          `Request timed out for device at path ${this.info.path}. Retries left: ${retriesLeft}. Retrying request...`,
+          `Request ${requestInfo} timed out for device at path ${this.info.path}. Retries left: ${retriesLeft}. Retrying request...`,
           { color: "yellow" }
         )
 
@@ -426,15 +452,26 @@ export class SerialPortDevice {
             ...request.options,
             priority: priority + 1,
             retries: retriesLeft - 1,
-            timeout:
-              (request.options?.timeout ||
-                this.instance.defaultRequestTimeout) + 1000,
           },
+        })
+      } else if (isTimeout && retriesLeft === 0) {
+        AppLogger.log(
+          "warn",
+          `Request ${requestInfo} timed out for device at path ${this.info.path}. No more retries left. Reattaching device and retrying request one more time.`,
+          { color: "red" }
+        )
+        this.attachPort()
+        // Slight delay to allow the port to initialize properly before retrying the request
+        await delay(1000)
+
+        return await this.request({
+          ...request,
+          options: { ...request.options, priority: priority + 1, retries: -1 },
         })
       } else {
         AppLogger.log(
           "error",
-          `Error making request for device at path ${this.info.path}: ${
+          `Error making request ${requestInfo} for device at path ${this.info.path}: ${
             error instanceof SerialPortError
               ? error.type
               : error instanceof Error
@@ -476,12 +513,5 @@ export class SerialPortDevice {
    */
   isFrozen() {
     return this.freezeHandler.isFrozen
-  }
-
-  /**
-   * Returns whether the device uses real serial port or only simulates it.
-   */
-  isNonSerialPort() {
-    return this.instance.nonSerialPortDevice
   }
 }

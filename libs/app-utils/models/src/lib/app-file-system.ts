@@ -58,7 +58,9 @@ export interface AppFileSystemReadFileOptions extends AppFileSystemGuardOptions 
 
 export type AppFileSystemReadDirOptions = AppFileSystemGuardOptions
 export type AppFileSystemPathExistsOptions = AppFileSystemGuardOptions
-export type AppFileSystemFileStatsOptions = AppFileSystemGuardOptions
+export type AppFileSystemFileStatsOptions = AppFileSystemGuardOptions & {
+  base64?: boolean
+}
 export type AppFileSystemCalculateCrc32Options = AppFileSystemGuardOptions & {
   data?: Buffer | string
 }

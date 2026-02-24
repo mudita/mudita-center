@@ -44,7 +44,7 @@ export class SerialPortHandler extends SerialPort {
   static readonly matchingVendorIds: string[] = []
   static readonly matchingProductIds: string[] = []
   static readonly nonSerialPortDevice: boolean = false
-  static readonly defaultRequestTimeout = 30_000
+  static readonly defaultRequestTimeout = 10_000
   readonly requestIdKey: string = "id"
 
   constructor(options: SerialPortHandlerOptions) {
@@ -77,6 +77,10 @@ export class SerialPortHandler extends SerialPort {
           onError?.(error)
           this.cleanup()
         })
+    } else {
+      this.on("data", (data) => {
+        this.processResponse(data)
+      })
     }
   }
 
@@ -91,7 +95,7 @@ export class SerialPortHandler extends SerialPort {
       const canContinue = super.write(parsedData)
 
       if (!canContinue) {
-        // Buffer is full, wait for 'drain' event before resolving
+        // Buffer is full, wait for the 'drain' event before resolving
         await new Promise<void>((resolve, reject) => {
           const onDrain = () => {
             this.off("error", onError)

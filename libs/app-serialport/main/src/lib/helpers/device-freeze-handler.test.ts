@@ -178,6 +178,21 @@ describe("DeviceFreezeHandler", () => {
       expect(handler["timeout"]).toBe(timeoutBefore)
     })
 
+    it("should clear freezeDuration when not frozen and unfreeze is called", () => {
+      handler.prepareToFreeze(5000)
+
+      handler.unfreeze()
+      expect(handler["freezeDuration"]).toBe(undefined)
+    })
+
+    it("should clear freezeDuration when frozen and unfreeze is called", () => {
+      handler.prepareToFreeze(5000)
+      handler.freeze()
+
+      handler.unfreeze()
+      expect(handler["freezeDuration"]).toBe(undefined)
+    })
+
     it("should clear the timeout when manually unfreezing", () => {
       handler.prepareToFreeze(5000)
       handler.freeze()

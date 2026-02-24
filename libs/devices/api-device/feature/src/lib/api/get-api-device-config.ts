@@ -9,7 +9,7 @@ import { ApiDevice, buildApiConfigRequest } from "devices/api-device/models"
 export const getApiDeviceConfig = async (device: ApiDevice) => {
   return ApiDeviceSerialPort.request(device, {
     ...buildApiConfigRequest(),
-    options: { timeout: 3000 },
+    options: { timeout: 3_000, retries: 1 },
   })
 }
 

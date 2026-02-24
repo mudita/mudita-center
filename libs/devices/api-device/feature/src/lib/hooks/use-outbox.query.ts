@@ -28,6 +28,23 @@ import {
 export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
   const queryClient = useQueryClient()
 
+  const isCurrentlyUploading = useCallback(
+    (entityType?: string) => {
+      const currentTransfer = queryClient.getMutationCache().find({
+        mutationKey: ["fileTransfer", device?.id],
+        status: "pending",
+        exact: false,
+      })
+      const transferEntityType = currentTransfer?.options.mutationKey?.[2]
+
+      return currentTransfer?.state.variables.actionType === "Upload" &&
+        entityType
+        ? transferEntityType === entityType
+        : true
+    },
+    [device?.id, queryClient]
+  )
+
   const query = useQuery<
     Awaited<ReturnType<typeof getOutbox>> | null,
     DeviceErrorType | ApiDeviceErrorType
@@ -53,15 +70,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         data.body.entities.some(
           (entity) => "action" in entity && entity.action === "deleted"
         )
-      const currentTransfer = queryClient.getMutationCache().find({
-        mutationKey: ["fileTransfer", device?.id],
-        status: "pending",
-        exact: false,
-      })
-      const isCurrentlyUploading =
-        currentTransfer?.state.variables.actionType === "Upload"
-
-      if (isCurrentlyUploading) {
+      if (isCurrentlyUploading()) {
         return 5_000
       }
 
@@ -144,6 +153,9 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       const entitiesByType = groupBy(modifiedEntities, "entityType")
 
       for (const entityType of Object.keys(entitiesByType)) {
+        if (isCurrentlyUploading(entityType)) {
+          continue
+        }
         const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
         await queryClient.invalidateQueries(
           { queryKey },
@@ -151,7 +163,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         )
       }
     },
-    [device, queryClient]
+    [device, isCurrentlyUploading, queryClient]
   )
 
   const processEntitiesUnknownAction = useCallback(
@@ -159,8 +171,13 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       if (!device) {
         return
       }
+
       const entitiesByType = groupBy(unknownEntities, "entityType")
+
       for (const entityType of Object.keys(entitiesByType)) {
+        if (isCurrentlyUploading(entityType)) {
+          continue
+        }
         const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
         await queryClient.invalidateQueries(
           { queryKey },
@@ -168,7 +185,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         )
       }
     },
-    [device, queryClient]
+    [device, isCurrentlyUploading, queryClient]
   )
 
   const processEntitiesChanges = useCallback(

@@ -4,8 +4,16 @@
  */
 
 import { ProgressBarTestIds } from "app-theme/models"
-import { ComponentProps, FunctionComponent, useId } from "react"
-import styled, { css, keyframes } from "styled-components"
+import {
+  ComponentProps,
+  FunctionComponent,
+  TransitionEvent,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+} from "react"
+import styled from "styled-components"
 import { clamp } from "lodash"
 
 interface Props extends ComponentProps<typeof Wrapper> {
@@ -25,8 +33,74 @@ export const ProgressBar: FunctionComponent<Props> = ({
   ...rest
 }) => {
   const id = useId()
+
+  const barRef = useRef<HTMLDivElement>(null)
   const clampedValue = clamp(value, 0, maxValue)
   const percentage = (clampedValue / maxValue) * 100
+  const isFirstRender = useRef(true)
+
+  const startIndeterminateAnimation = useCallback(() => {
+    if (!barRef.current) return
+
+    const widthDifference = Math.abs(percentage - 20)
+    const widthTransitionDuration = Math.max(0.15, widthDifference / 100) // Minimum duration of 0.15s
+
+    barRef.current.style.left = "100%"
+    barRef.current.style.width = "20%"
+
+    // For the very first render, start the indeterminate animation from the right side
+    if (isFirstRender.current) {
+      setTimeout(() => {
+        if (!barRef.current) return
+        barRef.current.style.left = "-20%"
+        barRef.current.style.transition = "left 1s linear"
+      }, 0)
+    } else {
+      barRef.current.style.transition = `width ${widthTransitionDuration}s linear, left 1s linear`
+    }
+  }, [percentage])
+
+  const startDeterminateAnimation = useCallback(() => {
+    if (!barRef.current) return
+
+    const leftTransitionDuration = percentage > 80 ? 0 : 0.15
+
+    barRef.current.style.left = "0"
+    barRef.current.style.width = percentage + "%"
+    barRef.current.style.transition = `width 0.15s linear, left ${leftTransitionDuration}s linear`
+  }, [percentage])
+
+  const onTransitionEnd = useCallback(
+    (event: TransitionEvent<HTMLDivElement>) => {
+      const target = event.target as HTMLDivElement
+      const propertyName = event.propertyName
+
+      if (propertyName !== "left" || !indeterminate) {
+        return
+      }
+
+      const startsFromLeft =
+        !target.style.left || parseInt(target.style.left) < 0
+
+      if (startsFromLeft) {
+        target.style.left = "100%"
+        target.style.transition = "left 1s linear"
+      } else {
+        target.style.left = "-20%"
+        target.style.transition = "left 1s linear"
+      }
+    },
+    [indeterminate]
+  )
+
+  useEffect(() => {
+    if (indeterminate) {
+      startIndeterminateAnimation()
+    } else {
+      startDeterminateAnimation()
+    }
+    isFirstRender.current = false
+  }, [indeterminate, startDeterminateAnimation, startIndeterminateAnimation])
 
   return (
     <Wrapper {...rest}>
@@ -37,16 +111,18 @@ export const ProgressBar: FunctionComponent<Props> = ({
       )}
       <Progress
         id={"progress-" + id}
-        max={maxValue}
-        value={clampedValue}
-        $indeterminate={indeterminate}
-        $percentage={percentage}
         data-testid={ProgressBarTestIds.Progress}
         aria-valuenow={clampedValue}
         aria-valuemin={0}
         aria-valuemax={maxValue}
         aria-valuetext={`${clampedValue} ${valueUnit}`}
-      />
+      >
+        <Bar
+          ref={barRef}
+          $percentage={percentage}
+          onTransitionEnd={onTransitionEnd}
+        />
+      </Progress>
       <Label
         htmlFor={"progress-" + id}
         data-testid={ProgressBarTestIds.Details}
@@ -81,55 +157,25 @@ const Message = styled.span`
   min-height: ${({ theme }) => theme.app.lineHeight.paragraph4};
 `
 
-const indeterminateAnimation = keyframes`
-  0% {
-    --bar-offset: -99%;
-  }
-  100% {
-    --bar-offset: 666%;
-  }
-`
-
-const Progress = styled.progress<{
-  $indeterminate?: boolean
-  $percentage?: number
-}>`
+const Progress = styled.div`
   width: 100%;
   max-width: 22.3rem;
   height: 0.4rem;
   border-radius: 0.2rem;
   overflow: hidden;
   position: relative;
+  background-color: ${({ theme }) => theme.app.color.grey5};
+`
 
-  &::-webkit-progress-bar {
-    background-color: ${({ theme }) => theme.app.color.grey5};
-  }
-
-  &::-webkit-progress-value {
-    background-color: ${({ theme }) => theme.app.color.grey1};
-    border-radius: 0.2rem;
-  }
-
-  ${({ $indeterminate }) =>
-    $indeterminate
-      ? css`
-          animation: ${indeterminateAnimation} 1.5s ease-in-out infinite
-            alternate;
-          &::-webkit-progress-value {
-            width: 15% !important;
-            transform: translateX(var(--bar-offset)) !important;
-            transition:
-              width 0.3s linear,
-              transform 1.5s linear;
-          }
-        `
-      : css`
-          &::-webkit-progress-value {
-            transition:
-              width 0.2s 0.1s ease-out,
-              transform 0.15s ease-out;
-          }
-        `};
+const Bar = styled.div<{ $percentage?: number }>`
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: inherit;
+  border-radius: inherit;
+  background-color: ${({ theme }) => theme.app.color.grey1};
+  width: ${({ $percentage = 0 }) => $percentage}%;
+  transition: width 0.15s linear;
 `
 
 const Label = styled.label`

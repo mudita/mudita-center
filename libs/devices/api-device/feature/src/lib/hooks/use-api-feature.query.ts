@@ -62,6 +62,10 @@ const queryFn = async <F extends string>(feature: F, device?: ApiDevice) => {
   const { body: data } = await getFeatureData(device, feature)
   const { body: config } = await getFeatureConfig(device, feature)
 
+  if (!data || !config) {
+    throw new Error(`Failed to fetch data or config for feature ${feature}`)
+  }
+
   switch (feature) {
     case "mc-overview":
       return mapOverviewFeature(
@@ -106,6 +110,7 @@ export function useApiFeatureQuery<FEATURE extends string = string>(
     queryKey: useApiFeatureQuery.queryKey(feature, device?.id),
     queryFn: () => queryFn<FEATURE>(feature, device),
     enabled: !!device,
+    retry: 2,
     ...options,
   })
 }
