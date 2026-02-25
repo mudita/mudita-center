@@ -160,7 +160,6 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
       updateStatus === UpdateStatus.Idle &&
       !isUpdateCheckLoading
     ) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUpdateStatus(UpdateStatus.Available)
     }
   }, [updateAvailability, updateStatus, isUpdateCheckLoading])
@@ -195,8 +194,12 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
         return
       }
       setError(HarmonyOSUpdateError.UpdateFailed)
+    } finally {
+      await queryClient.invalidateQueries({
+        queryKey: useHarmonyOsUpdateInfoQuery.queryKey(device.id),
+      })
     }
-  }, [updateAvailability, batteryLevel, updateDevice])
+  }, [updateAvailability, batteryLevel, updateDevice, queryClient, device.id])
 
   const handleFinalModalClose = useCallback(async () => {
     await handleModalClose()

@@ -157,6 +157,10 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
           throw HarmonyOSUpdateError.UpdateFailed
         }
 
+        if (abortControllerRef.current.signal.aborted) {
+          throw HarmonyOSUpdateError.UpdateAborted
+        }
+
         // Freeze device to prepare for update
         freeze(device, 5 * 60_000) // 5 minutes
         await delay(500)
@@ -203,7 +207,8 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
       return
     },
     onMutate: () => {
-      // Reset state before starting
+      // Reset state before start
+      abortControllerRef.current = new AbortController()
       setProgress(0)
       setStatus(HarmonyOSUpdateStatus.Idle)
       setCurrentStep(1)
@@ -234,7 +239,6 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
 
   const abort = useCallback(() => {
     abortControllerRef.current.abort()
-    abortControllerRef.current = new AbortController()
     mutation.reset()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutation.reset])
