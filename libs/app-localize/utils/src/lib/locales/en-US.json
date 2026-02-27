@@ -73,7 +73,7 @@
   "apiDevice.contacts.import.cancellingModal.description": "We'll stop the import process and no changes will be made to your phone.",
   "apiDevice.contacts.import.cancellingModal.title": "Cancel import?",
   "apiDevice.contacts.import.completeModal.description": "{count, plural, one {# contact} other {# contacts}} imported successfully.",
-  "apiDevice.contacts.import.completeModal.duplicatesDetected": "{count, plural, one {# duplicate has been detected, you can manage it.} other {# duplicates have been detected, you can manage them.}} ",
+  "apiDevice.contacts.import.completeModal.duplicatesDetected": "{count, plural, one {1 contact has a duplicate, you can manage it.} other {# contacts have duplicates, you can manage them.}}",
   "apiDevice.contacts.import.completeModal.manageDuplicatesButton": "Manage duplicates",
   "apiDevice.contacts.import.completeModal.noDuplicatesDetected": "No duplicates detected.",
   "apiDevice.contacts.import.completeModal.title": "Import complete",
