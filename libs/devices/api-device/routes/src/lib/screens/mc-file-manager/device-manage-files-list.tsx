@@ -106,6 +106,9 @@ const AppCategory: FunctionComponent<
       })
 
       if (!result.ok) {
+        await queryClient.invalidateQueries({
+          queryKey: useApiEntitiesDataQuery.queryKey(categoryId, device.id),
+        })
         return result
       }
 
