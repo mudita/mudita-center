@@ -16,6 +16,7 @@ export const GenericConfirmModalLayout: FunctionComponent<
 > = ({
   opened,
   onCancel,
+  onClose,
   onConfirm,
   itemCount,
   messages,
@@ -23,7 +24,7 @@ export const GenericConfirmModalLayout: FunctionComponent<
   children,
 }) => {
   return (
-    <Modal opened={opened}>
+    <Modal opened={opened} onAfterClose={onClose}>
       <Modal.CloseButton onClick={onCancel} />
       <Modal.TitleIcon type={IconType.Error} />
       <Modal.Title
