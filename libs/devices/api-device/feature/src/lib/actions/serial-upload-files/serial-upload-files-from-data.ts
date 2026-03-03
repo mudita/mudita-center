@@ -56,6 +56,10 @@ export const uploadFilesFromData = async ({
     })
   }
 
+  if (abortController.signal.aborted) {
+    throw new Error("File transfer aborted")
+  }
+
   const totalSize = sumBy(filesInfo, "fileSize")
   let uploadedTotalSize = 0
 
