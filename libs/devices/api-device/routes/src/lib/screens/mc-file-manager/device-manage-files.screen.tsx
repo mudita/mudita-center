@@ -28,9 +28,21 @@ import {
 } from "./device-manage-files.types"
 import { ScreenLoader } from "app-theme/ui"
 import { DeviceManageFilesList } from "./device-manage-files-list"
-import { FileEntity } from "./map-to-category-file-map"
 import { useDeviceFilePreviewMutation } from "./use-device-file-preview.mutation"
 import { useDeviceFileTransferMutation } from "./use-device-file-transfer.mutation"
+
+type FileEntity = {
+  id: string
+  fileName: string
+  filePath: string
+  fileSize: number
+  extension: string
+  mimeType: string
+  isInternal: boolean
+  entityType: string
+  fileType: string
+  additionalInfo?: unknown
+}
 
 export const DeviceManageFilesScreen: FunctionComponent<{
   feature: DeviceManageFileFeatureId
