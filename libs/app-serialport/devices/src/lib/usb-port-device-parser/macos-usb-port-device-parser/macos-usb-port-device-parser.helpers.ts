@@ -13,7 +13,7 @@ export function flattenNestedItems<T>(
   for (const item of items) {
     if (!item) continue
 
-    const { _items, ...rest } = item as any
+    const { _items, ...rest } = item as NestedItem<T>
     result.push(rest as T)
 
     if (Array.isArray(_items) && _items.length > 0) {
