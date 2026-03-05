@@ -119,12 +119,10 @@ export class AppSerialportDeviceScanner {
 
     if (process.platform === "win32") {
       for (const device of devices) {
-        if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
-          const serialNumber = await this.getSerialNumberOnWindows(device)
-          if (serialNumber) {
-            device.id = serialNumber
-            device.serialNumber = serialNumber
-          }
+        const serialNumber = await this.getSerialNumberOnWindows(device)
+        if (serialNumber) {
+          device.id = serialNumber
+          device.serialNumber = serialNumber
         }
       }
     }
