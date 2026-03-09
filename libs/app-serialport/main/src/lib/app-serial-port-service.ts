@@ -97,8 +97,8 @@ export class AppSerialPortService {
         )
         if (existingDevice.isFrozen()) {
           existingDevice.unfreeze()
+          existingDevice.attachPort(deviceInfo)
         }
-        existingDevice.attachPort(deviceInfo)
       }
     }
   }
