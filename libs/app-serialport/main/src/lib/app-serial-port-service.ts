@@ -22,20 +22,33 @@ enum Events {
 }
 
 const DEVICE_CHANGE_DEBOUNCE_TIME = 1_000
+const RESCAN_AFTER_OPEN_ERROR_DELAY = 1_500
 
 export class AppSerialPortService {
   private eventEmitter = new EventEmitter()
   private devices = new Map<SerialPortDeviceId, SerialPortDevice>()
 
   private devicesChangedTimeout?: NodeJS.Timeout
+  private rescanAfterOpenErrorTimeout?: NodeJS.Timeout
   private initialScan = true
 
   constructor() {
-    void this.handleAttach()
+    this.triggerAttachScan()
 
     usb.on("attach", () => {
       this.initialScan = false
-      void this.handleAttach()
+      this.triggerAttachScan()
+    })
+  }
+
+  private triggerAttachScan() {
+    void this.handleAttach().catch((error) => {
+      AppLogger.log(
+        "error",
+        `Error while scanning for serial devices: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      )
     })
   }
 
@@ -49,6 +62,17 @@ export class AppSerialPortService {
         resolve()
       }, DEVICE_CHANGE_DEBOUNCE_TIME)
     })
+  }
+
+  private scheduleRescanAfterOpenError() {
+    clearTimeout(this.rescanAfterOpenErrorTimeout)
+    this.rescanAfterOpenErrorTimeout = setTimeout(() => {
+      AppLogger.log(
+        "warn",
+        "Open retries exhausted. Triggering active serial devices rescan."
+      )
+      this.triggerAttachScan()
+    }, RESCAN_AFTER_OPEN_ERROR_DELAY)
   }
 
   private initializeDevice(deviceInfo: SerialPortDeviceInfo): void {
@@ -66,6 +90,13 @@ export class AppSerialPortService {
           `Device disconnected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
         void this.debounceDevicesChanged()
+      },
+      onOpenRetriesExhausted: (error) => {
+        AppLogger.log(
+          "warn",
+          `Open retries exhausted for device at path ${deviceInfo.path} (id: ${deviceInfo.id}). Last error: ${error.message}`
+        )
+        this.scheduleRescanAfterOpenError()
       },
     })
 
@@ -90,13 +121,18 @@ export class AppSerialPortService {
           `New device detected at path ${deviceInfo.path} (id: ${deviceInfo.id}). Initializing...`
         )
         this.initializeDevice(deviceInfo)
-      } else if (existingDevice.isFrozen()) {
+      } else if (
+        existingDevice.isFrozen() ||
+        existingDevice.status === SerialPortDeviceStatus.DeviceDisconnected
+      ) {
         AppLogger.log(
           "debug",
           `Device already exists at path ${deviceInfo.path} (id: ${deviceInfo.id}). Reinitializing...`
         )
+        if (existingDevice.isFrozen()) {
+          existingDevice.unfreeze()
+        }
         existingDevice.attachPort(deviceInfo)
-        existingDevice.unfreeze()
       }
     }
   }
@@ -168,6 +204,8 @@ export class AppSerialPortService {
   }
 
   async reset(deviceId?: SerialPortDeviceId, rescan = true): Promise<void> {
+    clearTimeout(this.rescanAfterOpenErrorTimeout)
+
     if (deviceId) {
       const device = this.devices.get(deviceId)
       if (!device) {

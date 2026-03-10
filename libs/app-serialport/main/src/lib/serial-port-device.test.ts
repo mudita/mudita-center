@@ -336,6 +336,18 @@ describe("SerialPortDevice", () => {
       })
     })
 
+    it("calls onOpenRetriesExhausted when open error has no retries left", () => {
+      const onOpenRetriesExhausted = jest.fn()
+      const device = new SerialPortDevice(mockDeviceInfo, {
+        onOpenRetriesExhausted,
+      })
+      device.attachPort(undefined, 0)
+
+      device["serialPort"]?.emit("error", new Error("open failed"))
+
+      expect(onOpenRetriesExhausted).toHaveBeenCalledTimes(1)
+    })
+
     it("flushes the serial port after opening", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
