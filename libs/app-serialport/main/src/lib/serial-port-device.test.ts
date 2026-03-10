@@ -300,6 +300,30 @@ describe("SerialPortDevice", () => {
       expect(device.status).not.toBe(SerialPortDeviceStatus.DeviceDisconnected)
     })
 
+    it("reattaches with decremented attempts when open error occurs and retries remain", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      const attachPortSpy = jest.spyOn(device, "attachPort")
+      device.attachPort(undefined, 1)
+
+      device["serialPort"]?.emit("error", new Error("open failed"))
+      await jest.advanceTimersByTimeAsync(1000)
+
+      expect(attachPortSpy).toHaveBeenCalledTimes(2)
+      expect(attachPortSpy).toHaveBeenNthCalledWith(2, mockDeviceInfo, 0)
+    })
+
+    it("does not retry opening port after device is destroyed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      const attachPortSpy = jest.spyOn(device, "attachPort")
+      device.attachPort(undefined, 1)
+
+      device["serialPort"]?.emit("error", new Error("open failed"))
+      device.destroy()
+      await jest.advanceTimersByTimeAsync(1000)
+
+      expect(attachPortSpy).toHaveBeenCalledTimes(1)
+    })
+
     it("disconnects device on open error when no retries remain", async () => {
       const onDisconnect = jest.fn()
       const device = new SerialPortDevice(mockDeviceInfo, { onDisconnect })

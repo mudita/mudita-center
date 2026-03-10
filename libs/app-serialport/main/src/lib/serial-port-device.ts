@@ -76,6 +76,7 @@ export class SerialPortDevice {
   private requestsQueueAbortController = new AbortController()
   private freezeHandler = new DeviceFreezeHandler()
   private serialPort?: SerialPortHandler | SerialPortHandlerMock
+  private openRetryTimeout?: NodeJS.Timeout
   private hasConnectedOnce = false
   private portInstanceId = 0
   private readonly instance:
@@ -220,9 +221,7 @@ export class SerialPortDevice {
       return
     }
 
-    this.serialPort.cleanup()
-
-    if (this.serialPort.isOpen || this.serialPort.opening) {
+    if (this.serialPort.isOpen) {
       try {
         this.serialPort.close()
       } catch {
@@ -230,6 +229,7 @@ export class SerialPortDevice {
       }
     }
 
+    this.serialPort.cleanup()
     this.serialPort = undefined
   }
 
@@ -286,10 +286,9 @@ export class SerialPortDevice {
       return
     }
 
-    setTimeout(() => {
-      if (!this.serialPort?.isOpen && !this.serialPort?.opening) {
-        this.serialPort?.open()
-      }
+    clearTimeout(this.openRetryTimeout)
+    this.openRetryTimeout = setTimeout(() => {
+      this.attachPort(this.info, attemptsLeft - 1)
     }, 1000)
   }
 
@@ -320,6 +319,8 @@ export class SerialPortDevice {
     )
 
     try {
+      clearTimeout(this.openRetryTimeout)
+      this.openRetryTimeout = undefined
       this.requestsQueue.clear()
       this.freezeHandler.off()
       this.status = SerialPortDeviceStatus.DeviceDisconnected

@@ -90,15 +90,13 @@ export class AppSerialPortService {
           `New device detected at path ${deviceInfo.path} (id: ${deviceInfo.id}). Initializing...`
         )
         this.initializeDevice(deviceInfo)
-      } else {
+      } else if (existingDevice.isFrozen()) {
         AppLogger.log(
           "debug",
           `Device already exists at path ${deviceInfo.path} (id: ${deviceInfo.id}). Reinitializing...`
         )
-        if (existingDevice.isFrozen()) {
-          existingDevice.unfreeze()
-          existingDevice.attachPort(deviceInfo)
-        }
+        existingDevice.attachPort(deviceInfo)
+        existingDevice.unfreeze()
       }
     }
   }
