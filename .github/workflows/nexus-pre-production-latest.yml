@@ -13,7 +13,7 @@ jobs:
       matrix:
         runner_label: [ linux-nexus, windows-nexus, macos-m-nexus ]
         type: [ standard, force ]
-        node-version: [ 24.13.0 ]
+        node-version: [ 24.14.0 ]
     environment: pre-production
     steps:
       - name: Checkout repository

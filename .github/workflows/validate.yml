@@ -7,7 +7,7 @@ jobs:
     runs-on: macos-validate
     strategy:
       matrix:
-        node-version: [24.13.0]
+        node-version: [24.14.0]
     timeout-minutes: 40
 
     steps:

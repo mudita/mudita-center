@@ -5,10 +5,7 @@
 
 import { SerialPort } from "serialport"
 import { getUsbDevices } from "./usb-devices/get-usb-devices"
-import {
-  SerialPortDeviceInfo,
-  SerialPortDeviceSubtype,
-} from "app-serialport/models"
+import { SerialPortDeviceInfo } from "app-serialport/models"
 import { PortInfo } from "@serialport/bindings-interface"
 import { execPromise } from "app-utils/main"
 import { devices, SerialPortHandler } from "app-serialport/devices"
@@ -119,12 +116,10 @@ export class AppSerialportDeviceScanner {
 
     if (process.platform === "win32") {
       for (const device of devices) {
-        if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
-          const serialNumber = await this.getSerialNumberOnWindows(device)
-          if (serialNumber) {
-            device.id = serialNumber
-            device.serialNumber = serialNumber
-          }
+        const serialNumber = await this.getSerialNumberOnWindows(device)
+        if (serialNumber) {
+          device.id = serialNumber
+          device.serialNumber = serialNumber
         }
       }
     }

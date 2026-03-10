@@ -105,6 +105,9 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       const entitiesByType = groupBy(deletedEntities, "entityType")
 
       for (const [entityType, entities] of Object.entries(entitiesByType)) {
+        if (isCurrentlyUploading(entityType)) {
+          continue
+        }
         const queryKey = useApiEntitiesDataQuery.queryKey(entityType, device.id)
         const config = queryClient.getQueryData<GetEntitiesConfigResponse>(
           useApiEntitiesConfigQuery.queryKey(entityType, device.id)
@@ -141,7 +144,7 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         })
       }
     },
-    [device, queryClient]
+    [device, isCurrentlyUploading, queryClient]
   )
 
   const processEntitiesModification = useCallback(
@@ -199,15 +202,18 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         }
       )
       const deleted = changedEntities.filter(
-        (entity): entity is DetailedOutboxEntity =>
-          "action" in entity && entity.action === "deleted"
+        (entity): entity is DetailedOutboxEntity => {
+          return "action" in entity && entity.action === "deleted"
+        }
       )
       const unknown = changedEntities.filter(
-        (entity): entity is SimpleOutboxEntity => !("action" in entity)
+        (entity): entity is SimpleOutboxEntity => {
+          return !("action" in entity)
+        }
       )
 
       if (deleted.length > 0) {
-        void processEntitiesDelete(deleted)
+        await processEntitiesDelete(deleted)
       }
 
       if (modified.length > 0) {

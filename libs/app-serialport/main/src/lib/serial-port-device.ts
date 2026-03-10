@@ -23,6 +23,10 @@ import { delay } from "app-utils/common"
 const DEFAULT_QUEUE_INTERVAL = 10
 const DEFAULT_QUEUE_CONCURRENCY = 1
 const DEFAULT_QUEUE_INTERVAL_CAPACITY = 1
+const DEFAULT_OPEN_RETRY_ATTEMPTS = 1
+const WINDOWS_OPEN_RETRY_ATTEMPTS = 3
+const WINDOWS_OPEN_RETRY_BASE_DELAY_MS = 300
+const WINDOWS_OPEN_RETRY_MAX_DELAY_MS = 2_000
 
 export enum SerialPortDeviceStatus {
   /**
@@ -63,6 +67,7 @@ interface Options {
   queueIntervalCapacity?: number
   onConnect?: VoidFunction
   onDisconnect?: VoidFunction
+  onOpenRetriesExhausted?: (error: Error) => void
 }
 
 /**
@@ -76,6 +81,7 @@ export class SerialPortDevice {
   private requestsQueueAbortController = new AbortController()
   private freezeHandler = new DeviceFreezeHandler()
   private serialPort?: SerialPortHandler | SerialPortHandlerMock
+  private openRetryTimeout?: NodeJS.Timeout
   private hasConnectedOnce = false
   private portInstanceId = 0
   private readonly instance:
@@ -153,6 +159,9 @@ export class SerialPortDevice {
       color: "green",
     })
 
+    clearTimeout(this.openRetryTimeout)
+    this.openRetryTimeout = undefined
+
     this.status = SerialPortDeviceStatus.DeviceConnected
 
     try {
@@ -198,7 +207,10 @@ export class SerialPortDevice {
    * Attaches a serial port to the device by initializing the SerialPortHandler with the provided device info.
    * If the device is already attached to a serial port, it will be detached first before attaching the new one.
    */
-  attachPort(info: SerialPortDeviceInfo = this.info, maxAttempts = 1) {
+  attachPort(
+    info: SerialPortDeviceInfo = this.info,
+    maxAttempts = this.getDefaultOpenRetryAttempts()
+  ) {
     AppLogger.log("silly", `Attaching serial port device at path ${info.path}.`)
     this.info = info
     this.portInstanceId++
@@ -220,9 +232,7 @@ export class SerialPortDevice {
       return
     }
 
-    this.serialPort.cleanup()
-
-    if (this.serialPort.isOpen || this.serialPort.opening) {
+    if (this.serialPort.isOpen) {
       try {
         this.serialPort.close()
       } catch {
@@ -230,7 +240,42 @@ export class SerialPortDevice {
       }
     }
 
+    this.serialPort.cleanup()
     this.serialPort = undefined
+  }
+
+  private getDefaultOpenRetryAttempts() {
+    return process.platform === "win32"
+      ? WINDOWS_OPEN_RETRY_ATTEMPTS
+      : DEFAULT_OPEN_RETRY_ATTEMPTS
+  }
+
+  private isWindowsTransientOpenError(error: Error) {
+    if (process.platform !== "win32") {
+      return false
+    }
+
+    const message = error.message.toLowerCase()
+    AppLogger.log(
+      "error",
+      `Checking if error ${message} is a transient Windows open error.`
+    )
+    return (
+      message.includes("unknown error code 433") ||
+      message.includes("file not found") ||
+      message.includes("cannot find the file") ||
+      message.includes("access denied") ||
+      message.includes("operation aborted")
+    )
+  }
+
+  private getWindowsOpenRetryDelayMs(attemptsLeft: number) {
+    const maxAttempts = this.getDefaultOpenRetryAttempts()
+    const retryIndex = Math.max(0, maxAttempts - attemptsLeft)
+    return Math.min(
+      WINDOWS_OPEN_RETRY_BASE_DELAY_MS * 2 ** retryIndex,
+      WINDOWS_OPEN_RETRY_MAX_DELAY_MS
+    )
   }
 
   /**
@@ -266,7 +311,12 @@ export class SerialPortDevice {
     } as SerialPortHandlerOptions)
 
     if (!this.serialPort?.isOpen && !this.serialPort?.opening) {
-      this.serialPort?.open()
+      this.serialPort?.open((error) => {
+        if (currentInstanceId !== this.portInstanceId || !error) {
+          return
+        }
+        this.handleError(error, maxAttempts)
+      })
     }
   }
 
@@ -275,6 +325,8 @@ export class SerialPortDevice {
    * If there are no attempts left, it will handle the disconnection of the device.
    */
   private handleError(error: Error, attemptsLeft: number) {
+    const isWindowsTransientOpenError = this.isWindowsTransientOpenError(error)
+
     AppLogger.log(
       "error",
       `Error opening serial port at path ${this.info.path}: ${
@@ -282,15 +334,25 @@ export class SerialPortDevice {
       }`
     )
     if (attemptsLeft <= 0) {
+      this.options?.onOpenRetriesExhausted?.(error)
       this.handleDisconnect()
       return
     }
 
-    setTimeout(() => {
-      if (!this.serialPort?.isOpen && !this.serialPort?.opening) {
-        this.serialPort?.open()
-      }
-    }, 1000)
+    const delayMs = isWindowsTransientOpenError
+      ? this.getWindowsOpenRetryDelayMs(attemptsLeft)
+      : 1_000
+
+    AppLogger.log(
+      "warn",
+      `Retrying opening serial port at path ${this.info.path} in ${delayMs}ms. Attempts left: ${attemptsLeft - 1}.`,
+      { color: "yellow" }
+    )
+
+    clearTimeout(this.openRetryTimeout)
+    this.openRetryTimeout = setTimeout(() => {
+      this.attachPort(this.info, attemptsLeft - 1)
+    }, delayMs)
   }
 
   /**
@@ -320,6 +382,8 @@ export class SerialPortDevice {
     )
 
     try {
+      clearTimeout(this.openRetryTimeout)
+      this.openRetryTimeout = undefined
       this.requestsQueue.clear()
       this.freezeHandler.off()
       this.status = SerialPortDeviceStatus.DeviceDisconnected
