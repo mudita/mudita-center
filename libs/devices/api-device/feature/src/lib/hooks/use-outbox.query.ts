@@ -212,12 +212,6 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
         }
       )
 
-      console.log("Processing outbox entities changes", {
-        modified,
-        deleted,
-        unknown,
-      })
-
       if (deleted.length > 0) {
         await processEntitiesDelete(deleted)
       }
