@@ -9,6 +9,7 @@ import { SerialPortDeviceInfo } from "app-serialport/models"
 import { PortInfo } from "@serialport/bindings-interface"
 import { execPromise } from "app-utils/main"
 import { devices, SerialPortHandler } from "app-serialport/devices"
+import { AppLogger } from "app-serialport/utils"
 
 export class AppSerialportDeviceScanner {
   private static readonly supportedDevices = devices
@@ -60,6 +61,11 @@ export class AppSerialportDeviceScanner {
   static async scan() {
     const serialportDevices = await SerialPort.list()
     const usbDevices = await getUsbDevices()
+
+    AppLogger.log(
+      "debug",
+      `Scanned devices: ${JSON.stringify({ serialport: serialportDevices, usb: usbDevices }, null, 2)}`
+    )
 
     const devices = [
       ...serialportDevices.filter((portInfo) => {
