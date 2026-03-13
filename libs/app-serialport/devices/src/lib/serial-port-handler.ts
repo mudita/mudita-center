@@ -198,7 +198,7 @@ export class SerialPortHandler extends SerialPort {
       this.eventEmitter.on(SerialPortHandlerEvent.Error, onError)
       this.once("close", onClose)
 
-      if (process.env.NODE_ENV === "development" || true) {
+      if (process.env.NODE_ENV === "development") {
         AppLogger.log(
           "debug",
           `Request sent for device at path ${this.path}:`,
@@ -237,7 +237,7 @@ export class SerialPortHandler extends SerialPort {
   private parseResponse(data: Buffer): Response {
     try {
       const rawResponse = data.toString()
-      if (process.env.NODE_ENV === "development" || true) {
+      if (process.env.NODE_ENV === "development") {
         AppLogger.log(
           "debug",
           `Received response for device at path ${this.path}:`,
