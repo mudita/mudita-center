@@ -95,6 +95,7 @@ export const restoreBackup = async ({
         restoreProgress = progress
         handleProgress()
       },
+      abortController,
     })
   } catch (error) {
     await deleteRestore(device, { restoreId })

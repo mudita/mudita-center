@@ -11,15 +11,21 @@ interface RestoreStepParams {
   device: ApiDevice
   restoreId: number
   onProgress: (progress: number) => void
+  abortController?: AbortController
 }
 
 export const restoreStep = async ({
   device,
   restoreId,
   onProgress,
+  abortController,
 }: RestoreStepParams) => {
   onProgress(0)
   let restoreResponse200: Omit<RestoreResponse200, "_status"> = {}
+
+  if (abortController?.signal.aborted) {
+    throw new Error("Restore aborted")
+  }
 
   const restoreResponse = await restorePost(device, { restoreId })
   if (!restoreResponse.ok) {
@@ -32,6 +38,9 @@ export const restoreStep = async ({
     let restoreResponseStatus: 200 | 202 = 202
 
     while (restoreResponseStatus === 202) {
+      if (abortController?.signal.aborted) {
+        throw new Error("Restore aborted")
+      }
       const loopedRestoreResponse = await delayUntil(
         restoreGet(device, { restoreId }),
         250

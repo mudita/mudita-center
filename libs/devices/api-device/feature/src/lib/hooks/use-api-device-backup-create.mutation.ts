@@ -50,6 +50,8 @@ export const useApiDeviceBackupCreateMutation = (
       onError?.(error instanceof AbortSignal)
     },
     onSettled: () => {
+      abortControllerRef.current = new AbortController()
+
       setTimeout(() => {
         setProgress(0)
       }, theme.app.constants.modalTransitionDuration)
@@ -58,7 +60,6 @@ export const useApiDeviceBackupCreateMutation = (
 
   const abort = useCallback(() => {
     abortControllerRef.current.abort()
-    abortControllerRef.current = new AbortController()
     mutation.reset()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

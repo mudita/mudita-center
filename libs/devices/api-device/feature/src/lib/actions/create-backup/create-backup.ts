@@ -81,7 +81,14 @@ export const createBackup = async ({
       },
       {} as Record<keyof typeof backupFiles, string>
     )
+    if (abortController.signal.aborted) {
+      throw new Error("Backup creation aborted")
+    }
     await postBackup(device, { backupId })
+
+    if (abortController.signal.aborted) {
+      throw new Error("Backup creation aborted")
+    }
     return await saveBackupStep({ device, files: backupData, password })
   } catch (error) {
     await postBackup(device, { backupId })

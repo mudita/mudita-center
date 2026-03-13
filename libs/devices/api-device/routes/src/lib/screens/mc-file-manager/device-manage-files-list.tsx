@@ -27,6 +27,7 @@ import {
   PROGRESS_MAIN_PROCESS_PHASE_RATIO,
   PROGRESS_REFETCH_PHASE_RATIO,
 } from "./device-manage-files.config"
+import { delay } from "app-utils/common"
 
 interface Props {
   files?: FileManagerFile[]
@@ -106,6 +107,10 @@ const AppCategory: FunctionComponent<
       })
 
       if (!result.ok) {
+        await delay(500)
+        await queryClient.invalidateQueries({
+          queryKey: useApiEntitiesDataQuery.queryKey(categoryId, device.id),
+        })
         return result
       }
 

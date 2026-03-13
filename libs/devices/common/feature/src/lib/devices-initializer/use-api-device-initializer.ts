@@ -85,7 +85,7 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
 
   useEffect(() => {
     if (status === DeviceStatus.Locked) {
-      freeze(device, platform === "windows" ? 10_000 : 3_000)
+      freeze(device, platform === "windows" ? 20_000 : 5_000)
     }
     if (status === DeviceStatus.Initialized) {
       clearTimeout(freezeTimeoutRef.current)

@@ -10,6 +10,7 @@ export interface GenericConfirmModalProps {
   opened: boolean
   onCancel: VoidFunction
   onConfirm: VoidFunction
+  onClose?: VoidFunction
   itemCount?: number
   confirmDisabled?: boolean
   children?: ReactNode
