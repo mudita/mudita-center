@@ -31,11 +31,12 @@ export const useHarmonyInitializer = (device: Harmony) => {
   const { isLoading: isMenuLoading } =
     useDeviceMenuQuery<HarmonyErrorType>(device)
 
-  const { isLoading: isUpdateCheckLoading } = useHarmonyOsUpdateInfoQuery({
-    device: device,
-    currentVersion: config?.version,
-    serialNumber: config?.serialNumber,
-  })
+  const { data: updateInfo, isLoading: isUpdateCheckLoading } =
+    useHarmonyOsUpdateInfoQuery({
+      device: device,
+      currentVersion: config?.version,
+      serialNumber: config?.serialNumber,
+    })
 
   const { isLoading: isLogsLoading } = useNewCrashDumpsQuery(device)
 
@@ -65,6 +66,13 @@ export const useHarmonyInitializer = (device: Harmony) => {
       setStatus(DeviceStatus.CriticalError)
       return
     }
+
+    // Check if forced update is required - this blocks normal device usage
+    if (updateInfo?.forced) {
+      setStatus(DeviceStatus.RequiresAction)
+      return
+    }
+
     setStatus(DeviceStatus.Initialized)
 
     uniqueTrack({
@@ -78,6 +86,7 @@ export const useHarmonyInitializer = (device: Harmony) => {
     isMenuLoading,
     isUpdateCheckLoading,
     isLogsLoading,
+    updateInfo?.forced,
     setStatus,
     config,
     uniqueTrack,

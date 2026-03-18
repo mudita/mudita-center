@@ -5,6 +5,7 @@
 
 import { useDispatch } from "react-redux"
 import {
+  setDevicesDrawerVisibility,
   useActiveDeviceQuery,
   useDeviceActivate,
   useDeviceConfigQuery,
@@ -106,17 +107,29 @@ export const useDevicesInitRouter = () => {
   }
 
   useEffect(() => {
+    // Redirect to Current if device requires action but user is outside of device routes
+    if (
+      !pathname.startsWith("/device/") &&
+      !pathname.startsWith("/devices/") &&
+      activeDeviceStatus === DeviceStatus.RequiresAction
+    ) {
+      dispatch(setDevicesDrawerVisibility(false))
+      navigate({ pathname: DevicesPaths.Current })
+      return
+    }
+
     if (!pathname.startsWith("/device/")) {
       return
     }
     if (
+      activeDeviceStatus !== DeviceStatus.RequiresAction &&
       activeDeviceStatus !== DeviceStatus.Initialized &&
       activeDeviceStatus !== DeviceStatus.Initializing
     ) {
       navigate({ pathname: DevicesPaths.Connecting })
       return
     }
-  }, [activeDeviceStatus, navigate, pathname])
+  }, [activeDeviceStatus, dispatch, navigate, pathname])
 
   useEffect(() => {
     if (!pathname.startsWith(DevicesPaths.Index)) {
@@ -162,6 +175,7 @@ export const useDevicesInitRouter = () => {
       if (
         pathname !== DevicesPaths.Current &&
         (activeDeviceStatus === DeviceStatus.Initialized ||
+          activeDeviceStatus === DeviceStatus.RequiresAction ||
           activeDeviceStatus === DeviceStatus.Locked ||
           activeDeviceStatus === DeviceStatus.Issue)
       ) {
@@ -173,7 +187,11 @@ export const useDevicesInitRouter = () => {
 
   useEffect(() => {
     void (async () => {
-      if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
+      if (
+        menu &&
+        (activeDeviceStatus === DeviceStatus.Initialized ||
+          activeDeviceStatus === DeviceStatus.RequiresAction)
+      ) {
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
 
         // Modify menu for API devices
