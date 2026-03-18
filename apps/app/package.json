@@ -1,7 +1,7 @@
 {
   "name": "mudita-center",
   "description": "Mudita Center",
-  "version": "4.0.0-rc.12",
+  "version": "4.0.0-rc.13",
   "main": "./out/main/index.js",
   "repository": {
     "type": "git",
