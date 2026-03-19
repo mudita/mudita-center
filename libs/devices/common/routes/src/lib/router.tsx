@@ -141,7 +141,6 @@ export const useDevicesInitRouter = () => {
         [
           DevicesPaths.Connecting,
           DevicesPaths.Current,
-          DevicesPaths.Troubleshooting,
         ].includes(pathname as DevicesPaths) &&
         devices.length === 0
       ) {
