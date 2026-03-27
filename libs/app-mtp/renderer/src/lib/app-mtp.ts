@@ -6,6 +6,7 @@
 import type {} from "types-preload"
 
 export const AppMtp = {
+  prepareMtpEnvironment: window.api.appMtp.prepareMtpEnvironment,
   getMtpDeviceId: window.api.appMtp.getMtpDeviceId,
   getDeviceStorages: window.api.appMtp.getDeviceStorages,
   startTransferFile: window.api.appMtp.startTransferFile,
