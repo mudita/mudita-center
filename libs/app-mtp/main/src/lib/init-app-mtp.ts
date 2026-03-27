@@ -11,6 +11,10 @@ import { mapToCoreUsbId } from "app-utils/common"
 import { AppMtp } from "./app-mtp"
 
 export const initAppMtp = (ipcMain: IpcMain, appMtp: AppMtp) => {
+  ipcMain.removeHandler(AppMtpIpcEvents.PrepareMtpEnvironment)
+  ipcMain.handle(AppMtpIpcEvents.PrepareMtpEnvironment, async () => {
+    return appMtp.prepareMtpEnvironment()
+  })
   ipcMain.removeHandler(AppMtpIpcEvents.GetMtpDeviceId)
   ipcMain.handle(
     AppMtpIpcEvents.GetMtpDeviceId,
