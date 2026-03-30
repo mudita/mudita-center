@@ -141,7 +141,6 @@ jobs:
         if: matrix.runner_label != 'windows-nexus'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          export CSC_IDENTITY_AUTO_DISCOVERY=false
           npm run app:dist
       - name: Push artifacts to nexus registry from Windows
         if: matrix.runner_label == 'windows-nexus'

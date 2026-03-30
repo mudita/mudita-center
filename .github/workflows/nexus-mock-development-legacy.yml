@@ -147,11 +147,9 @@ jobs:
         if: matrix.runner_label != 'windows-nexus'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          export CSC_IDENTITY_AUTO_DISCOVERY=false
           npm run app:dist
       - name: Verify apple sign
         if: matrix.runner_label == 'macos-nexus'
-        continue-on-error: true
         run: |
           codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
