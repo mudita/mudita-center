@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SegmentBarItem } from "generic-view/models"
 import { computeSegmentBarItems } from "./compute-segment-bar-items.helper"
+import { ISegmentBarItem } from "./segment-bar.types"
 
 describe("Single segments", () => {
   test("handles a single segment without minWidth", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 100, minWidth: 0 },
     ]
     const result = computeSegmentBarItems(segments, 100)
@@ -21,7 +21,7 @@ describe("Single segments", () => {
   })
 
   test("handles a single segment with minWidth smaller than containerWidth", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 1, minWidth: 50 },
     ]
     const result = computeSegmentBarItems(segments, 100)
@@ -34,7 +34,7 @@ describe("Single segments", () => {
   })
 
   test("handles a single segment occupying the full containerWidth", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 100, minWidth: 100 },
     ]
     const result = computeSegmentBarItems(segments, 100)
@@ -47,7 +47,7 @@ describe("Single segments", () => {
   })
 
   test("handles a single segment minWidth larger than proportional width", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 100, minWidth: 200 },
     ]
 
@@ -63,7 +63,7 @@ describe("Single segments", () => {
 
 describe("Multiple segments - proportional allocation", () => {
   test("handles multiple segments without minWidth", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 50, minWidth: 0 },
       { color: "#111", label: "Segment 2", value: 30, minWidth: 0 },
       { color: "#222", label: "Segment 3", value: 20, minWidth: 0 },
@@ -82,7 +82,7 @@ describe("Multiple segments - proportional allocation", () => {
 
 describe("Multiple segments - with minWidth", () => {
   test("handles segments with minWidth smaller than proportional width", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 70, minWidth: 10 },
       { color: "#111", label: "Segment 2", value: 30, minWidth: 5 },
     ]
@@ -97,7 +97,7 @@ describe("Multiple segments - with minWidth", () => {
   })
 
   test("handles segments with minWidth equal to containerWidth", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 1, minWidth: 50 },
       { color: "#111", label: "Segment 2", value: 1, minWidth: 50 },
       { color: "#111", label: "Segment 2", value: 1, minWidth: 50 },
@@ -114,7 +114,7 @@ describe("Multiple segments - with minWidth", () => {
   })
 
   test("handles segments with minWidth larger than proportional width", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 1, minWidth: 80 },
       { color: "#111", label: "Segment 2", value: 1, minWidth: 40 },
     ]
@@ -130,7 +130,7 @@ describe("Multiple segments - with minWidth", () => {
   })
 
   test("handles segments with minWidth exceeding containerWidth", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 1, minWidth: 80 },
       { color: "#111", label: "Segment 2", value: 1, minWidth: 80 },
     ]
@@ -147,7 +147,7 @@ describe("Multiple segments - with minWidth", () => {
 
 describe("Edge cases", () => {
   test("returns an empty array when containerWidth is 0", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 100, minWidth: 50 },
       { color: "#111", label: "Segment 2", value: 50, minWidth: 25 },
     ]
@@ -157,7 +157,7 @@ describe("Edge cases", () => {
   })
 
   test("ignores segments with value = 0", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 0, minWidth: 50 },
       { color: "#111", label: "Segment 2", value: 100, minWidth: 50 },
     ]
@@ -171,7 +171,7 @@ describe("Edge cases", () => {
   })
 
   test("handles an empty array of segments", () => {
-    const segments: SegmentBarItem[] = []
+    const segments: ISegmentBarItem[] = []
     const result = computeSegmentBarItems(segments, 100)
 
     expect(result).toEqual([])
@@ -180,7 +180,7 @@ describe("Edge cases", () => {
 
 describe("Advanced scenarios", () => {
   test("handles mix of minWidth and proportional allocation", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 30, minWidth: 30 },
       { color: "#111", label: "Segment 2", value: 20, minWidth: 10 },
       { color: "#222", label: "Segment 3", value: 50, minWidth: 10 },
@@ -197,7 +197,7 @@ describe("Advanced scenarios", () => {
   })
 
   test("handles a mix of overlap and proportional widths", () => {
-    const segments: SegmentBarItem[] = [
+    const segments: ISegmentBarItem[] = [
       { color: "#000", label: "Segment 1", value: 40, minWidth: 20 },
       { color: "#111", label: "Segment 2", value: 40, minWidth: 20 },
       { color: "#222", label: "Segment 3", value: 20, minWidth: 20 },

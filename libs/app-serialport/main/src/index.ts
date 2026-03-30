@@ -4,4 +4,7 @@
  */
 
 export * from "./lib/init-serialport"
+export * from "./lib/app-serial-port-service"
 export * from "./lib/app-serial-port.preload"
+export * from "./lib/serial-port-device"
+export * from "./lib/app-serialport-device-scanner"

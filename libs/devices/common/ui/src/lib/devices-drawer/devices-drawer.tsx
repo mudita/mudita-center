@@ -4,10 +4,11 @@
  */
 
 import { FunctionComponent, PropsWithChildren } from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { defineMessages } from "app-localize/utils"
 import { IconSize, IconType, ModalLayer } from "app-theme/models"
 import { IconButton, Typography } from "app-theme/ui"
+import { AnimatePresence, motion } from "motion/react"
 
 const messages = defineMessages({
   title: { id: "general.components.devicesDrawer.title" },
@@ -24,47 +25,50 @@ export const DevicesDrawer: FunctionComponent<Props> = ({
   children,
 }) => {
   return (
-    <>
-      <Backdrop onClick={onClose} $visible={opened} />
-      <Wrapper $opened={opened}>
-        <Header>
-          <Typography.H4 as={"p"} message={messages.title.id} />
-          <IconButton
-            icon={IconType.Close}
-            size={IconSize.Big}
+    <AnimatePresence initial={false} mode={"sync"}>
+      {opened && (
+        <>
+          <Backdrop
+            key={"backdrop"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
           />
-        </Header>
-        <List>{children}</List>
-      </Wrapper>
-    </>
+          <Wrapper
+            key={"drawer"}
+            initial={{ transform: "translateX(calc(100% + 3.2rem))" }}
+            animate={{ transform: "translateX(0)" }}
+            exit={{ transform: "translateX(calc(100% + 3.2rem))" }}
+          >
+            <Header>
+              <Typography.H4 as={"p"} message={messages.title.id} />
+              <IconButton
+                icon={IconType.Close}
+                size={IconSize.Big}
+                onClick={onClose}
+                aria-label="Close drawer"
+              />
+            </Header>
+            <List>{children}</List>
+          </Wrapper>
+        </>
+      )}
+    </AnimatePresence>
   )
 }
 
-const Backdrop = styled.div<{ $visible?: boolean }>`
+const Backdrop = styled(motion.div)`
   position: fixed;
   z-index: ${ModalLayer.ConnectingLoader};
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  visibility: hidden;
   background-color: ${({ theme }) => theme.app.color.black};
-  opacity: 0;
-  transition-property: visibility, opacity;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-
-  ${({ $visible }) =>
-    $visible &&
-    css`
-      opacity: 0.3;
-      visibility: visible;
-      transition-delay: 0.5s;
-    `}
 `
 
-const Wrapper = styled.div<{ $opened?: boolean }>`
+const Wrapper = styled(motion.div)`
   position: absolute;
   z-index: ${ModalLayer.ConnectingLoader};
   right: 0;
@@ -76,19 +80,6 @@ const Wrapper = styled.div<{ $opened?: boolean }>`
   overflow: hidden;
   background: ${({ theme }) => theme.app.color.white};
   box-shadow: 0.2rem 0 3rem ${({ theme }) => theme.app.color.blackAlpha.light};
-  transform: translateX(calc(100% + 3.2rem));
-  visibility: hidden;
-  transition-property: transform, visibility;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-
-  ${({ $opened }) =>
-    $opened &&
-    css`
-      transform: translateX(0);
-      transition-delay: 0.5s;
-      visibility: visible;
-    `}
 `
 
 const Header = styled.div`

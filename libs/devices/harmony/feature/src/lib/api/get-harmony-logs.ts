@@ -21,6 +21,7 @@ export const getHarmonyLogs = async (
     method: HarmonyMethodNamed.Get,
     options: {
       timeout: 5000,
+      retries: 1,
     },
     body,
   })

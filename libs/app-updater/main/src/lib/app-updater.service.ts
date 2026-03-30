@@ -35,6 +35,13 @@ export class AppUpdaterService {
   }
 
   private configure(): void {
+    autoUpdater.setFeedURL({
+      provider: "github",
+      owner: "Mudita",
+      repo: import.meta.env.VITE_RELEASES_REPOSITORY_NAME,
+      private: true,
+      token: import.meta.env.VITE_GH_RUNTIME_TOKEN,
+    })
     autoUpdater.logger = logger
     autoUpdater.autoDownload = false
     autoUpdater.autoInstallOnAppQuit = false
@@ -49,7 +56,7 @@ export class AppUpdaterService {
         centerVersion: string
       }>({
         method: "GET",
-        url: `${process.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
+        url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v3`,
         signal: this.checkAbortController.signal,
       })
       if (!response.ok) {

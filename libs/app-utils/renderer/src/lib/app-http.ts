@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "types-preload"
+import type {} from "types-preload"
 import { AppHttpRequestConfig, AppHttpResult } from "app-utils/models"
 
 export const AppHttp = {

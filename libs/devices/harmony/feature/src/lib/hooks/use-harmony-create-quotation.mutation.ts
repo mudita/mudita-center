@@ -40,7 +40,7 @@ export const useHarmonyCreateQuotationMutation = (device?: Harmony) => {
       const result = await delayUntil(mutationFn(quotation, device), 500)
       if (result.ok) {
         queryClient.setQueryData<Quotation[]>(
-          useHarmonyQuotationListQuery.queryKey(device?.path),
+          useHarmonyQuotationListQuery.queryKey(device?.id),
           (old = []) => [
             ...old,
             {

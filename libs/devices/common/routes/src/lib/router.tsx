@@ -5,6 +5,7 @@
 
 import { useDispatch } from "react-redux"
 import {
+  setDevicesDrawerVisibility,
   useActiveDeviceQuery,
   useDeviceActivate,
   useDeviceConfigQuery,
@@ -25,7 +26,11 @@ import {
   DeviceTroubleshooting,
   WelcomeScreen,
 } from "devices/common/ui"
-import { DevicesPaths, DeviceStatus } from "devices/common/models"
+import {
+  DevicesPaths,
+  DevicesQueryKeys,
+  DeviceStatus,
+} from "devices/common/models"
 import { MenuIndex } from "app-routing/models"
 import { NewsPaths } from "news/models"
 import { useAppNavigate } from "app-routing/utils"
@@ -38,6 +43,7 @@ import { setContactSupportModalVisible } from "contact-support/feature"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import { ApiConfig } from "devices/api-device/models"
 import semver from "semver/preload"
+import { AppSerialPort } from "app-serialport/renderer"
 
 export const useDevicesInitRouter = () => {
   const queryClient = useQueryClient()
@@ -72,13 +78,28 @@ export const useDevicesInitRouter = () => {
     navigate({ pathname: DevicesPaths.Troubleshooting })
   }
 
-  const handleTryAgain = () => {
-    if (!activeDevice) {
-      return
+  const handleTryAgain = async () => {
+    if (activeDevice) {
+      // Reset only the active device
+      AppSerialPort.reset(activeDevice.id)
+      void queryClient.resetQueries({
+        queryKey: [DevicesQueryKeys.All, activeDevice.id],
+        exact: false,
+      })
+      void queryClient.resetQueries({
+        queryKey: [DevicesQueryKeys.All, "active"],
+        exact: true,
+      })
+    } else {
+      // Reset all devices
+      AppSerialPort.reset()
+      void queryClient.resetQueries({
+        queryKey: [DevicesQueryKeys.All],
+        exact: false,
+      })
     }
-    void queryClient.invalidateQueries({
-      queryKey: ["devices", activeDevice?.id],
-    })
+
+    navigate({ pathname: DevicesPaths.Connecting })
   }
 
   const handleContactSupport = () => {
@@ -86,17 +107,29 @@ export const useDevicesInitRouter = () => {
   }
 
   useEffect(() => {
+    // Redirect to Current if device requires action but user is outside of device routes
+    if (
+      !pathname.startsWith("/device/") &&
+      !pathname.startsWith("/devices/") &&
+      activeDeviceStatus === DeviceStatus.RequiresAction
+    ) {
+      dispatch(setDevicesDrawerVisibility(false))
+      navigate({ pathname: DevicesPaths.Current })
+      return
+    }
+
     if (!pathname.startsWith("/device/")) {
       return
     }
     if (
+      activeDeviceStatus !== DeviceStatus.RequiresAction &&
       activeDeviceStatus !== DeviceStatus.Initialized &&
       activeDeviceStatus !== DeviceStatus.Initializing
     ) {
       navigate({ pathname: DevicesPaths.Connecting })
       return
     }
-  }, [activeDeviceStatus, navigate, pathname])
+  }, [activeDeviceStatus, dispatch, navigate, pathname])
 
   useEffect(() => {
     if (!pathname.startsWith(DevicesPaths.Index)) {
@@ -108,7 +141,6 @@ export const useDevicesInitRouter = () => {
         [
           DevicesPaths.Connecting,
           DevicesPaths.Current,
-          DevicesPaths.Troubleshooting,
         ].includes(pathname as DevicesPaths) &&
         devices.length === 0
       ) {
@@ -142,6 +174,7 @@ export const useDevicesInitRouter = () => {
       if (
         pathname !== DevicesPaths.Current &&
         (activeDeviceStatus === DeviceStatus.Initialized ||
+          activeDeviceStatus === DeviceStatus.RequiresAction ||
           activeDeviceStatus === DeviceStatus.Locked ||
           activeDeviceStatus === DeviceStatus.Issue)
       ) {
@@ -153,7 +186,11 @@ export const useDevicesInitRouter = () => {
 
   useEffect(() => {
     void (async () => {
-      if (menu && activeDeviceStatus === DeviceStatus.Initialized) {
+      if (
+        menu &&
+        (activeDeviceStatus === DeviceStatus.Initialized ||
+          activeDeviceStatus === DeviceStatus.RequiresAction)
+      ) {
         dispatch(unregisterMenuGroups([MenuIndex.Device]))
 
         // Modify menu for API devices

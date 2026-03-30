@@ -97,6 +97,7 @@ const CustomButton = styled(Button)<{
       border-radius: 50%;
       background-color: currentColor;
     }
+
     &:after {
       content: "${({ $devicesCount }) => $devicesCount}";
       position: absolute;
@@ -114,6 +115,7 @@ const CustomButton = styled(Button)<{
       transition-timing-function: ${({ theme }) =>
         theme.app.constants.buttonTransitionEasing};
     }
+  }
 `
 
 const Wrapper = styled.div`

@@ -88,11 +88,7 @@ export const ManageFilesDownloadFlow = ({
     async (directory: string) => {
       setFlowState(ManageFilesDownloadFlowState.TransferringFiles)
 
-      const files = selectedItems.map((file) => ({
-        ...file,
-        id: `${directory}/${file.name}`,
-      }))
-      const { failed } = await transfer(files)
+      const { failed } = await transfer(selectedItems, directory)
 
       if (failed.length > 0) {
         setFailedTransfers(failed)
@@ -107,7 +103,7 @@ export const ManageFilesDownloadFlow = ({
       addToast(
         createToastContent({
           text: formatMessage(manageFilesMessages.uploadSuccessToastText, {
-            fileCount: files.length,
+            fileCount: selectedItems.length,
           }),
         })
       )

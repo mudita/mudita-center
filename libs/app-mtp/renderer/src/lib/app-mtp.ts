@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "types-preload"
+import type {} from "types-preload"
 
 export const AppMtp = {
+  prepareMtpEnvironment: window.api.appMtp.prepareMtpEnvironment,
   getMtpDeviceId: window.api.appMtp.getMtpDeviceId,
   getDeviceStorages: window.api.appMtp.getDeviceStorages,
   startTransferFile: window.api.appMtp.startTransferFile,

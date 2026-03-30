@@ -10,11 +10,7 @@ import {
   useRef,
   useState,
 } from "react"
-import {
-  GenericDeleteFlow,
-  GenericDeleteFlowProps,
-  Table,
-} from "app-theme/ui"
+import { GenericDeleteFlow, GenericDeleteFlowProps, Table } from "app-theme/ui"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
 import {

@@ -5,7 +5,12 @@
 
 import "styled-components"
 import { Theme } from "./theme"
+import { CSSProperties as StyledCSSProperties } from "styled-components"
 
 declare module "styled-components" {
   interface DefaultTheme extends Theme {}
+
+  export type CSSProperties = StyledCSSProperties & {
+    [key: `--${string}`]: string | number | undefined
+  }
 }

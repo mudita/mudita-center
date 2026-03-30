@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, PropsWithChildren } from "react"
+import { ComponentProps, FunctionComponent, PropsWithChildren } from "react"
 import styled, { StyleSheetManager, ThemeProvider } from "styled-components"
-import { IStyleSheetManager } from "styled-components/dist/models/StyleSheetManager"
 import isPropValid from "@emotion/is-prop-valid"
 import { Normalize } from "styled-normalize"
 import { GlobalStyle } from "./global-style"
@@ -26,7 +25,9 @@ export const AppThemeProvider: FunctionComponent<PropsWithChildren> = ({
   )
 }
 
-type ShouldForwardProp = IStyleSheetManager["shouldForwardProp"]
+type ShouldForwardProp = ComponentProps<
+  typeof StyleSheetManager
+>["shouldForwardProp"]
 
 const shouldForwardProp: ShouldForwardProp = (prop, target) => {
   if (typeof target === "string") {

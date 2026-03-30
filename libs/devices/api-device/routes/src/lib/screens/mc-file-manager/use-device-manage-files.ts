@@ -16,6 +16,7 @@ import {
 } from "./device-manage-files.types"
 import { useActiveDeviceQuery } from "devices/common/feature"
 import { uniq } from "lodash"
+import { deviceManageFilesEmptyData } from "./use-device-manage-files-empty-data"
 
 export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
   feature: F
@@ -38,10 +39,10 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
 
   const entitiesTypes = useMemo(() => {
     return uniq([
-      ...(internalMemory?.config.main.config.categories.map(
+      ...(internalMemory?.config?.main.config.categories.map(
         (c) => c.entityType
       ) || []),
-      ...(externalMemory?.config.main.config.categories.map(
+      ...(externalMemory?.config?.main.config.categories.map(
         (c) => c.entityType
       ) || []),
     ])
@@ -66,12 +67,10 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
     }
   )
 
-  const isSuccess =
-    isInternalMemorySuccess && isExternalMemorySuccess && isEntitiesSuccess
+  const isConfigSuccess = isInternalMemorySuccess && isExternalMemorySuccess
   const isLoading =
     isInternalMemoryLoading || isExternalMemoryLoading || isEntitiesLoading
-  const isError =
-    isInternalMemoryError || isExternalMemoryError || isEntitiesError
+  const isConfigError = isInternalMemoryError || isExternalMemoryError
 
   const refetch = useCallback(async () => {
     await refetchInternalMemory()
@@ -80,14 +79,8 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
   }, [refetchEntities, refetchExternalMemory, refetchInternalMemory])
 
   const data = useMemo(() => {
-    if (!isSuccess) {
-      return {
-        categories: [],
-        segments: [],
-        freeSpaceBytes: 0,
-        usedSpaceBytes: 0,
-        otherSpaceBytes: 0,
-      }
+    if (!isConfigSuccess) {
+      return deviceManageFilesEmptyData
     }
     if (feature === DeviceManageFileFeature.Internal) {
       return mapDeviceToManageFiles({
@@ -100,13 +93,15 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
         entitiesCountData: entitiesData,
       })
     }
-  }, [entitiesData, externalMemory, feature, internalMemory, isSuccess])
+  }, [entitiesData, externalMemory, feature, internalMemory, isConfigSuccess])
 
   return {
     data,
     isLoading,
-    isError,
-    isSuccess,
+    isConfigError,
+    isConfigSuccess,
+    isEntitiesError,
+    isEntitiesSuccess,
     progress,
     refetch,
   }

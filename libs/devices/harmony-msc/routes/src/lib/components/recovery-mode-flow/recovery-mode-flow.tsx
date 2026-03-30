@@ -28,6 +28,7 @@ import {
   RECOVERING_STATE,
   recoveryModeFlowProgressMessageMap,
 } from "./recovery-mode-flow-utils"
+import { AppSerialPort, useDeviceFreezer } from "app-serialport/renderer"
 
 interface Props {
   opened: boolean
@@ -38,6 +39,7 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
   opened,
   onClose,
 }) => {
+  const { unfreeze } = useDeviceFreezer()
   const [flowState, setFlowState] = useState<HarmonyMscProcessState>(
     HarmonyMscProcessState.Idle
   )
@@ -66,6 +68,8 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
     ) {
       setFlowState(HarmonyMscProcessState.Failed)
     }
+
+    AppSerialPort.reset()
   }, [])
 
   const clearState = useCallback(() => {
@@ -75,9 +79,18 @@ export const RecoveryModeFlow: FunctionComponent<Props> = ({
 
   const handleClose = useCallback(() => {
     abortControllerRef.current.abort()
+    if (activeHarmony) {
+      unfreeze(activeHarmony)
+    }
     clearState()
     onClose()
-  }, [clearState, onClose])
+  }, [activeHarmony, clearState, onClose, unfreeze])
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current.abort()
+    }
+  }, [])
 
   useEffect(() => {
     if (!(opened && activeHarmony)) {

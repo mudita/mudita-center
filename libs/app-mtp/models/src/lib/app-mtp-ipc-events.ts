@@ -4,6 +4,7 @@
  */
 
 export enum AppMtpIpcEvents {
+  PrepareMtpEnvironment = "app-mtp:prepare-mtp-environment",
   GetMtpDeviceId = "app-mtp:get-mtp-device-id",
   GetDeviceStorages = "app-mtp:get-device-storages",
   StartTransferFile = "app-mtp:start-transfer-file",

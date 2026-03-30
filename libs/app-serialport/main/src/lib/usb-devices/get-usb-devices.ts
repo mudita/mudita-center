@@ -4,7 +4,7 @@
  */
 
 import { PortInfo } from "@serialport/bindings-interface"
-import { MacosUSBPortDeviceParser } from "./macos-usb-port-device-parser"
+import { MacosUSBPortDeviceParser } from "app-serialport/devices"
 import { LinuxUSBPortDeviceParser } from "./linux-usb-port-device-parser"
 import { WindowsUSBPortDeviceParser } from "./windows-usb-port-device-parser"
 

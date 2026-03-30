@@ -4,9 +4,11 @@
  */
 
 import {
-  ExecuteTransferResult, FailedTransferItem,
+  ExecuteTransferResult,
+  FailedTransferItem,
   TransferDownloadFilesToLocationEntry,
-  TransferDownloadFilesToLocationParams, TransferDownloadFilesToMemoryEntry,
+  TransferDownloadFilesToLocationParams,
+  TransferDownloadFilesToMemoryEntry,
   TransferDownloadFilesToMemoryParams,
 } from "devices/common/models"
 import { AppFileSystemGuardOptions, AppResultFactory } from "app-utils/models"

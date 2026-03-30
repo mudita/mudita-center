@@ -5,30 +5,24 @@
 
 import { useCallback, useRef, useState } from "react"
 import {
-  ExecuteTransferResult,
   FailedTransferItem,
   TransferFilesActionType,
   TransferMode,
 } from "devices/common/models"
 import { FileManagerFile } from "../../manage-files.types"
+import { UseManageFilesTransferFlowArgs } from "./use-manage-files-transfer-flow"
 
-export interface UseManageFilesTransferFlowArgs {
-  transferFiles: (params: {
-    actionType: TransferFilesActionType
-    files: FileManagerFile[]
-    onProgress?: (progress: {
-      progress: number
-      file?: FileManagerFile
-    }) => void
-    onModeChange?: (mode: TransferMode) => void
-    abortController: AbortController
-  }) => Promise<ExecuteTransferResult>
+interface UseManageFilesDownloadFlowArgs {
+  transferFiles: UseManageFilesTransferFlowArgs["transferFiles"]
 }
 
 export const useManageFilesDownloadFlow = ({
   transferFiles,
-}: UseManageFilesTransferFlowArgs): {
-  transfer: (files: FileManagerFile[]) => Promise<{
+}: UseManageFilesDownloadFlowArgs): {
+  transfer: (
+    files: FileManagerFile[],
+    directory: string
+  ) => Promise<{
     failed: FailedTransferItem[]
   }>
   abortTransfer: () => void
@@ -49,7 +43,7 @@ export const useManageFilesDownloadFlow = ({
   }, [])
 
   const transfer = useCallback(
-    async (files: FileManagerFile[]) => {
+    async (files: FileManagerFile[], directory: string) => {
       setProgress(0)
       setCurrentFile(null)
       abortControllerRef.current = new AbortController()
@@ -57,6 +51,7 @@ export const useManageFilesDownloadFlow = ({
       const result = await transferFiles({
         actionType: TransferFilesActionType.Download,
         files,
+        targetDirectoryPath: directory,
         abortController: abortControllerRef.current,
         onProgress: ({ progress, file }) => {
           setProgress(progress)

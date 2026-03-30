@@ -7,6 +7,8 @@ import { z } from "zod"
 
 export const OutboxRequestValidator = z.undefined().optional()
 
+export type OutboxRequest = z.infer<typeof OutboxRequestValidator>
+
 const detailedEntitySchema = z.object({
   entityType: z.string(),
   entityId: z.string(),
@@ -28,3 +30,11 @@ export const OutboxResponseValidator = z.object({
 export type OutboxResponse = z.infer<typeof OutboxResponseValidator>
 export type DetailedOutboxEntity = z.infer<typeof detailedEntitySchema>
 export type SimpleOutboxEntity = z.infer<typeof simpleEntitySchema>
+
+export const buildOutboxGetRequest = (req?: OutboxRequest) => {
+  return {
+    endpoint: "OUTBOX",
+    method: "GET",
+    body: req,
+  } as const
+}

@@ -1229,3 +1229,59 @@ describe("transferFiles - error propagation", () => {
     executeTransferSpy.mockRestore()
   })
 })
+
+describe("transferFiles - MTP watcher behavior", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  test("MTP watcher starts when transfer mode is Serial and autoSwitchMTPMax > 0", async () => {
+    ;(serialUploadFiles as jest.Mock).mockResolvedValue(
+      AppResultFactory.success({})
+    )
+
+    const watcherStart = jest.fn()
+    const watcherStop = jest.fn()
+    const watcherFactory = () => ({
+      start: watcherStart,
+      stop: watcherStop,
+    })
+
+    const params = makeParams({
+      transferMode: TransferMode.Serial,
+      action: TransferFilesActionType.Upload,
+      autoSwitchMTPMax: 1,
+    })
+
+    const result = await transferFiles(params, watcherFactory)
+
+    expect(result.ok).toBe(true)
+    expect(watcherStart).toHaveBeenCalledTimes(1)
+    expect(watcherStop).toHaveBeenCalledTimes(1)
+  })
+
+  test("MTP watcher does not start when transfer mode is Serial and autoSwitchMTPMax is 0", async () => {
+    ;(serialUploadFiles as jest.Mock).mockResolvedValue(
+      AppResultFactory.success({})
+    )
+
+    const watcherStart = jest.fn()
+    const watcherStop = jest.fn()
+    const watcherFactory = () => ({
+      start: watcherStart,
+      stop: watcherStop,
+    })
+
+    const params = makeParams({
+      transferMode: TransferMode.Serial,
+      action: TransferFilesActionType.Upload,
+      autoSwitchMTPMax: 0,
+    })
+
+    const result = await transferFiles(params, watcherFactory)
+
+    expect(result.ok).toBe(true)
+    expect(watcherStart).not.toHaveBeenCalled()
+    expect(watcherStop).toHaveBeenCalledTimes(1)
+  })
+})

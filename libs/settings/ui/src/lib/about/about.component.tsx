@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import {
   Data,
   SettingsActionsWrapper,
@@ -18,11 +18,10 @@ import {
   ButtonSize,
   ButtonTextModifier,
   ButtonType,
-  LegacyButtonDisplayStyle,
   TextDisplayStyle,
 } from "app-theme/models"
-import { defineMessages, formatMessage } from "app-localize/utils"
-import { Button, LegacyButton, LegacyText } from "app-theme/ui"
+import { defineMessages } from "app-localize/utils"
+import { Button, LegacyText } from "app-theme/ui"
 import { backgroundColor, borderColor, borderRadius } from "app-theme/utils"
 import { AppLegalPaths } from "app-routing/models"
 
@@ -51,29 +50,6 @@ const AboutAvailableUpdate = styled(LegacyText)`
   border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("minor")};
   margin-right: 1.6rem;
-`
-
-const rotateAnimation = css`
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  animation: rotate 1s infinite ease-in-out;
-`
-
-const AboutUpdateButtonStyled = styled(LegacyButton)<{ $updating?: boolean }>`
-  min-width: 17.6rem;
-  display: flex;
-  width: auto;
-
-  svg {
-    ${({ $updating }) => $updating && rotateAnimation}
-  }
 `
 
 const messages = defineMessages({
@@ -151,13 +127,14 @@ export const About: FunctionComponent<AboutProps> = ({
               />
             )}
           </AboutAvailableUpdate>
-          <AboutUpdateButtonStyled
-            displayStyle={LegacyButtonDisplayStyle.Primary}
-            label={formatMessage(
+          <Button
+            type={ButtonType.Primary}
+            size={ButtonSize.Large}
+            message={
               appUpdateAvailable
-                ? messages.updateAvailableButton
-                : messages.updateCheckButton
-            )}
+                ? messages.updateAvailableButton.id
+                : messages.updateCheckButton.id
+            }
             onClick={
               appUpdateAvailable ? onProcessDownload : onAppUpdateAvailableCheck
             }

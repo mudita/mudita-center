@@ -68,3 +68,27 @@ export const DeleteRestoreRequestValidator = z.object({
 export const DeleteRestoreResponseValidator = emptyBodySchema
 
 export type DeleteRestoreRequest = z.input<typeof DeleteRestoreRequestValidator>
+
+export const buildPreRestoreRequest = (req: PreRestoreRequest) => {
+  return {
+    endpoint: "PRE_RESTORE",
+    method: "POST",
+    body: req,
+  } as const
+}
+
+export const buildRestorePostRequest = (req: RestoreRequest) => {
+  return {
+    endpoint: "RESTORE",
+    method: "POST",
+    body: req,
+  } as const
+}
+
+export const buildRestoreGetRequest = (req: RestoreRequest) => {
+  return {
+    endpoint: "RESTORE",
+    method: "GET",
+    body: req,
+  } as const
+}

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "types-preload"
+import type {} from "types-preload"
 import {
   SerialPortChangedDevices,
   SerialPortDeviceId,
@@ -20,9 +20,6 @@ export const AppSerialPort = {
   },
   getCurrentDevices: (): Promise<SerialPortDeviceInfo[]> => {
     return window.api.serialPort.getCurrentDevices()
-  },
-  changeBaudRate: async (id: SerialPortDeviceId, baudRate: number) => {
-    await window.api.serialPort.changeBaudRate(id, baudRate)
   },
   isCompatible: (
     device: Pick<SerialPortDeviceInfo, "deviceType">
@@ -51,5 +48,8 @@ export const AppSerialPort = {
   },
   isFrozen: (id: SerialPortDeviceId) => {
     return window.api.serialPort.isFrozen(id)
+  },
+  reset: (id?: SerialPortDeviceId) => {
+    window.api.serialPort.reset(id)
   },
 }

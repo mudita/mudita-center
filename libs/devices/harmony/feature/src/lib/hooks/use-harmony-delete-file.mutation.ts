@@ -7,12 +7,12 @@ import { useMutation } from "@tanstack/react-query"
 import { Harmony } from "devices/harmony/models"
 import { deleteHarmonyFile } from "../api/delete-harmony-file"
 
-const mutationFn = async (path: string, device?: Harmony) => {
+const mutationFn = async (id: string, device?: Harmony) => {
   if (!device) {
     throw new Error("No device provided for useHarmonyDeleteFileMutation")
   }
 
-  const response = await deleteHarmonyFile(path, device)
+  const response = await deleteHarmonyFile(id, device)
 
   if (response.ok) {
     return
@@ -23,7 +23,7 @@ const mutationFn = async (path: string, device?: Harmony) => {
 
 export const useHarmonyDeleteFileMutation = (device?: Harmony) => {
   return useMutation({
-    mutationFn: (path: string) => mutationFn(path, device),
+    mutationFn: (id: string) => mutationFn(id, device),
   })
 }
 

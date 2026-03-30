@@ -42,6 +42,7 @@ export interface ButtonLinkProps {
   to: LinkProps["to"]
   target?: LinkProps["target"] | "appWindow"
   onClick?: MouseEventHandler
+  end?: boolean
 }
 
 export interface ButtonDefaultProps {

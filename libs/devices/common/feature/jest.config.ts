@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "devices/common/feature",
   preset: "../../../../jest.preset.js",
   transform: {

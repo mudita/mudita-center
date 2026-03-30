@@ -33,6 +33,7 @@ export const FullscreenLayout: FunctionComponent<{
             icon={IconType.Close}
             size={IconSize.Big}
             onClick={onClose}
+            aria-label="Close"
           />
         )}
       </Header>

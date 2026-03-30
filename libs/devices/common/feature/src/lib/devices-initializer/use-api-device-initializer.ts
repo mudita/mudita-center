@@ -12,9 +12,12 @@ import {
   useDeviceStatusQuery,
 } from "../hooks"
 import { useCallback, useEffect, useRef } from "react"
-import { delay } from "app-utils/common"
+import { delay, platform } from "app-utils/common"
 import { useDeviceFreezer } from "app-serialport/renderer"
 import { performSystemAction, useOutboxQuery } from "devices/api-device/feature"
+
+const DEFAULT_CHUNK_SIZE_IN_BYTES = 14_336
+const DEFAULT_OUTBOX_EVENTS_COUNTER = 100
 
 export const useApiDeviceInitializer = (device: ApiDevice) => {
   const queryClient = useQueryClient()
@@ -70,8 +73,9 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
   useEffect(() => {
     void performSystemAction(device, {
       action: "serial-port-setup",
-      chunkSizeInBytes: 14_336 * 20,
-      outboxEventsCounter: 100 * 5,
+      // TODO: Increase chunk size factor when properly tested
+      chunkSizeInBytes: DEFAULT_CHUNK_SIZE_IN_BYTES * 1,
+      outboxEventsCounter: DEFAULT_OUTBOX_EVENTS_COUNTER * 5,
     })
   }, [device])
 
@@ -81,13 +85,13 @@ export const useApiDeviceInitializer = (device: ApiDevice) => {
 
   useEffect(() => {
     if (status === DeviceStatus.Locked) {
-      freeze(device, 3_000)
+      freeze(device, platform === "windows" ? 20_000 : 5_000)
     }
     if (status === DeviceStatus.Initialized) {
       clearTimeout(freezeTimeoutRef.current)
       freezeTimeoutRef.current = setTimeout(() => {
         unfreeze(device)
-      }, 3_000)
+      }, 1_000)
     }
   }, [device, freeze, menuFailureReason, status, unfreeze])
 }
