@@ -224,10 +224,15 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
           )
         )
       } else {
-        unselectAllFiles()
+        const currentSelectedFiles = getValues("selectedFiles")
+        const updatedSelectedFiles = { ...currentSelectedFiles }
+        allItems.forEach((item) => {
+          updatedSelectedFiles[item.id] = false
+        })
+        setValue("selectedFiles", updatedSelectedFiles)
       }
     },
-    [setValue, unselectAllFiles]
+    [setValue, getValues]
   )
 
   const finalizeTransferSuccess = useCallback(async () => {
