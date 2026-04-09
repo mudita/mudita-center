@@ -34,6 +34,7 @@ jobs:
           VITE_MICROSOFT_AUTH_CLIENT_ID: ${{ secrets.VITE_MICROSOFT_AUTH_CLIENT_ID }}
           VITE_ANALYTICS_ENABLED: ${{ secrets.VITE_ANALYTICS_ENABLED }}
           VITE_ANALYTICS_API_SITE_ID: ${{ secrets.VITE_ANALYTICS_API_SITE_ID }}
+          VITE_ANALYTICS_API_URL: ${{ secrets.VITE_ANALYTICS_API_URL }}
           ENABLE_DEVTOOLS: ${{ secrets.ENABLE_DEVTOOLS }}
           CI: true
         shell: cmd
@@ -52,6 +53,7 @@ jobs:
           VITE_MICROSOFT_AUTH_CLIENT_ID: ${{ secrets.VITE_MICROSOFT_AUTH_CLIENT_ID }}
           VITE_ANALYTICS_ENABLED: ${{ secrets.VITE_ANALYTICS_ENABLED }}
           VITE_ANALYTICS_API_SITE_ID: ${{ secrets.VITE_ANALYTICS_API_SITE_ID }}
+          VITE_ANALYTICS_API_URL: ${{ secrets.VITE_ANALYTICS_API_URL }}
           ENABLE_DEVTOOLS: ${{ secrets.ENABLE_DEVTOOLS }}
           CI: true
         run: |
@@ -68,6 +70,7 @@ jobs:
           VITE_MICROSOFT_AUTH_CLIENT_ID: ${{ secrets.VITE_MICROSOFT_AUTH_CLIENT_ID }}
           VITE_ANALYTICS_ENABLED: ${{ secrets.VITE_ANALYTICS_ENABLED }}
           VITE_ANALYTICS_API_SITE_ID: ${{ secrets.VITE_ANALYTICS_API_SITE_ID }}
+          VITE_ANALYTICS_API_URL: ${{ secrets.VITE_ANALYTICS_API_URL }}
           ENABLE_DEVTOOLS: ${{ secrets.ENABLE_DEVTOOLS }}
           CI: true
         run: |
