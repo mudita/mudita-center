@@ -1,0 +1,10 @@
+{
+  "id": "fedora-mixed",
+  "platform": "linux",
+  "groupsOutput": "fedorauser wheel dialout uucp",
+  "getentGroupOutput": "dialout:x:18:fedorauser\nuucp:x:14:fedorauser",
+  "serialDevicesOutput": "crw-rw---- 1 root dialout 166, 0 May 12 10:00 /dev/ttyACM0",
+  "expectedClassification": "hasAccess",
+  "currentServiceHasAccess": true,
+  "notes": "Fedora-like mixed group state. Current service succeeds because dialout is present, even though future logic should use the actual device owner group."
+}

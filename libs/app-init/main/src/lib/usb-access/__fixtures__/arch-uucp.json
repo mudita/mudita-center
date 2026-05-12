@@ -1,0 +1,10 @@
+{
+  "id": "arch-uucp",
+  "platform": "linux",
+  "groupsOutput": "archuser uucp",
+  "getentGroupOutput": "uucp:x:987:archuser",
+  "serialDevicesOutput": "crw-rw---- 1 root uucp 166, 0 May 12 10:00 /dev/ttyACM0",
+  "expectedClassification": "hasAccess",
+  "currentServiceHasAccess": false,
+  "notes": "Arch-style serial access through uucp. Current service checks only dialout, so this fixture documents the known detection bug."
+}
