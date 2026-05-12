@@ -25,8 +25,8 @@ type UsbAccessFixture = {
   serialDevicesOutput: string
   execCommandWithSudoError?: string
   expectedClassification: string
-  currentServiceHasAccess: boolean
-  currentServiceGrantAccess?: string
+  expectedServiceHasAccess: boolean | null
+  expectedServiceGrantAccess?: string
   notes: string
 }
 
@@ -61,24 +61,35 @@ describe("UsbAccessService environment fixtures", () => {
   })
 
   it.each(fixtures)(
-    "$id maps fixture groups to current hasSerialPortAccess result",
+    "$id maps fixture environment to hasSerialPortAccess result",
     async (fixture) => {
       setPlatform(fixture.platform as NodeJS.Platform)
-      // Current UsbAccessService only reads `groups`. The remaining fixture
-      // fields are a future contract for R1/R2/R5 helper-level tests.
-      ;(execPromise as jest.Mock).mockResolvedValue(fixture.groupsOutput)
+      mockExecPromiseFromFixture(fixture)
 
       const result = await service.hasSerialPortAccess()
 
       expect(execPromise).toHaveBeenCalledWith("groups")
+      expect(execPromise).toHaveBeenCalledWith(
+        "ls -l /dev/ttyACM* /dev/ttyUSB* 2>/dev/null || true"
+      )
+
+      if (fixture.expectedServiceHasAccess === null) {
+        expect(result.ok).toBe(false)
+        return
+      }
+
       expect(result).toEqual({
         ok: true,
-        data: fixture.currentServiceHasAccess,
+        data: fixture.expectedServiceHasAccess,
       })
     }
   )
 
   it("documents current grant failure mapping for the NixOS/AppImage prompt fixture", async () => {
+    mockExecPromiseFromFixture({
+      ...nixosAppimagePkexecMissingFixture,
+      groupsOutput: "nixosuser users",
+    })
     ;(execCommandWithSudo as jest.Mock).mockRejectedValue(
       new Error(nixosAppimagePkexecMissingFixture.execCommandWithSudoError)
     )
@@ -86,7 +97,7 @@ describe("UsbAccessService environment fixtures", () => {
     const result = await service.grantAccessToSerialPort()
 
     expect(execCommandWithSudo).toHaveBeenCalledWith(
-      "usermod -aG dialout $USER & usermod -aG uucp $USER",
+      "usermod -aG dialout $USER",
       {
         name: "User Serial Port Access",
         title: "Mudita Center: assign serial port access",
@@ -95,3 +106,30 @@ describe("UsbAccessService environment fixtures", () => {
     expect(result.ok).toBe(false)
   })
 })
+
+const mockExecPromiseFromFixture = (fixture: UsbAccessFixture): void => {
+  ;(execPromise as jest.Mock).mockImplementation((command: string) => {
+    if (command === "groups") {
+      return Promise.resolve(fixture.groupsOutput)
+    }
+
+    if (command === "ls -l /dev/ttyACM* /dev/ttyUSB* 2>/dev/null || true") {
+      return Promise.resolve(fixture.serialDevicesOutput)
+    }
+
+    if (command.startsWith("getent group ")) {
+      const group = command.replace("getent group ", "")
+      const groupLine = fixture.getentGroupOutput
+        ?.split("\n")
+        .find((line) => line.startsWith(`${group}:`))
+
+      if (groupLine) {
+        return Promise.resolve(groupLine)
+      }
+
+      return Promise.reject(new Error(`Group not found: ${group}`))
+    }
+
+    return Promise.reject(new Error(`Unexpected command: ${command}`))
+  })
+}

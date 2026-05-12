@@ -6,6 +6,6 @@
   "lsusbOutput": "",
   "serialDevicesOutput": "",
   "expectedClassification": "hardwareLevelMissing",
-  "currentServiceHasAccess": false,
+  "expectedServiceHasAccess": null,
   "notes": "Framework-style hardware-level missing case. Future diagnostics should classify the lack of USB/serial evidence separately from permissions."
 }
