@@ -34,7 +34,7 @@ describe("UsbAccessService", () => {
   })
 
   describe("hasSerialPortAccess", () => {
-    it("S1 returns success true on non-Linux", async () => {
+    it("returns success when platform is not Linux", async () => {
       setPlatform("darwin")
 
       const result = await service.hasSerialPortAccess()
@@ -43,7 +43,7 @@ describe("UsbAccessService", () => {
       expect(execPromise).not.toHaveBeenCalled()
     })
 
-    it("S2 returns success true on Linux when user belongs to dialout", async () => {
+    it("returns success when Linux user belongs to dialout group", async () => {
       setPlatform("linux")
       ;(execPromise as jest.Mock).mockResolvedValue("user dialout")
 
@@ -53,7 +53,7 @@ describe("UsbAccessService", () => {
       expect(result).toEqual({ ok: true, data: true })
     })
 
-    it("S3 returns success true on Linux when user belongs to uucp", async () => {
+    it("returns success when Linux user belongs to uucp group", async () => {
       setPlatform("linux")
       ;(execPromise as jest.Mock).mockResolvedValue("user uucp")
 
@@ -63,7 +63,7 @@ describe("UsbAccessService", () => {
       expect(result).toEqual({ ok: true, data: true })
     })
 
-    it("S4 returns failed result when groups command fails", async () => {
+    it("returns failed result when groups command fails", async () => {
       setPlatform("linux")
       ;(execPromise as jest.Mock).mockRejectedValue(new Error("groups failed"))
 
@@ -75,7 +75,7 @@ describe("UsbAccessService", () => {
   })
 
   describe("grantAccessToSerialPort", () => {
-    it("S5 returns success and grants the detected serial device owner group", async () => {
+    it("grants existing serial port group when user is missing it", async () => {
       ;(execPromise as jest.Mock).mockImplementation((command: string) => {
         if (command === "groups") {
           return Promise.resolve("user")
@@ -102,7 +102,7 @@ describe("UsbAccessService", () => {
       expect(result).toEqual({ ok: true, data: {} })
     })
 
-    it("S6 returns failed result when grant command fails", async () => {
+    it("returns failed result when grant command fails", async () => {
       ;(execPromise as jest.Mock).mockImplementation((command: string) => {
         if (command === "groups") {
           return Promise.resolve("user")
@@ -177,8 +177,8 @@ describe("UsbAccessService", () => {
     })
   })
 
-  describe("target Linux USB permission behavior for R1/R2", () => {
-    it("T1 returns success true when user belongs to the serial device owner group uucp", async () => {
+  describe("serial port group allowlist", () => {
+    it("returns success when user belongs to uucp group", async () => {
       setPlatform("linux")
       ;(execPromise as jest.Mock).mockResolvedValue("user uucp")
 
@@ -187,7 +187,7 @@ describe("UsbAccessService", () => {
       expect(result).toEqual({ ok: true, data: true })
     })
 
-    it("T2 grants only uucp when dialout does not exist", async () => {
+    it("grants only uucp when dialout group does not exist", async () => {
       ;(execPromise as jest.Mock).mockImplementation((command: string) => {
         if (command === "groups") {
           return Promise.resolve("user")
@@ -214,7 +214,7 @@ describe("UsbAccessService", () => {
       expect(result).toEqual({ ok: true, data: {} })
     })
 
-    it("T3 returns a clear failed result without running an invalid grant command when no relevant group exists", async () => {
+    it("does not run grant command when no serial port groups exist", async () => {
       ;(execPromise as jest.Mock).mockImplementation((command: string) => {
         if (command === "groups") {
           return Promise.resolve("user")
@@ -236,9 +236,5 @@ describe("UsbAccessService", () => {
         expect(result.error.name).toBe("SerialPortGroupsNotFound")
       }
     })
-
-    it.todo(
-      "T4 handles multiple serial devices by choosing a Mudita-related node or returning an ambiguous state"
-    )
   })
 })

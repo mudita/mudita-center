@@ -6,7 +6,6 @@
 import { execCommandWithSudo, execPromise } from "app-utils/main"
 import archUucpFixture from "./__fixtures__/arch-uucp.json"
 import fedoraMixedFixture from "./__fixtures__/fedora-mixed.json"
-import frameworkNoLsusbFixture from "./__fixtures__/framework-no-lsusb.json"
 import nixosAppimagePkexecMissingFixture from "./__fixtures__/nixos-appimage-pkexec-missing.json"
 import ubuntuDialoutFixture from "./__fixtures__/ubuntu-dialout.json"
 import { UsbAccessService } from "./usb-access.service"
@@ -81,7 +80,7 @@ describe("UsbAccessService environment fixtures", () => {
     }
   )
 
-  it("documents current grant failure mapping for the NixOS/AppImage prompt fixture", async () => {
+  it("maps authorization prompt failures to prompt unavailable error", async () => {
     ;(execPromise as jest.Mock).mockImplementation((command: string) => {
       if (command === "groups") {
         return Promise.resolve("nixosuser users")
@@ -112,8 +111,4 @@ describe("UsbAccessService environment fixtures", () => {
       expect(result.error.name).toBe("AuthorizationPromptUnavailable")
     }
   })
-
-  it.todo(
-    `${frameworkNoLsusbFixture.id} classifies hardware-level missing devices outside the known serial group check`
-  )
 })
