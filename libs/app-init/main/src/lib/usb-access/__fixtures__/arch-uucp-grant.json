@@ -1,0 +1,15 @@
+{
+  "id": "arch-uucp-grant",
+  "platform": "linux",
+  "groupsOutput": "mc_none",
+  "getentGroupOutputs": {
+    "uucp": "uucp:x:984:"
+  },
+  "expected": {
+    "hasAccess": false,
+    "grant": {
+      "ok": true,
+      "command": "usermod -aG uucp $USER"
+    }
+  }
+}

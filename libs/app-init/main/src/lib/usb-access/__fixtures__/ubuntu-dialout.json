@@ -2,9 +2,7 @@
   "id": "ubuntu-dialout",
   "platform": "linux",
   "groupsOutput": "ubuntuuser adm cdrom sudo dip plugdev users dialout",
-  "getentGroupOutput": "dialout:x:20:ubuntuuser",
-  "serialDevicesOutput": "crw-rw---- 1 root dialout 166, 0 May 12 10:00 /dev/ttyACM0",
-  "expectedClassification": "hasAccess",
-  "expectedServiceHasAccess": true,
-  "notes": "Ubuntu happy path where dialout exists, owns the serial device node, and the user is already a member."
+  "expected": {
+    "hasAccess": true
+  }
 }

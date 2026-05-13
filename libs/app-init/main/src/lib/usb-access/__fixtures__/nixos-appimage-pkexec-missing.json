@@ -1,12 +1,17 @@
 {
   "id": "nixos-appimage-pkexec-missing",
   "platform": "linux",
-  "groupsOutput": "nixosuser users dialout",
-  "getentGroupOutput": "dialout:x:18:",
-  "serialDevicesOutput": "crw-rw---- 1 root dialout 166, 0 May 12 10:00 /dev/ttyACM0",
+  "groupsOutput": "nixosuser users",
+  "getentGroupOutputs": {
+    "dialout": "dialout:x:18:"
+  },
   "execCommandWithSudoError": "pkexec authentication agent unavailable",
-  "expectedClassification": "promptUnavailable",
-  "expectedServiceHasAccess": true,
-  "expectedServiceGrantAccess": "failed",
-  "notes": "NixOS/AppImage-style prompt failure. This fixture is for the future fallback path while current service only maps the sudo command error to a failed AppResult."
+  "expected": {
+    "hasAccess": false,
+    "grant": {
+      "ok": false,
+      "command": "usermod -aG dialout $USER",
+      "error": "AuthorizationPromptUnavailable"
+    }
+  }
 }

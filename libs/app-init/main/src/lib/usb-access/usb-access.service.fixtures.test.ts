@@ -5,9 +5,13 @@
 
 import { execCommandWithSudo, execPromise } from "app-utils/main"
 import archUucpFixture from "./__fixtures__/arch-uucp.json"
+import archUucpGrantFixture from "./__fixtures__/arch-uucp-grant.json"
+import fedoraDialoutFixture from "./__fixtures__/fedora-dialout.json"
 import fedoraMixedFixture from "./__fixtures__/fedora-mixed.json"
 import nixosAppimagePkexecMissingFixture from "./__fixtures__/nixos-appimage-pkexec-missing.json"
+import noAllowlistGroupsFixture from "./__fixtures__/no-allowlist-groups.json"
 import ubuntuDialoutFixture from "./__fixtures__/ubuntu-dialout.json"
+import ubuntuDebianGrantFixture from "./__fixtures__/ubuntu-debian-grant.json"
 import { UsbAccessService } from "./usb-access.service"
 
 jest.mock("app-utils/main", () => ({
@@ -19,22 +23,30 @@ type UsbAccessFixture = {
   id: string
   platform: string
   groupsOutput: string
-  getentGroupOutput?: string
-  lsusbOutput?: string
-  serialDevicesOutput: string
+  getentGroupOutputs?: Partial<Record<"dialout" | "uucp", string>>
   execCommandWithSudoError?: string
-  expectedClassification: string
-  expectedServiceHasAccess: boolean | null
-  expectedServiceGrantAccess?: string
-  notes: string
+  expected: {
+    hasAccess: boolean
+    grant?: {
+      ok: boolean
+      command?: string
+      error?: string
+    }
+  }
 }
 
 const fixtures: UsbAccessFixture[] = [
   archUucpFixture,
+  archUucpGrantFixture,
+  fedoraDialoutFixture,
+  nixosAppimagePkexecMissingFixture,
+  noAllowlistGroupsFixture,
+  ubuntuDebianGrantFixture,
   ubuntuDialoutFixture,
   fedoraMixedFixture,
-  nixosAppimagePkexecMissingFixture,
 ]
+
+const grantFixtures = fixtures.filter((fixture) => fixture.expected.grant)
 
 const originalPlatform = process.platform
 
@@ -68,47 +80,71 @@ describe("UsbAccessService environment fixtures", () => {
 
       expect(execPromise).toHaveBeenCalledWith("groups")
 
-      if (fixture.expectedServiceHasAccess === null) {
-        expect(result).toEqual({ ok: true, data: false })
-        return
-      }
-
       expect(result).toEqual({
         ok: true,
-        data: fixture.expectedServiceHasAccess,
+        data: fixture.expected.hasAccess,
       })
     }
   )
 
-  it("maps authorization prompt failures to prompt unavailable error", async () => {
-    ;(execPromise as jest.Mock).mockImplementation((command: string) => {
-      if (command === "groups") {
-        return Promise.resolve("nixosuser users")
-      }
-      if (command === "getent group dialout") {
-        return Promise.resolve(nixosAppimagePkexecMissingFixture.getentGroupOutput)
-      }
-      if (command === "getent group uucp") {
-        return Promise.reject(new Error("group not found"))
-      }
-      return Promise.reject(new Error(`Unexpected command: ${command}`))
-    })
-    ;(execCommandWithSudo as jest.Mock).mockRejectedValue(
-      new Error(nixosAppimagePkexecMissingFixture.execCommandWithSudoError)
-    )
+  it.each(grantFixtures)(
+    "$id maps fixture grant scenario to expected service result",
+    async (fixture) => {
+      setPlatform(fixture.platform as NodeJS.Platform)
+      ;(execPromise as jest.Mock).mockImplementation((command: string) => {
+        if (command === "groups") {
+          return Promise.resolve(fixture.groupsOutput)
+        }
 
-    const result = await service.grantAccessToSerialPort()
+        if (command === "getent group dialout") {
+          const dialout = fixture.getentGroupOutputs?.dialout
+          return dialout
+            ? Promise.resolve(dialout)
+            : Promise.reject(new Error("group not found"))
+        }
 
-    expect(execCommandWithSudo).toHaveBeenCalledWith(
-      "usermod -aG dialout $USER",
-      {
-        name: "User Serial Port Access",
-        title: "Mudita Center: assign serial port access",
+        if (command === "getent group uucp") {
+          const uucp = fixture.getentGroupOutputs?.uucp
+          return uucp
+            ? Promise.resolve(uucp)
+            : Promise.reject(new Error("group not found"))
+        }
+
+        return Promise.reject(new Error(`Unexpected command: ${command}`))
+      })
+
+      if (fixture.execCommandWithSudoError) {
+        ;(execCommandWithSudo as jest.Mock).mockRejectedValue(
+          new Error(fixture.execCommandWithSudoError)
+        )
+      } else {
+        ;(execCommandWithSudo as jest.Mock).mockResolvedValue(undefined)
       }
-    )
-    expect(result.ok).toBe(false)
-    if (!result.ok) {
-      expect(result.error.name).toBe("AuthorizationPromptUnavailable")
+
+      const result = await service.grantAccessToSerialPort()
+      const expectedGrant = fixture.expected.grant
+
+      if (expectedGrant?.command) {
+        expect(execCommandWithSudo).toHaveBeenCalledWith(
+          expectedGrant.command,
+          {
+            name: "User Serial Port Access",
+            title: "Mudita Center: assign serial port access",
+          }
+        )
+      } else {
+        expect(execCommandWithSudo).not.toHaveBeenCalled()
+      }
+
+      if (expectedGrant?.ok) {
+        expect(result).toEqual({ ok: true, data: {} })
+        return
+      }
+
+      expect(result.ok).toBe(false)
+      if (!result.ok && expectedGrant?.error) {
+        expect(result.error.name).toBe(expectedGrant.error)
+      }
     }
-  })
+  )
 })
