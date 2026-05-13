@@ -12,6 +12,7 @@ import { UsbAccessGrantedModal } from "./usb-access-granted-modal"
 import { UsbAccessRestartRequiredModal } from "./usb-access-restart-required-modal"
 import { UsbAccessRequestCancelledModal } from "./usb-access-request-cancelled-modal"
 import { UsbAccessProcessingModal } from "./usb-access-processing-modal"
+import { UsbAccessPromptFailureModal } from "./usb-access-prompt-failure-modal"
 
 const Decorator = styled.div`
   width: 100%;
@@ -167,4 +168,34 @@ export const UsbAccessRequestCancelled: StoryObj<
       }),
   },
   render: (args) => <UsbAccessRequestCancelledModal {...args} />,
+}
+
+export const UsbAccessPromptFailure: StoryObj<
+  typeof UsbAccessPromptFailureModal
+> = {
+  name: "Prompt Failure Modal",
+  args: {
+    opened: true,
+  },
+  argTypes: {
+    onClose: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the close button."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+    onAction: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the action button. It receives information whether prompt failure modal should be suppressed."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+  },
+  render: (args) => <UsbAccessPromptFailureModal {...args} />,
 }

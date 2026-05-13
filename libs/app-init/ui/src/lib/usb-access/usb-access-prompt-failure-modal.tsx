@@ -11,9 +11,14 @@ import {
 } from "react"
 import { defineMessages } from "react-intl"
 import { formatMessage } from "app-localize/utils"
-import { ButtonType, IconType, ModalLayer, ModalSize } from "app-theme/models"
-import { Button, Checkbox, Modal, Typography } from "app-theme/ui"
-import { UsbAccessTestIds } from "app-init/models"
+import { ButtonType, IconType } from "app-theme/models"
+import {
+  Button,
+  Checkbox,
+  CloseVariant,
+  GenericInfoModal,
+  Modal,
+} from "app-theme/ui"
 
 const messages = defineMessages({
   title: {
@@ -54,28 +59,22 @@ export const UsbAccessPromptFailureModal: FunctionComponent<Props> = ({
   }, [onAction, suppressPromptFailureModal])
 
   return (
-    <Modal opened={opened} layer={ModalLayer.UsbAccess} size={ModalSize.Small}>
-      <Modal.TitleIcon type={IconType.Failed} />
-      <Modal.Title>{formatMessage(messages.title)}</Modal.Title>
-      <Modal.CloseButton onClick={onClose} />
-      <Typography.P1 data-testid={UsbAccessTestIds.PromptFailureModalDescription}>
-        {formatMessage(messages.description)}
-      </Typography.P1>
-      <Checkbox
-        data-testid={UsbAccessTestIds.PromptFailureModalCheckbox}
-        onChange={handleCheckboxChange}
-      >
+    <GenericInfoModal
+      opened={opened}
+      title={formatMessage(messages.title)}
+      iconType={IconType.Failed}
+      closeVariant={CloseVariant.Icon}
+      onClose={onClose}
+      description={formatMessage(messages.description)}
+    >
+      <Checkbox onChange={handleCheckboxChange}>
         {formatMessage(messages.checkboxText)}
       </Checkbox>
       <Modal.Buttons>
-        <Button
-          data-testid={UsbAccessTestIds.PromptFailureModalButton}
-          type={ButtonType.Primary}
-          onClick={handleAction}
-        >
+        <Button type={ButtonType.Primary} onClick={handleAction}>
           {formatMessage(messages.buttonText)}
         </Button>
       </Modal.Buttons>
-    </Modal>
+    </GenericInfoModal>
   )
 }
