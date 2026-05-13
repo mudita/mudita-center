@@ -21,11 +21,17 @@ import {
 } from "app-theme/ui"
 
 const messages = defineMessages({
-  title: {
+  authorizationPromptUnavailableTitle: {
     id: "general.usbAccess.promptFailureModal.title",
   },
-  description: {
+  authorizationPromptUnavailableDescription: {
     id: "general.usbAccess.promptFailureModal.description",
+  },
+  serialPortGroupsNotFoundTitle: {
+    id: "general.usbAccess.serialPortGroupsNotFoundModal.title",
+  },
+  serialPortGroupsNotFoundDescription: {
+    id: "general.usbAccess.serialPortGroupsNotFoundModal.description",
   },
   checkboxText: {
     id: "general.usbAccess.promptFailureModal.checkboxText",
@@ -35,14 +41,31 @@ const messages = defineMessages({
   },
 })
 
+export type UsbAccessPromptFailureModalVariant =
+  | "authorizationPromptUnavailable"
+  | "serialPortGroupsNotFound"
+
+const variantMessages = {
+  authorizationPromptUnavailable: {
+    title: messages.authorizationPromptUnavailableTitle,
+    description: messages.authorizationPromptUnavailableDescription,
+  },
+  serialPortGroupsNotFound: {
+    title: messages.serialPortGroupsNotFoundTitle,
+    description: messages.serialPortGroupsNotFoundDescription,
+  },
+}
+
 interface Props {
   opened: boolean
+  variant: UsbAccessPromptFailureModalVariant
   onClose: VoidFunction
   onAction: (suppressPromptFailureModal: boolean) => void
 }
 
 export const UsbAccessPromptFailureModal: FunctionComponent<Props> = ({
   opened,
+  variant,
   onClose,
   onAction,
 }) => {
@@ -58,14 +81,16 @@ export const UsbAccessPromptFailureModal: FunctionComponent<Props> = ({
     onAction(suppressPromptFailureModal)
   }, [onAction, suppressPromptFailureModal])
 
+  const selectedMessages = variantMessages[variant]
+
   return (
     <GenericInfoModal
       opened={opened}
-      title={formatMessage(messages.title)}
+      title={formatMessage(selectedMessages.title)}
       iconType={IconType.Failed}
       closeVariant={CloseVariant.Icon}
       onClose={onClose}
-      description={formatMessage(messages.description)}
+      description={formatMessage(selectedMessages.description)}
     >
       <Checkbox onChange={handleCheckboxChange}>
         {formatMessage(messages.checkboxText)}

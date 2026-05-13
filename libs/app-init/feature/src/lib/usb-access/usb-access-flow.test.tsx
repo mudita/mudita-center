@@ -71,10 +71,12 @@ jest.mock("app-init/ui", () => {
     UsbAccessGrantedModal: modal("usb-access-granted"),
     UsbAccessPromptFailureModal: ({
       opened,
+      variant,
       onAction,
       onClose,
     }: {
       opened: boolean
+      variant: string
       onAction: (suppressPromptFailureModal: boolean) => void
       onClose: VoidFunction
     }) => {
@@ -84,7 +86,10 @@ jest.mock("app-init/ui", () => {
 
       return React.createElement(
         "div",
-        { "data-testid": "usb-access-prompt-failure" },
+        {
+          "data-testid": "usb-access-prompt-failure",
+          "data-variant": variant,
+        },
         React.createElement("input", {
           "data-testid": "usb-access-prompt-failure-checkbox",
           type: "checkbox",
@@ -150,9 +155,7 @@ describe("UsbAccessFlow", () => {
     expect(screen.queryByTestId("usb-access-request")).toBeNull()
     expect(screen.queryByTestId("usb-access-granted")).toBeNull()
     expect(screen.queryByTestId("usb-access-cancelled")).toBeNull()
-    expect(
-      screen.queryByTestId("usb-access-restart-required")
-    ).toBeNull()
+    expect(screen.queryByTestId("usb-access-restart-required")).toBeNull()
   })
 
   it("opens request modal when access is missing and restart is not required", async () => {
@@ -211,8 +214,28 @@ describe("UsbAccessFlow", () => {
     fireEvent.click(await screen.findByTestId("usb-access-request-action"))
 
     expect(
-      await screen.findByTestId("usb-access-prompt-failure")
-    ).not.toBeNull()
+      (await screen.findByTestId("usb-access-prompt-failure")).getAttribute(
+        "data-variant"
+      )
+    ).toBe("authorizationPromptUnavailable")
+    expect(screen.queryByTestId("usb-access-cancelled")).toBeNull()
+  })
+
+  it("opens prompt failure modal when serial port groups are not found", async () => {
+    grantAccessToSerialPort.mockResolvedValue({
+      ok: false,
+      error: { name: "SerialPortGroupsNotFound" },
+    })
+
+    render(<UsbAccessFlow opened={true} onClose={onClose} />)
+
+    fireEvent.click(await screen.findByTestId("usb-access-request-action"))
+
+    expect(
+      (await screen.findByTestId("usb-access-prompt-failure")).getAttribute(
+        "data-variant"
+      )
+    ).toBe("serialPortGroupsNotFound")
     expect(screen.queryByTestId("usb-access-cancelled")).toBeNull()
   })
 
@@ -225,7 +248,9 @@ describe("UsbAccessFlow", () => {
     render(<UsbAccessFlow opened={true} onClose={onClose} />)
 
     fireEvent.click(await screen.findByTestId("usb-access-request-action"))
-    fireEvent.click(await screen.findByTestId("usb-access-prompt-failure-action"))
+    fireEvent.click(
+      await screen.findByTestId("usb-access-prompt-failure-action")
+    )
 
     await waitFor(() => {
       expect(mockAppSettingsSet).toHaveBeenCalledWith({
@@ -266,9 +291,7 @@ describe("UsbAccessFlow", () => {
     expect(screen.queryByTestId("usb-access-request")).toBeNull()
     expect(screen.queryByTestId("usb-access-granted")).toBeNull()
     expect(screen.queryByTestId("usb-access-cancelled")).toBeNull()
-    expect(
-      screen.queryByTestId("usb-access-restart-required")
-    ).toBeNull()
+    expect(screen.queryByTestId("usb-access-restart-required")).toBeNull()
   })
 
   it("does not open USB access modals when prompt failure was suppressed", () => {

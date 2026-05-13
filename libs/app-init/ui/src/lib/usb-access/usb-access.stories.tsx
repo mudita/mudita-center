@@ -170,14 +170,60 @@ export const UsbAccessRequestCancelled: StoryObj<
   render: (args) => <UsbAccessRequestCancelledModal {...args} />,
 }
 
-export const UsbAccessPromptFailure: StoryObj<
+export const UsbAccessAuthorizationPromptUnavailable: StoryObj<
   typeof UsbAccessPromptFailureModal
 > = {
-  name: "Prompt Failure Modal",
+  name: "Authorization Prompt Unavailable Modal",
   args: {
     opened: true,
+    variant: "authorizationPromptUnavailable",
   },
   argTypes: {
+    variant: storybookHelper
+      .addDescription("Defines which prompt failure copy should be displayed.")
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+    onClose: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the close button."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+    onAction: storybookHelper
+      .addDescription(
+        "Defines a function to be called when clicking the action button. It receives information whether prompt failure modal should be suppressed."
+      )
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
+  },
+  render: (args) => <UsbAccessPromptFailureModal {...args} />,
+}
+
+export const UsbAccessSerialPortGroupsNotFound: StoryObj<
+  typeof UsbAccessPromptFailureModal
+> = {
+  name: "Serial Port Groups Not Found Modal",
+  args: {
+    opened: true,
+    variant: "serialPortGroupsNotFound",
+  },
+  argTypes: {
+    variant: storybookHelper
+      .addDescription("Defines which prompt failure copy should be displayed.")
+      .apply({
+        control: {
+          disable: true,
+        },
+      }),
     onClose: storybookHelper
       .addDescription(
         "Defines a function to be called when clicking the close button."

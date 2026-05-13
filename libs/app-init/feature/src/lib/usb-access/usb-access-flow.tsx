@@ -5,10 +5,11 @@
 
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { AppSettings } from "app-settings/renderer"
+import type { UsbAccessPromptFailureModalVariant } from "app-init/ui"
 import {
   UsbAccessGrantedModal,
-  UsbAccessPromptFailureModal,
   UsbAccessProcessingModal,
+  UsbAccessPromptFailureModal,
   UsbAccessRequestCancelledModal,
   UsbAccessRequestModal,
   UsbAccessRestartRequiredModal,
@@ -26,8 +27,12 @@ enum UsbAccessFlowState {
   RestartRequired = "restart-required",
 }
 
-const AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR =
-  "AuthorizationPromptUnavailable"
+const USB_ACCESS_CONFIGURATION_ERROR_VARIANTS: Partial<
+  Record<string, UsbAccessPromptFailureModalVariant>
+> = {
+  AuthorizationPromptUnavailable: "authorizationPromptUnavailable",
+  SerialPortGroupsNotFound: "serialPortGroupsNotFound",
+}
 
 interface Props {
   opened: boolean
@@ -49,6 +54,10 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
   const [usbAccessFlowState, setUsbAccessFlowState] = useState(
     UsbAccessFlowState.Unknown
   )
+  const [promptFailureModalVariant, setPromptFailureModalVariant] =
+    useState<UsbAccessPromptFailureModalVariant>(
+      "authorizationPromptUnavailable"
+    )
 
   useEffect(() => {
     if (
@@ -85,14 +94,22 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
         system: { restartRequiredForSerialPortAccess: true },
       })
       setUsbAccessFlowState(UsbAccessFlowState.AccessGranted)
-    } else if (isAuthorizationPromptUnavailableError(result.error?.name)) {
+    } else {
+      const promptFailureVariant = getUsbAccessConfigurationErrorVariant(
+        result.error?.name
+      )
+
+      if (promptFailureVariant === undefined) {
+        setUsbAccessFlowState(UsbAccessFlowState.AccessCancelled)
+        return
+      }
+
       if (promptFailureSuppressed) {
         onClose()
       } else {
+        setPromptFailureModalVariant(promptFailureVariant)
         setUsbAccessFlowState(UsbAccessFlowState.PromptFailure)
       }
-    } else {
-      setUsbAccessFlowState(UsbAccessFlowState.AccessCancelled)
     }
   }, [grantAccessToSerialPort, onClose, promptFailureSuppressed])
 
@@ -142,6 +159,7 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
       />
       <UsbAccessPromptFailureModal
         opened={usbAccessFlowState === UsbAccessFlowState.PromptFailure}
+        variant={promptFailureModalVariant}
         onClose={onClose}
         onAction={handlePromptFailureModalAction}
       />
@@ -154,6 +172,12 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
   )
 }
 
-const isAuthorizationPromptUnavailableError = (errorName?: string): boolean => {
-  return errorName === AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR
+const getUsbAccessConfigurationErrorVariant = (
+  errorName?: string
+): UsbAccessPromptFailureModalVariant | undefined => {
+  if (!errorName) {
+    return undefined
+  }
+
+  return USB_ACCESS_CONFIGURATION_ERROR_VARIANTS[errorName]
 }
