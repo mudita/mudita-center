@@ -108,6 +108,9 @@ describe("UsbAccessService environment fixtures", () => {
       }
     )
     expect(result.ok).toBe(false)
+    if (!result.ok) {
+      expect(result.error.name).toBe("AuthorizationPromptUnavailable")
+    }
   })
 
   it.todo(

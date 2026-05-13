@@ -18,6 +18,7 @@ const INITIAL_MOCK_APP_SETTINGS: AppSettings = {
   system: {
     analyticsId: uniqueId(),
     restartRequiredForSerialPortAccess: false,
+    suppressUsbAccessPromptFailureModal: false,
   },
 }
 

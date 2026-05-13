@@ -10,4 +10,7 @@ export enum UsbAccessTestIds {
   GrantedModalButton = "usb-access-granted-modal-button",
   RequestCancelledModalDescription = "usb-access-request-cancelled-modal-description",
   RequestCancelledModalButton = "usb-access-request-cancelled-modal-button",
+  PromptFailureModalDescription = "usb-access-prompt-failure-modal-description",
+  PromptFailureModalCheckbox = "usb-access-prompt-failure-modal-checkbox",
+  PromptFailureModalButton = "usb-access-prompt-failure-modal-button",
 }

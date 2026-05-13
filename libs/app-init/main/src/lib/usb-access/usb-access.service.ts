@@ -12,6 +12,14 @@ import {
 } from "app-utils/models"
 
 const SERIAL_PORT_GROUPS = ["dialout", "uucp"]
+const AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR =
+  "AuthorizationPromptUnavailable"
+const AUTHORIZATION_PROMPT_UNAVAILABLE_PATTERNS = [
+  /authentication agent/i,
+  /pkexec/i,
+  /polkit/i,
+  /sudo-prompt/i,
+]
 
 export class UsbAccessService {
   async hasSerialPortAccess(): Promise<AppResult<boolean>> {
@@ -56,6 +64,15 @@ export class UsbAccessService {
       })
       return AppResultFactory.success()
     } catch (error) {
+      if (this.isAuthorizationPromptUnavailableError(error)) {
+        return AppResultFactory.failed(
+          new AppError(
+            this.getErrorMessage(error),
+            AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR
+          )
+        )
+      }
+
       return AppResultFactory.failed(mapToAppError(error))
     }
   }
@@ -106,5 +123,20 @@ export class UsbAccessService {
         "SerialPortGroupsNotFound"
       )
     )
+  }
+
+  private isAuthorizationPromptUnavailableError(error: unknown): boolean {
+    const message = this.getErrorMessage(error)
+    return AUTHORIZATION_PROMPT_UNAVAILABLE_PATTERNS.some((pattern) =>
+      pattern.test(message)
+    )
+  }
+
+  private getErrorMessage(error: unknown): string {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    return String(error)
   }
 }

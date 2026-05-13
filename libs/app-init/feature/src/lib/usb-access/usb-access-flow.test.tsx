@@ -69,6 +69,44 @@ jest.mock("app-init/ui", () => {
 
   return {
     UsbAccessGrantedModal: modal("usb-access-granted"),
+    UsbAccessPromptFailureModal: ({
+      opened,
+      onAction,
+      onClose,
+    }: {
+      opened: boolean
+      onAction: (suppressPromptFailureModal: boolean) => void
+      onClose: VoidFunction
+    }) => {
+      if (!opened) {
+        return null
+      }
+
+      return React.createElement(
+        "div",
+        { "data-testid": "usb-access-prompt-failure" },
+        React.createElement("input", {
+          "data-testid": "usb-access-prompt-failure-checkbox",
+          type: "checkbox",
+        }),
+        React.createElement(
+          "button",
+          {
+            "data-testid": "usb-access-prompt-failure-action",
+            onClick: () => onAction(true),
+          },
+          "action"
+        ),
+        React.createElement(
+          "button",
+          {
+            "data-testid": "usb-access-prompt-failure-close",
+            onClick: onClose,
+          },
+          "close"
+        )
+      )
+    },
     UsbAccessProcessingModal: ({ opened }: { opened: boolean }) =>
       opened
         ? React.createElement("div", {
@@ -90,6 +128,7 @@ const defaultStatus = {
   isError: false,
   hasAccess: false,
   restartRequired: false,
+  promptFailureSuppressed: false,
 }
 
 describe("UsbAccessFlow", () => {
@@ -161,6 +200,41 @@ describe("UsbAccessFlow", () => {
     expect(mockAppSettingsSet).not.toHaveBeenCalled()
   })
 
+  it("opens prompt failure modal when authorization prompt is unavailable", async () => {
+    grantAccessToSerialPort.mockResolvedValue({
+      ok: false,
+      error: { name: "AuthorizationPromptUnavailable" },
+    })
+
+    render(<UsbAccessFlow opened={true} onClose={onClose} />)
+
+    fireEvent.click(await screen.findByTestId("usb-access-request-action"))
+
+    expect(
+      await screen.findByTestId("usb-access-prompt-failure")
+    ).not.toBeNull()
+    expect(screen.queryByTestId("usb-access-cancelled")).toBeNull()
+  })
+
+  it("stores prompt failure suppression when user opts out", async () => {
+    grantAccessToSerialPort.mockResolvedValue({
+      ok: false,
+      error: { name: "AuthorizationPromptUnavailable" },
+    })
+
+    render(<UsbAccessFlow opened={true} onClose={onClose} />)
+
+    fireEvent.click(await screen.findByTestId("usb-access-request-action"))
+    fireEvent.click(await screen.findByTestId("usb-access-prompt-failure-action"))
+
+    await waitFor(() => {
+      expect(mockAppSettingsSet).toHaveBeenCalledWith({
+        system: { suppressUsbAccessPromptFailureModal: true },
+      })
+    })
+    expect(onClose).toHaveBeenCalled()
+  })
+
   it("opens restart-required modal and clears restart flag on action", async () => {
     mockUseUsbAccessStatus.mockReturnValue({
       ...defaultStatus,
@@ -195,5 +269,17 @@ describe("UsbAccessFlow", () => {
     expect(
       screen.queryByTestId("usb-access-restart-required")
     ).toBeNull()
+  })
+
+  it("does not open USB access modals when prompt failure was suppressed", () => {
+    mockUseUsbAccessStatus.mockReturnValue({
+      ...defaultStatus,
+      promptFailureSuppressed: true,
+    })
+
+    render(<UsbAccessFlow opened={true} onClose={onClose} />)
+
+    expect(screen.queryByTestId("usb-access-request")).toBeNull()
+    expect(screen.queryByTestId("usb-access-prompt-failure")).toBeNull()
   })
 })

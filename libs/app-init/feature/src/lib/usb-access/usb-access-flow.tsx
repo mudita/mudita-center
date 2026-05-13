@@ -7,6 +7,7 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { AppSettings } from "app-settings/renderer"
 import {
   UsbAccessGrantedModal,
+  UsbAccessPromptFailureModal,
   UsbAccessProcessingModal,
   UsbAccessRequestCancelledModal,
   UsbAccessRequestModal,
@@ -21,8 +22,12 @@ enum UsbAccessFlowState {
   AccessGranted = "access-granted",
   Processing = "processing",
   AccessCancelled = "access-cancelled",
+  PromptFailure = "prompt-failure",
   RestartRequired = "restart-required",
 }
+
+const AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR =
+  "AuthorizationPromptUnavailable"
 
 interface Props {
   opened: boolean
@@ -33,15 +38,26 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
   opened,
   onClose,
 }) => {
-  const { isLoading, isError, hasAccess, restartRequired } =
-    useUsbAccessStatus()
+  const {
+    isLoading,
+    isError,
+    hasAccess,
+    restartRequired,
+    promptFailureSuppressed,
+  } = useUsbAccessStatus()
   const { mutateAsync: grantAccessToSerialPort } = useGrantAccessToSerialPort()
   const [usbAccessFlowState, setUsbAccessFlowState] = useState(
     UsbAccessFlowState.Unknown
   )
 
   useEffect(() => {
-    if (!opened || isLoading || isError || hasAccess) {
+    if (
+      !opened ||
+      isLoading ||
+      isError ||
+      hasAccess ||
+      promptFailureSuppressed
+    ) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsbAccessFlowState(UsbAccessFlowState.Unknown)
     } else if (restartRequired) {
@@ -51,7 +67,14 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
     } else {
       setUsbAccessFlowState(UsbAccessFlowState.AccessGranted)
     }
-  }, [isLoading, isError, hasAccess, restartRequired, opened])
+  }, [
+    isLoading,
+    isError,
+    hasAccess,
+    restartRequired,
+    opened,
+    promptFailureSuppressed,
+  ])
 
   const handleRequestModalAction = useCallback(async () => {
     setUsbAccessFlowState(UsbAccessFlowState.Processing)
@@ -62,10 +85,16 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
         system: { restartRequiredForSerialPortAccess: true },
       })
       setUsbAccessFlowState(UsbAccessFlowState.AccessGranted)
+    } else if (isAuthorizationPromptUnavailableError(result.error?.name)) {
+      if (promptFailureSuppressed) {
+        onClose()
+      } else {
+        setUsbAccessFlowState(UsbAccessFlowState.PromptFailure)
+      }
     } else {
       setUsbAccessFlowState(UsbAccessFlowState.AccessCancelled)
     }
-  }, [grantAccessToSerialPort])
+  }, [grantAccessToSerialPort, onClose, promptFailureSuppressed])
 
   const handleRequestModalClose = useCallback(async () => {
     setUsbAccessFlowState(UsbAccessFlowState.AccessCancelled)
@@ -77,6 +106,19 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
     })
     onClose()
   }, [onClose])
+
+  const handlePromptFailureModalAction = useCallback(
+    async (suppressPromptFailureModal: boolean) => {
+      if (suppressPromptFailureModal) {
+        await AppSettings.set({
+          system: { suppressUsbAccessPromptFailureModal: true },
+        })
+      }
+
+      onClose()
+    },
+    [onClose]
+  )
 
   return (
     <>
@@ -98,6 +140,11 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
         onClose={onClose}
         onAction={onClose}
       />
+      <UsbAccessPromptFailureModal
+        opened={usbAccessFlowState === UsbAccessFlowState.PromptFailure}
+        onClose={onClose}
+        onAction={handlePromptFailureModalAction}
+      />
       <UsbAccessRestartRequiredModal
         opened={usbAccessFlowState === UsbAccessFlowState.RestartRequired}
         onClose={handleRestartRequiredModalClose}
@@ -105,4 +152,8 @@ export const UsbAccessFlow: FunctionComponent<Props> = ({
       />
     </>
   )
+}
+
+const isAuthorizationPromptUnavailableError = (errorName?: string): boolean => {
+  return errorName === AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR
 }

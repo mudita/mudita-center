@@ -131,6 +131,31 @@ describe("UsbAccessService", () => {
       expect(result.ok).toBe(false)
     })
 
+    it("returns prompt unavailable error when authorization prompt cannot be opened", async () => {
+      ;(execPromise as jest.Mock).mockImplementation((command: string) => {
+        if (command === "groups") {
+          return Promise.resolve("user")
+        }
+        if (command === "getent group dialout") {
+          return Promise.resolve("dialout:x:20:")
+        }
+        if (command === "getent group uucp") {
+          return Promise.reject(new Error("group not found"))
+        }
+        return Promise.reject(new Error(`Unexpected command: ${command}`))
+      })
+      ;(execCommandWithSudo as jest.Mock).mockRejectedValue(
+        "Error: pkexec authentication agent unavailable"
+      )
+
+      const result = await service.grantAccessToSerialPort()
+
+      expect(result.ok).toBe(false)
+      if (!result.ok) {
+        expect(result.error.name).toBe("AuthorizationPromptUnavailable")
+      }
+    })
+
     it("returns success without sudo when user already belongs to the serial device owner group", async () => {
       ;(execPromise as jest.Mock).mockImplementation((command: string) => {
         if (command === "groups") {
