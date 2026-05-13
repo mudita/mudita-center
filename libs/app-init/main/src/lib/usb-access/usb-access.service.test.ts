@@ -12,12 +12,6 @@ jest.mock("app-utils/main", () => ({
 }))
 
 const originalPlatform = process.platform
-const serialPortDeviceListCommand =
-  "ls -l /dev/ttyACM* /dev/ttyUSB* 2>/dev/null || true"
-const serialDeviceOwnedByDialout =
-  "crw-rw---- 1 root dialout 166, 0 May 12 10:00 /dev/ttyACM0"
-const serialDeviceOwnedByUucp =
-  "crw-rw---- 1 root uucp 166, 0 May 12 10:00 /dev/ttyACM0"
 
 const setPlatform = (platform: NodeJS.Platform): void => {
   Object.defineProperty(process, "platform", {
@@ -51,47 +45,21 @@ describe("UsbAccessService", () => {
 
     it("S2 returns success true on Linux when user belongs to dialout", async () => {
       setPlatform("linux")
-      ;(execPromise as jest.Mock).mockImplementation((command: string) => {
-        if (command === "groups") {
-          return Promise.resolve("user dialout")
-        }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByDialout)
-        }
-        if (command === "getent group dialout") {
-          return Promise.resolve("dialout:x:20:user")
-        }
-        return Promise.reject(new Error(`Unexpected command: ${command}`))
-      })
+      ;(execPromise as jest.Mock).mockResolvedValue("user dialout")
 
       const result = await service.hasSerialPortAccess()
 
       expect(execPromise).toHaveBeenCalledWith("groups")
-      expect(execPromise).toHaveBeenCalledWith(serialPortDeviceListCommand)
-      expect(execPromise).toHaveBeenCalledWith("getent group dialout")
       expect(result).toEqual({ ok: true, data: true })
     })
 
-    it("S3 returns success true on Linux when user belongs to serial device owner group uucp", async () => {
+    it("S3 returns success true on Linux when user belongs to uucp", async () => {
       setPlatform("linux")
-      ;(execPromise as jest.Mock).mockImplementation((command: string) => {
-        if (command === "groups") {
-          return Promise.resolve("user uucp")
-        }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByUucp)
-        }
-        if (command === "getent group uucp") {
-          return Promise.resolve("uucp:x:987:user")
-        }
-        return Promise.reject(new Error(`Unexpected command: ${command}`))
-      })
+      ;(execPromise as jest.Mock).mockResolvedValue("user uucp")
 
       const result = await service.hasSerialPortAccess()
 
       expect(execPromise).toHaveBeenCalledWith("groups")
-      expect(execPromise).toHaveBeenCalledWith(serialPortDeviceListCommand)
-      expect(execPromise).toHaveBeenCalledWith("getent group uucp")
       expect(result).toEqual({ ok: true, data: true })
     })
 
@@ -112,11 +80,11 @@ describe("UsbAccessService", () => {
         if (command === "groups") {
           return Promise.resolve("user")
         }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByDialout)
-        }
         if (command === "getent group dialout") {
           return Promise.resolve("dialout:x:20:")
+        }
+        if (command === "getent group uucp") {
+          return Promise.reject(new Error("group not found"))
         }
         return Promise.reject(new Error(`Unexpected command: ${command}`))
       })
@@ -139,11 +107,11 @@ describe("UsbAccessService", () => {
         if (command === "groups") {
           return Promise.resolve("user")
         }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByDialout)
-        }
         if (command === "getent group dialout") {
           return Promise.resolve("dialout:x:20:")
+        }
+        if (command === "getent group uucp") {
+          return Promise.reject(new Error("group not found"))
         }
         return Promise.reject(new Error(`Unexpected command: ${command}`))
       })
@@ -168,11 +136,11 @@ describe("UsbAccessService", () => {
         if (command === "groups") {
           return Promise.resolve("user dialout")
         }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByDialout)
-        }
         if (command === "getent group dialout") {
           return Promise.resolve("dialout:x:20:user")
+        }
+        if (command === "getent group uucp") {
+          return Promise.reject(new Error("group not found"))
         }
         return Promise.reject(new Error(`Unexpected command: ${command}`))
       })
@@ -187,31 +155,20 @@ describe("UsbAccessService", () => {
   describe("target Linux USB permission behavior for R1/R2", () => {
     it("T1 returns success true when user belongs to the serial device owner group uucp", async () => {
       setPlatform("linux")
-      ;(execPromise as jest.Mock).mockImplementation((command: string) => {
-        if (command === "groups") {
-          return Promise.resolve("user uucp")
-        }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByUucp)
-        }
-        if (command === "getent group uucp") {
-          return Promise.resolve("uucp:x:987:user")
-        }
-        return Promise.reject(new Error(`Unexpected command: ${command}`))
-      })
+      ;(execPromise as jest.Mock).mockResolvedValue("user uucp")
 
       const result = await service.hasSerialPortAccess()
 
       expect(result).toEqual({ ok: true, data: true })
     })
 
-    it("T2 grants only uucp when dialout does not exist and uucp owns the device node", async () => {
+    it("T2 grants only uucp when dialout does not exist", async () => {
       ;(execPromise as jest.Mock).mockImplementation((command: string) => {
         if (command === "groups") {
           return Promise.resolve("user")
         }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(serialDeviceOwnedByUucp)
+        if (command === "getent group dialout") {
+          return Promise.reject(new Error("group not found"))
         }
         if (command === "getent group uucp") {
           return Promise.resolve("uucp:x:987:")
@@ -237,12 +194,10 @@ describe("UsbAccessService", () => {
         if (command === "groups") {
           return Promise.resolve("user")
         }
-        if (command === serialPortDeviceListCommand) {
-          return Promise.resolve(
-            "crw-rw---- 1 root missinggroup 166, 0 May 12 10:00 /dev/ttyACM0"
-          )
+        if (command === "getent group dialout") {
+          return Promise.reject(new Error("group not found"))
         }
-        if (command === "getent group missinggroup") {
+        if (command === "getent group uucp") {
           return Promise.reject(new Error("group not found"))
         }
         return Promise.reject(new Error(`Unexpected command: ${command}`))

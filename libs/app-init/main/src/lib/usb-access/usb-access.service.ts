@@ -11,9 +11,7 @@ import {
   mapToAppError,
 } from "app-utils/models"
 
-const SERIAL_PORT_DEVICE_LIST_COMMAND =
-  "ls -l /dev/ttyACM* /dev/ttyUSB* 2>/dev/null || true"
-const LINUX_GROUP_NAME_REGEX = /^[a-z_][a-z0-9_-]*[$]?$/i
+const SERIAL_PORT_GROUPS = ["dialout", "uucp"]
 
 export class UsbAccessService {
   async hasSerialPortAccess(): Promise<AppResult<boolean>> {
@@ -23,13 +21,7 @@ export class UsbAccessService {
 
     try {
       const userGroups = await this.getUserGroups()
-      const serialPortGroups = await this.getExistingSerialPortGroups()
-
-      if (serialPortGroups.length === 0) {
-        return this.serialPortGroupsNotFoundResult<boolean>()
-      }
-
-      const serialPortAccess = serialPortGroups.some((group) =>
+      const serialPortAccess = SERIAL_PORT_GROUPS.some((group) =>
         userGroups.includes(group)
       )
       return AppResultFactory.success(serialPortAccess)
@@ -41,7 +33,9 @@ export class UsbAccessService {
   async grantAccessToSerialPort(): Promise<AppResult> {
     try {
       const userGroups = await this.getUserGroups()
-      const serialPortGroups = await this.getExistingSerialPortGroups()
+      const serialPortGroups = await this.getExistingSerialPortGroups(
+        SERIAL_PORT_GROUPS
+      )
 
       if (serialPortGroups.length === 0) {
         return this.serialPortGroupsNotFoundResult()
@@ -75,8 +69,7 @@ export class UsbAccessService {
     return this.parseWords(stdout)
   }
 
-  private async getExistingSerialPortGroups(): Promise<string[]> {
-    const groups = await this.getSerialPortDeviceGroups()
+  private async getExistingSerialPortGroups(groups: string[]): Promise<string[]> {
     const existingGroups = await Promise.all(
       groups.map(async (group) => {
         const exists = await this.groupExists(group)
@@ -85,17 +78,6 @@ export class UsbAccessService {
     )
 
     return existingGroups.filter((group): group is string => Boolean(group))
-  }
-
-  private async getSerialPortDeviceGroups(): Promise<string[]> {
-    const stdout = (await execPromise(SERIAL_PORT_DEVICE_LIST_COMMAND)) ?? ""
-    const groups = stdout
-      .split("\n")
-      .map((line) => line.trim().split(/\s+/)[3])
-      .filter((group): group is string => Boolean(group))
-      .filter((group) => LINUX_GROUP_NAME_REGEX.test(group))
-
-    return Array.from(new Set(groups))
   }
 
   private async groupExists(group: string): Promise<boolean> {

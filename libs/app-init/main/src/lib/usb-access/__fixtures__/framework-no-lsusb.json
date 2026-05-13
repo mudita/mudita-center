@@ -7,5 +7,5 @@
   "serialDevicesOutput": "",
   "expectedClassification": "hardwareLevelMissing",
   "expectedServiceHasAccess": null,
-  "notes": "Framework-style hardware-level missing case. Future diagnostics should classify the lack of USB/serial evidence separately from permissions."
+  "notes": "Framework-style hardware-level missing case. Future diagnostics should classify the lack of USB/serial evidence separately from permissions; this fixture is not active in the allowlist-only service fix."
 }
