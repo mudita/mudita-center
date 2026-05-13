@@ -11,7 +11,12 @@ import {
   mapToAppError,
 } from "app-utils/models"
 
-const SERIAL_PORT_GROUPS = ["dialout", "uucp"]
+enum SerialPortGroup {
+  dialout = "dialout",
+  uucp = "uucp",
+}
+
+const SERIAL_PORT_GROUPS = Object.values(SerialPortGroup)
 const AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR =
   "AuthorizationPromptUnavailable"
 const AUTHORIZATION_PROMPT_UNAVAILABLE_PATTERNS = [
@@ -28,10 +33,7 @@ export class UsbAccessService {
     }
 
     try {
-      const userGroups = await this.getUserGroups()
-      const serialPortAccess = SERIAL_PORT_GROUPS.some((group) =>
-        userGroups.includes(group)
-      )
+      const serialPortAccess = await this.isUserInAnyGroup(SERIAL_PORT_GROUPS)
       return AppResultFactory.success(serialPortAccess)
     } catch (error) {
       return AppResultFactory.failed(mapToAppError(error))
@@ -81,12 +83,19 @@ export class UsbAccessService {
     return process.platform === "linux"
   }
 
+  private async isUserInAnyGroup(groups: SerialPortGroup[]): Promise<boolean> {
+    const userGroups = await this.getUserGroups()
+    return groups.some((group) => userGroups.includes(group))
+  }
+
   private async getUserGroups(): Promise<string[]> {
     const stdout = (await execPromise("groups")) ?? ""
     return this.parseWords(stdout)
   }
 
-  private async getExistingSerialPortGroups(groups: string[]): Promise<string[]> {
+  private async getExistingSerialPortGroups(
+    groups: SerialPortGroup[]
+  ): Promise<SerialPortGroup[]> {
     const existingGroups = await Promise.all(
       groups.map(async (group) => {
         const exists = await this.groupExists(group)
@@ -94,10 +103,12 @@ export class UsbAccessService {
       })
     )
 
-    return existingGroups.filter((group): group is string => Boolean(group))
+    return existingGroups.filter((group): group is SerialPortGroup =>
+      Boolean(group)
+    )
   }
 
-  private async groupExists(group: string): Promise<boolean> {
+  private async groupExists(group: SerialPortGroup): Promise<boolean> {
     try {
       await execPromise(`getent group ${group}`)
       return true
