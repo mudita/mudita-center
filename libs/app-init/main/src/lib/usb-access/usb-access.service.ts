@@ -5,7 +5,6 @@
 
 import { execCommandWithSudo, execPromise } from "app-utils/main"
 import {
-  AppError,
   AppResult,
   AppResultFactory,
   mapToAppError,
@@ -17,8 +16,7 @@ enum SerialPortGroup {
 }
 
 const SERIAL_PORT_GROUPS = Object.values(SerialPortGroup)
-const AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR =
-  "AuthorizationPromptUnavailable"
+const AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR = "AuthorizationPromptUnavailable"
 const AUTHORIZATION_PROMPT_UNAVAILABLE_PATTERNS = [
   /authentication agent/i,
   /pkexec/i,
@@ -43,9 +41,8 @@ export class UsbAccessService {
   async grantAccessToSerialPort(): Promise<AppResult> {
     try {
       const userGroups = await this.getUserGroups()
-      const serialPortGroups = await this.getExistingSerialPortGroups(
-        SERIAL_PORT_GROUPS
-      )
+      const serialPortGroups =
+        await this.getExistingSerialPortGroups(SERIAL_PORT_GROUPS)
 
       if (serialPortGroups.length === 0) {
         return this.serialPortGroupsNotFoundResult()
@@ -67,12 +64,10 @@ export class UsbAccessService {
       return AppResultFactory.success()
     } catch (error) {
       if (this.isAuthorizationPromptUnavailableError(error)) {
-        return AppResultFactory.failed(
-          new AppError(
-            this.getErrorMessage(error),
-            AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR
-          )
-        )
+        return AppResultFactory.failed({
+          name: AUTHORIZATION_PROMPT_UNAVAILABLE_ERROR,
+          message: this.getErrorMessage(error),
+        })
       }
 
       return AppResultFactory.failed(mapToAppError(error))
@@ -128,12 +123,10 @@ export class UsbAccessService {
   }
 
   private serialPortGroupsNotFoundResult<Data = unknown>(): AppResult<Data> {
-    return AppResultFactory.failed(
-      new AppError(
-        "No relevant serial port groups found",
-        "SerialPortGroupsNotFound"
-      )
-    )
+    return AppResultFactory.failed({
+      name: "SerialPortGroupsNotFound",
+      message: "No relevant serial port groups found",
+    })
   }
 
   private isAuthorizationPromptUnavailableError(error: unknown): boolean {
