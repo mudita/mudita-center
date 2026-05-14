@@ -77,8 +77,14 @@ export const UsbAccessPromptFailureModal: FunctionComponent<Props> = ({
       setSuppressPromptFailureModal(event.target.checked)
     }, [])
 
+  const handleClose = useCallback(() => {
+    setSuppressPromptFailureModal(false)
+    onClose()
+  }, [onClose])
+
   const handleAction = useCallback(() => {
     onAction(suppressPromptFailureModal)
+    setSuppressPromptFailureModal(false)
   }, [onAction, suppressPromptFailureModal])
 
   const selectedMessages = variantMessages[variant]
@@ -89,10 +95,13 @@ export const UsbAccessPromptFailureModal: FunctionComponent<Props> = ({
       title={formatMessage(selectedMessages.title)}
       iconType={IconType.Failed}
       closeVariant={CloseVariant.Icon}
-      onClose={onClose}
+      onClose={handleClose}
       description={formatMessage(selectedMessages.description)}
     >
-      <Checkbox onChange={handleCheckboxChange}>
+      <Checkbox
+        checked={suppressPromptFailureModal}
+        onChange={handleCheckboxChange}
+      >
         {formatMessage(messages.checkboxText)}
       </Checkbox>
       <Modal.Buttons>
