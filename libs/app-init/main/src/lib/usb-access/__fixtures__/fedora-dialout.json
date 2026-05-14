@@ -1,0 +1,15 @@
+{
+  "id": "fedora-dialout",
+  "platform": "linux",
+  "groupsOutput": "mc_none",
+  "getentGroupOutputs": {
+    "dialout": "dialout:x:18:"
+  },
+  "expected": {
+    "hasAccess": false,
+    "grant": {
+      "ok": true,
+      "command": "usermod -aG dialout $USER"
+    }
+  }
+}

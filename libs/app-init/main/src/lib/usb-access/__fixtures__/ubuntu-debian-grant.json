@@ -1,0 +1,16 @@
+{
+  "id": "ubuntu-debian-grant",
+  "platform": "linux",
+  "groupsOutput": "mc_none",
+  "getentGroupOutputs": {
+    "dialout": "dialout:x:20:",
+    "uucp": "uucp:x:10:"
+  },
+  "expected": {
+    "hasAccess": false,
+    "grant": {
+      "ok": true,
+      "command": "usermod -aG dialout,uucp $USER"
+    }
+  }
+}

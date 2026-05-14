@@ -1,0 +1,17 @@
+{
+  "id": "nixos-appimage-pkexec-missing",
+  "platform": "linux",
+  "groupsOutput": "nixosuser users",
+  "getentGroupOutputs": {
+    "dialout": "dialout:x:18:"
+  },
+  "execCommandWithSudoError": "pkexec authentication agent unavailable",
+  "expected": {
+    "hasAccess": false,
+    "grant": {
+      "ok": false,
+      "command": "usermod -aG dialout $USER",
+      "error": "AuthorizationPromptUnavailable"
+    }
+  }
+}

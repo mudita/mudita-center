@@ -23,6 +23,7 @@ export const settingsMigrations: Migrations = {
       system: {
         analyticsId: generateAnalyticsId(),
         restartRequiredForSerialPortAccess: false,
+        suppressUsbAccessPromptFailureModal: false,
       },
     }
 

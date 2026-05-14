@@ -1,0 +1,8 @@
+{
+  "id": "fedora-mixed",
+  "platform": "linux",
+  "groupsOutput": "fedorauser wheel dialout uucp",
+  "expected": {
+    "hasAccess": true
+  }
+}

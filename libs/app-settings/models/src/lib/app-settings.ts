@@ -12,5 +12,6 @@ export type AppSettings = {
   system: {
     analyticsId: string | null
     restartRequiredForSerialPortAccess: boolean
+    suppressUsbAccessPromptFailureModal: boolean
   }
 }
