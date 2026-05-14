@@ -37,16 +37,19 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
     refetch: refetchExternalMemory,
   } = useApiFeatureQuery(DeviceManageFileFeature.External, device)
 
+  const internalMemoryCategories = useMemo(() => {
+    return internalMemory?.config?.main?.config?.categories || []
+  }, [internalMemory])
+  const externalMemoryCategories = useMemo(() => {
+    return externalMemory?.config?.main?.config?.categories || []
+  }, [externalMemory])
+
   const entitiesTypes = useMemo(() => {
     return uniq([
-      ...(internalMemory?.config?.main.config.categories.map(
-        (c) => c.entityType
-      ) || []),
-      ...(externalMemory?.config?.main.config.categories.map(
-        (c) => c.entityType
-      ) || []),
+      ...(internalMemoryCategories?.map((c) => c.entityType) || []),
+      ...(externalMemoryCategories?.map((c) => c.entityType) || []),
     ])
-  }, [externalMemory, internalMemory])
+  }, [externalMemoryCategories, internalMemoryCategories])
 
   const {
     data: entitiesData,
@@ -83,17 +86,31 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
       return deviceManageFilesEmptyData
     }
     if (feature === DeviceManageFileFeature.Internal) {
+      if (!internalMemoryCategories.length) {
+        return deviceManageFilesEmptyData
+      }
       return mapDeviceToManageFiles({
         featureData: internalMemory,
         entitiesCountData: entitiesData,
       })
     } else {
+      if (!externalMemoryCategories.length) {
+        return deviceManageFilesEmptyData
+      }
       return mapDeviceToManageFiles({
         featureData: externalMemory,
         entitiesCountData: entitiesData,
       })
     }
-  }, [entitiesData, externalMemory, feature, internalMemory, isConfigSuccess])
+  }, [
+    entitiesData,
+    externalMemory,
+    externalMemoryCategories,
+    feature,
+    internalMemory,
+    internalMemoryCategories,
+    isConfigSuccess,
+  ])
 
   return {
     data,
