@@ -13,8 +13,12 @@ export interface ManageFilesFileListEmptyProps {
   description?: string
   header?: string
   onAddFileClick?: () => void
+  onTryAgainClick?: () => void
   messages: {
     emptyStateTitle: Messages
+    errorStateTitle: Messages
+    errorStateDescription: Messages
+    tryAgainButtonText: Messages
     addFileButtonText: Messages
   }
   isError?: boolean
@@ -22,14 +26,30 @@ export interface ManageFilesFileListEmptyProps {
 
 export const ManageFilesFileListEmpty: FunctionComponent<
   ManageFilesFileListEmptyProps
-> = ({ description = "", header = "", onAddFileClick, messages, isError }) => {
+> = ({
+  description = "",
+  header = "",
+  onAddFileClick,
+  messages,
+  isError,
+  onTryAgainClick,
+}) => {
   return (
     <>
       <ManageFilesFileListPanelHeader header={header} messages={messages} />
       <Container>
-        <Header message={messages.emptyStateTitle.id} />
-        {!isError && (
+        {isError ? (
           <>
+            <Header message={messages.errorStateTitle.id} />
+            <Description message={messages.errorStateDescription.id} />
+            <FileListEmptyButton
+              message={messages.tryAgainButtonText.id}
+              onClick={onTryAgainClick}
+            />
+          </>
+        ) : (
+          <>
+            <Header message={messages.emptyStateTitle.id} />
             <Description>{description}</Description>
             <FileListEmptyButton
               message={messages.addFileButtonText.id}

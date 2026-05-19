@@ -464,6 +464,8 @@
   "manageFiles.category.count": "{count, plural, one {# file} other {# files}}",
   "manageFiles.deleteSuccess.toast.text": "{itemCount, plural, one {# file deleted} other {# files deleted}}",
   "manageFiles.emptyState.title": "We couldn't find any files",
+  "manageFiles.errorState.title": "Failed to load data",
+  "manageFiles.errorState.description": "Check the cable connection and try again.",
   "manageFiles.loadState.text": "Loading, please wait…",
   "manageFiles.otherFiles.title": "Other files",
   "manageFiles.progressWarning.firstLineText": "Some apps slow down transfer, it’s better",
