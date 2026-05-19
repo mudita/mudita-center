@@ -79,6 +79,7 @@ export interface ManageFilesViewProps
     Pick<ManageFilesCategoryListProps, "categories"> &
     ManageFilesOtherFilesProps
   isError?: boolean
+  onTryAgainClick?: () => void
 }
 
 export const ManageFiles: FunctionComponent<ManageFilesViewProps> = (props) => {
@@ -105,6 +106,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
   children,
   deviceId,
   isError,
+  onTryAgainClick,
 }) => {
   const { getValues, setValue } = useFormContext<ManageFilesFormValues>()
   const genericDeleteRef = useRef<GenericDeleteFlow>(null)
@@ -311,6 +313,7 @@ export const ManageFilesInner: FunctionComponent<ManageFilesViewProps> = ({
         onDeleteClick={startDeleteFlow}
         onDownloadClick={openDirectoryDialog && startDownloadFlow}
         onAddFileClick={startUploadFlow}
+        onTryAgainClick={onTryAgainClick}
         filesIds={filesIds}
         isError={isError}
       >

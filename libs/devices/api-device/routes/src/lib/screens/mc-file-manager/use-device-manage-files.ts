@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { ApiDevice } from "devices/api-device/models"
 import {
   useApiEntitiesDataQueries,
@@ -17,11 +17,11 @@ import {
 import { useActiveDeviceQuery } from "devices/common/feature"
 import { uniq } from "lodash"
 import { deviceManageFilesEmptyData } from "./use-device-manage-files-empty-data"
-import logger from "electron-log"
 
 export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
   feature: F
 ) => {
+  const [isReloading, setIsReloading] = useState(false)
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const {
     data: internalMemory,
@@ -43,23 +43,6 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
   }, [internalMemory])
   const externalMemoryCategories = useMemo(() => {
     return externalMemory?.config?.main?.config?.categories || []
-  }, [externalMemory])
-
-  // Log memory data for debugging purposes
-  useEffect(() => {
-    try {
-      logger.debug(JSON.stringify({ internalMemory }, null, 2))
-    } catch (error) {
-      logger.error("Error stringifying internal memory data", error)
-    }
-  }, [internalMemory])
-
-  useEffect(() => {
-    try {
-      logger.debug(JSON.stringify({ externalMemory }, null, 2))
-    } catch (error) {
-      logger.error("Error stringifying external memory data", error)
-    }
   }, [externalMemory])
 
   const entitiesTypes = useMemo(() => {
@@ -90,13 +73,18 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
 
   const isConfigSuccess = isInternalMemorySuccess && isExternalMemorySuccess
   const isLoading =
-    isInternalMemoryLoading || isExternalMemoryLoading || isEntitiesLoading
+    isInternalMemoryLoading ||
+    isExternalMemoryLoading ||
+    isEntitiesLoading ||
+    isReloading
   const isConfigError = isInternalMemoryError || isExternalMemoryError
 
   const refetch = useCallback(async () => {
+    setIsReloading(true)
     await refetchInternalMemory()
     await refetchExternalMemory()
     await refetchEntities()
+    setIsReloading(false)
   }, [refetchEntities, refetchExternalMemory, refetchInternalMemory])
 
   const data = useMemo(() => {
@@ -123,10 +111,10 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
   }, [
     entitiesData,
     externalMemory,
-    externalMemoryCategories,
+    externalMemoryCategories.length,
     feature,
     internalMemory,
-    internalMemoryCategories,
+    internalMemoryCategories.length,
     isConfigSuccess,
   ])
 

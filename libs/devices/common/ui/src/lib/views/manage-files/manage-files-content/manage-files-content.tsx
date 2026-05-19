@@ -46,6 +46,7 @@ interface Props
       "onDeleteClick" | "onDownloadClick"
     > {
   onAddFileClick?: () => void
+  onTryAgainClick?: () => void
   filesIds: string[]
   messages: ManageFilesStorageSummaryProps["messages"] &
     ManageFilesFileListEmptyProps["messages"] &
@@ -67,6 +68,7 @@ export const ManageFilesContent: FunctionComponent<
   onDeleteClick,
   onDownloadClick,
   onAddFileClick,
+  onTryAgainClick,
   filesIds,
   children,
   messages,
@@ -104,6 +106,7 @@ export const ManageFilesContent: FunctionComponent<
             description={emptyStateDescription}
             header={fileListPanelHeader}
             onAddFileClick={onAddFileClick}
+            onTryAgainClick={onTryAgainClick}
             messages={messages}
             isError={isError}
           />
