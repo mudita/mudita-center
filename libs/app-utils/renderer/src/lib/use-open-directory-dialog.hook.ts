@@ -42,8 +42,7 @@ export const useOpenDirectoryDialogHook = (
     async (options: OpenDialogOptionsLite): Promise<string | null> => {
       const nextOptions = {
         ...options,
-        defaultPath:
-          options.defaultPath ?? defaultPathRef.current ?? undefined,
+        defaultPath: options.defaultPath ?? defaultPathRef.current ?? undefined,
       }
 
       const directories = await AppActions.openFileDialog(nextOptions)

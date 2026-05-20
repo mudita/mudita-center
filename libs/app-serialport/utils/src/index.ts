@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/app-serial-port-errors"
+export * from "./lib/app-logger"

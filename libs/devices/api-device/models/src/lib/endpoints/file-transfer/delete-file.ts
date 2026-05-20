@@ -21,3 +21,13 @@ export const FileTransferDeleteResponseValidator = emptyBodySchema
 export type FileTransferDeleteResponse = z.infer<
   typeof FileTransferDeleteResponseValidator
 >
+
+export const buildFileTransferDeleteRequest = (
+  req: FileTransferDeleteRequest
+) => {
+  return {
+    endpoint: "FILE_TRANSFER",
+    method: "DELETE",
+    body: req,
+  } as const
+}

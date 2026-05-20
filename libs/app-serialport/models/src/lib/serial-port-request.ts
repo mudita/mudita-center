@@ -7,6 +7,7 @@ export type SerialPortRequest<R = Record<string, unknown>> = R & {
   options?: {
     timeout?: number
     retries?: number
+    priority?: number
   }
 }
 export type SerialPortResponse<R = Record<string, unknown>> = {

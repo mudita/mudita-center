@@ -33,7 +33,7 @@ const mutationFn = async (
 
 export const useHarmonyQuotationSettingsMutation = (device?: Harmony) => {
   const queryClient = useQueryClient()
-  const queryKey = useHarmonyQuotationSettingsQuery.queryKey(device?.path)
+  const queryKey = useHarmonyQuotationSettingsQuery.queryKey(device?.id)
 
   return useMutation({
     mutationFn: async (payload: QuotationSettings) =>

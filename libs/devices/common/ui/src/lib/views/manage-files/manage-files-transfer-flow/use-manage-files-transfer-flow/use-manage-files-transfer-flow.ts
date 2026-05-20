@@ -25,6 +25,7 @@ export interface UseManageFilesTransferFlowArgs {
       file?: FileManagerFile
     }) => void
     onModeChange?: (mode: TransferMode) => void
+    targetDirectoryPath?: string
     abortController: AbortController
   }) => Promise<ExecuteTransferResult>
   actionType: TransferFilesActionType

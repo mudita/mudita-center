@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css } from "styled-components"
+import styled, { css, CSSProperties } from "styled-components"
 import { TypographyTestId } from "app-theme/models"
-import { baseTypographyStyles, BaseTypographyProps } from "./base-typography"
+import { BaseTypographyProps, baseTypographyStyles } from "./base-typography"
 
 const baseHeadingStyles = css<BaseTypographyProps>`
   font-weight: ${({ theme }) => theme.app.fontWeight.bold};
@@ -23,9 +23,10 @@ const heading1Styles = css`
   letter-spacing: -0.02em;
 `
 
-export const H1 = styled.h1.attrs((attrs) => ({
+export const H1 = styled.h1.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.H1,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${heading1Styles};
 `
@@ -37,9 +38,10 @@ const heading2Styles = css`
   font-weight: ${({ theme }) => theme.app.fontWeight.regular};
 `
 
-export const H2 = styled.h2.attrs((attrs) => ({
+export const H2 = styled.h2.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.H2,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${heading2Styles};
 `
@@ -50,9 +52,10 @@ const heading3Styles = css`
   line-height: ${({ theme }) => theme.app.lineHeight.headline3};
 `
 
-export const H3 = styled.h3.attrs((attrs) => ({
+export const H3 = styled.h3.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.H3,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${heading3Styles};
 `
@@ -64,9 +67,10 @@ const heading4Styles = css`
   letter-spacing: 0.02em;
 `
 
-export const H4 = styled.h4.attrs((attrs) => ({
+export const H4 = styled.h4.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.H4,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${heading4Styles};
 `
@@ -78,9 +82,10 @@ const heading5Styles = css`
   letter-spacing: 0.04em;
 `
 
-export const H5 = styled.h5.attrs((attrs) => ({
+export const H5 = styled.h5.attrs(({ style, ...attrs }) => ({
   "data-testid": TypographyTestId.H5,
   ...attrs,
+  style: style as CSSProperties,
 }))`
   ${heading5Styles};
 `

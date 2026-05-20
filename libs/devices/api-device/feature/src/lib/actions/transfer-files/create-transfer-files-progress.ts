@@ -38,7 +38,7 @@ export const createTransferProgressTracker = ({
 
     const percentGlobal =
       batchTotalBytes && batchTotalBytes > 0
-        ? Math.min(Math.floor((loadedGlobal / batchTotalBytes) * 100), 100)
+        ? Math.min((loadedGlobal / batchTotalBytes) * 100, 100)
         : 0
 
     if (!onProgress) return
@@ -47,7 +47,7 @@ export const createTransferProgressTracker = ({
       const fileLoaded = uploadedBytesByFileId.get(progress.file.id) ?? 0
       const filePercent =
         progress.file.size > 0
-          ? Math.min(Math.floor((fileLoaded / progress.file.size) * 100), 100)
+          ? Math.min((fileLoaded / progress.file.size) * 100, 100)
           : 0
 
       onProgress({

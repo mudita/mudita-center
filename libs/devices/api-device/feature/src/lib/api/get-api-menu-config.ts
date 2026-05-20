@@ -8,18 +8,19 @@ import {
   ApiDevice,
   ApiDevicePaths,
   ApiDeviceResponseBody,
+  buildMenuConfigRequest,
 } from "devices/api-device/models"
 import { MenuGroup, MenuIndex } from "app-routing/models"
+import { uniq } from "lodash"
 
 export const getApiMenuConfig = async (device: ApiDevice) => {
   const response = await ApiDeviceSerialPort.request(device, {
-    endpoint: "MENU_CONFIGURATION",
-    method: "GET",
-    body: {
+    ...buildMenuConfigRequest({
       lang: "en-US",
-    },
+    }),
     options: {
-      timeout: 1000,
+      timeout: 3_000,
+      retries: 1,
     },
   })
   return {
@@ -35,10 +36,17 @@ const mapMenuConfig = (
     index: MenuIndex.Device,
     title: menu.title,
     items: menu.menuItems.map((item) => {
-      const submenu = item.submenu?.map((submenu) => ({
-        title: submenu.displayName,
-        path: `${ApiDevicePaths.Index}/${item.feature}/${submenu.feature}`,
-      }))
+      const submenu = item.submenu?.map((submenu) => {
+        const path = uniq([
+          ApiDevicePaths.Index,
+          item.feature,
+          submenu.feature,
+        ]).join("/")
+        return {
+          title: submenu.displayName,
+          path: path,
+        }
+      })
       return {
         title: item.displayName,
         icon: item.icon,

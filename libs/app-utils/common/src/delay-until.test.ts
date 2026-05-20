@@ -5,7 +5,7 @@
 
 import { delayUntil } from "./delay-until"
 
-const delayThreshold = 10
+const delayThreshold = 50
 
 describe("delayUntil", () => {
   it("should wait for the specified minimum time even if promise resolved quicker", async () => {

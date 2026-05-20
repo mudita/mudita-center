@@ -19,4 +19,5 @@ export type Device = Pick<
   | "productId"
   | "otherProductIds"
   | "otherVendorIds"
->
+> &
+  Pick<ApiDevice, "realSerialNumber">

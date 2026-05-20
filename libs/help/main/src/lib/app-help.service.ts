@@ -46,7 +46,7 @@ export class AppHelpService {
   ): Promise<AppResult<HelpData>> {
     return this.appHttpService.request({
       method: "GET",
-      url: `${process.env.MUDITA_CENTER_SERVER_URL}/help-v2`,
+      url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/help-v2`,
       params: { nextSyncToken },
       responseType: "json",
     })

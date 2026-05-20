@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "app-sql-models",
   preset: "../../../jest.preset.js",
   transform: {

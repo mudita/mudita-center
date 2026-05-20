@@ -52,7 +52,7 @@ export const transferFiles = async (
     },
   })
 
-  if (activeTransferMode === TransferMode.Serial) {
+  if (activeTransferMode === TransferMode.Serial && autoSwitchMTPMax > 0) {
     mtpWatcher.start()
   }
 

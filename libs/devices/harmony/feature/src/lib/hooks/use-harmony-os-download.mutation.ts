@@ -96,11 +96,13 @@ export const useHarmonyOsDownloadMutation = () => {
       }
       setProgress(0)
     },
+    onSettled: () => {
+      abortControllerRef.current = new AbortController()
+    },
   })
 
   const abort = useCallback(() => {
     abortControllerRef.current.abort()
-    abortControllerRef.current = new AbortController()
     mutation.reset()
     setTimeout(() => {
       setProgress(0)

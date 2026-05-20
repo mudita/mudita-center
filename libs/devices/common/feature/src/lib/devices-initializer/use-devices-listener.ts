@@ -58,6 +58,7 @@ export const useDevicesListener = () => {
         otherProductIds: device.otherProductIds,
         otherVendorIds: device.otherVendorIds,
         deviceSubtype: device.deviceSubtype,
+        pnpId: device.pnpId,
       })
     },
     [queryClient]

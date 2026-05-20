@@ -50,6 +50,7 @@ interface Props
   messages: ManageFilesStorageSummaryProps["messages"] &
     ManageFilesFileListEmptyProps["messages"] &
     FileListPanelHeaderProps["messages"]
+  isError?: boolean
 }
 
 export const ManageFilesContent: FunctionComponent<
@@ -69,6 +70,7 @@ export const ManageFilesContent: FunctionComponent<
   filesIds,
   children,
   messages,
+  isError,
 }) => {
   const activeCategory = categories.find(({ id }) => id === activeCategoryId)
   const emptyStateDescription = activeCategory?.fileListEmptyStateDescription
@@ -103,6 +105,7 @@ export const ManageFilesContent: FunctionComponent<
             header={fileListPanelHeader}
             onAddFileClick={onAddFileClick}
             messages={messages}
+            isError={isError}
           />
         )}
         {!emptyStateVisible && (

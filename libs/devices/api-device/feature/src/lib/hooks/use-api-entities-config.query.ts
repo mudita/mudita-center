@@ -9,27 +9,28 @@ import { SerialPortDeviceId } from "app-serialport/models"
 import { apiDeviceQueryKeys } from "./api-device-query-keys"
 import { getEntitiesConfig } from "../api/get-entities-config"
 
-export function useApiEntitiesConfigQuery(
+const queryFn = async (device?: ApiDevice, entityType?: string) => {
+  if (!device || !entityType) {
+    throw new Error(
+      "Device and entity type are required to fetch entities config"
+    )
+  }
+  const response = await getEntitiesConfig(device, entityType)
+  if (response.ok) {
+    return response.body
+  }
+  throw response.error
+}
+
+export const useApiEntitiesConfigQuery = (
   entityType?: string,
   device?: ApiDevice
-) {
-  return useQuery({
+) =>
+  useQuery({
     queryKey: useApiEntitiesConfigQuery.queryKey(entityType, device?.id),
-    queryFn: async () => {
-      if (!device || !entityType) {
-        throw new Error(
-          "Device and entity type are required to fetch entities config"
-        )
-      }
-      const response = await getEntitiesConfig(device, entityType)
-      if (response.ok) {
-        return response.body
-      }
-      throw response.error
-    },
+    queryFn: () => queryFn(device, entityType),
     enabled: !!device && !!entityType,
   })
-}
 
 useApiEntitiesConfigQuery.queryKey = (
   entityType?: string,
@@ -37,3 +38,4 @@ useApiEntitiesConfigQuery.queryKey = (
 ) => {
   return apiDeviceQueryKeys.entitiesConfig(entityType, id)
 }
+useApiEntitiesConfigQuery.queryFn = queryFn

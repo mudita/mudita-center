@@ -11,13 +11,11 @@ import {
 import { HarmonySerialPort } from "devices/harmony/adapters"
 
 export const deleteHarmonyFile = async (path: string, device: Harmony) => {
-  const response = await HarmonySerialPort.request(device, {
+  return await HarmonySerialPort.request(device, {
     endpoint: HarmonyEndpointNamed.FileSystem,
     method: HarmonyMethodNamed.Delete,
     body: {
       removeFile: path,
     },
   })
-
-  return response
 }

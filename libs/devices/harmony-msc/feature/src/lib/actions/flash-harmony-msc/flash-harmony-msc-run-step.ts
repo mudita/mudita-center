@@ -11,8 +11,7 @@ import { AppError, AppResult, AppResultFactory } from "app-utils/models"
 import { flashHarmonyMscParams } from "./flash-harmony-msc.types"
 
 interface FlashHarmonyMscRunStepOptions<Data>
-  extends HarmonyMscProcessProgress,
-    flashHarmonyMscParams {
+  extends HarmonyMscProcessProgress, flashHarmonyMscParams {
   task: () => Promise<AppResult<Data>>
 }
 

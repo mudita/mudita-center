@@ -14,7 +14,7 @@ export const getPureLockStatus = async (device: Pure) => {
       category: "phoneLockStatus",
     },
     options: {
-      timeout: 1000,
+      timeout: 2_000,
     },
   })
   return {

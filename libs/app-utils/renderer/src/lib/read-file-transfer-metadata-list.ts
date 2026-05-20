@@ -24,13 +24,13 @@ export interface FileTransferMetadata {
 export type TransferFileEntryWithMetadata = TransferFileFromPathEntry &
   FileTransferMetadata
 
-export async function readFileTransferMetadataList(
+export const readFileTransferMetadataList = async (
   files: TransferFileFromPathEntry[],
   abortController: AbortController
 ): Promise<{
   files: TransferFileEntryWithMetadata[]
   failed: FailedTransferItem[]
-}> {
+}> => {
   const fileEntryWithMetadata: TransferFileEntryWithMetadata[] = []
   const failed: FailedTransferItem[] = []
 
@@ -63,9 +63,9 @@ export async function readFileTransferMetadataList(
   return { files: fileEntryWithMetadata, failed }
 }
 
-export async function readFileTransferMetadata(
+const readFileTransferMetadata = async (
   options: AppFileSystemGuardOptions
-): Promise<FileTransferMetadata> {
+): Promise<FileTransferMetadata> => {
   const crc32Response = await AppFileSystem.calculateFileCrc32(options)
   if (!crc32Response.ok) {
     throw ReadFileTransferMetadataErrorName.Crc32Error

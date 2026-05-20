@@ -6,6 +6,7 @@
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
 import {
   ApiDevice,
+  buildPreFileTransferGetRequest,
   PreFileTransferGetRequest,
   PreFileTransferInProgressGetResponse,
   PreFileTransferReadyGetResponse,
@@ -13,14 +14,10 @@ import {
 
 export const preGetFileTransfer = async (
   device: ApiDevice,
-  { filePath }: PreFileTransferGetRequest
+  req: PreFileTransferGetRequest
 ) => {
   const response = await ApiDeviceSerialPort.request(device, {
-    endpoint: "PRE_FILE_TRANSFER",
-    method: "GET",
-    body: {
-      filePath,
-    },
+    ...buildPreFileTransferGetRequest(req),
     options: {
       timeout: 10_000,
       retries: 2,

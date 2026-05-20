@@ -73,8 +73,8 @@ export const useHarmonyTimeQuery = (device?: Harmony) => {
       return 60_000
     },
     refetchIntervalInBackground: true,
-    retry: 3,
-    retryDelay: 250,
+    retry: 10,
+    retryDelay: 1000,
   })
 }
 useHarmonyTimeQuery.queryKey = harmonyQueryKeys.time

@@ -23,7 +23,7 @@ const queryFn = async (device?: Harmony) => {
 
 export const useHarmonyQuotationListQuery = (device?: Harmony) => {
   return useQuery({
-    queryKey: useHarmonyQuotationListQuery.queryKey(device?.path),
+    queryKey: useHarmonyQuotationListQuery.queryKey(device?.id),
     enabled: !!device,
     queryFn: () => queryFn(device),
   })

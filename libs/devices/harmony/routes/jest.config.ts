@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "devices/harmony/routes",
   preset: "../../../../jest.preset.js",
   transform: {

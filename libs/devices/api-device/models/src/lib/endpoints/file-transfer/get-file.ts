@@ -58,3 +58,13 @@ export const FileTransferGetResponseValidator = z.object({
 export type FileTransferGetRequest = z.input<
   typeof FileTransferGetRequestValidator
 >
+
+export const buildPreFileTransferGetRequest = (
+  req: PreFileTransferGetRequest
+) => {
+  return {
+    endpoint: "PRE_FILE_TRANSFER",
+    method: "GET",
+    body: req,
+  } as const
+}

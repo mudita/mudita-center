@@ -3,18 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import {
+  ApiDevice,
+  buildFileTransferDeleteRequest,
+  FileTransferDeleteRequest,
+} from "devices/api-device/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDevice, FileTransferDeleteRequest } from "devices/api-device/models"
 
 export const deleteFileTransfer = (
   device: ApiDevice,
-  { fileTransferId }: FileTransferDeleteRequest
+  req: FileTransferDeleteRequest
 ) => {
-  return ApiDeviceSerialPort.request(device, {
-    endpoint: "FILE_TRANSFER",
-    method: "DELETE",
-    body: {
-      fileTransferId,
-    },
-  })
+  return ApiDeviceSerialPort.request(
+    device,
+    buildFileTransferDeleteRequest(req)
+  )
 }

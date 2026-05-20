@@ -17,7 +17,7 @@ export const getEntitiesConfig = async (
       entityType,
     },
     options: {
-      timeout: 10_000,
+      timeout: 3_000,
       retries: 2,
     },
   })

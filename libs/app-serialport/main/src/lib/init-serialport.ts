@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IpcMain, BrowserWindow } from "electron"
+import { BrowserWindow, IpcMain } from "electron"
 import {
   SerialPortChangedDevices,
   SerialPortDeviceId,
@@ -13,42 +13,58 @@ import {
 import { AppSerialPortService } from "./app-serial-port-service"
 
 let serialport: AppSerialPortService
+let currentDevicesChangedListener: (() => void) | null = null
 
 export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
   if (serialport) {
-    const changedDevices: SerialPortChangedDevices = {
-      added: [],
-      removed: [],
-      all: serialport.getCurrentDevices(),
+    if (currentDevicesChangedListener) {
+      mainWindow.webContents.removeListener(
+        "did-finish-load",
+        currentDevicesChangedListener
+      )
     }
-    const emitDevicesChanged = () => {
+    currentDevicesChangedListener = () => {
+      const changedDevices: SerialPortChangedDevices = {
+        added: [],
+        removed: [],
+        all: serialport.getCurrentDevices().map((device) => device.info),
+      }
       mainWindow.webContents.send(
         SerialPortIpcEvents.DevicesChanged,
         changedDevices
       )
     }
-    mainWindow.webContents.once("did-finish-load", emitDevicesChanged)
+    mainWindow.webContents.addListener(
+      "did-finish-load",
+      currentDevicesChangedListener
+    )
   } else {
     serialport = new AppSerialPortService()
     serialport.onDevicesChanged((data) => {
+      if (currentDevicesChangedListener) {
+        mainWindow.webContents.removeListener(
+          "did-finish-load",
+          currentDevicesChangedListener
+        )
+      }
+      currentDevicesChangedListener = () => {
+        mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
+      }
+      mainWindow.webContents.addListener(
+        "did-finish-load",
+        currentDevicesChangedListener
+      )
       mainWindow.webContents.send(SerialPortIpcEvents.DevicesChanged, data)
     })
     ipcMain.removeHandler(SerialPortIpcEvents.GetCurrentDevices)
     ipcMain.handle(SerialPortIpcEvents.GetCurrentDevices, () => {
-      return serialport.getCurrentDevices()
+      return serialport.getCurrentDevices().map((device) => device.info)
     })
     ipcMain.removeHandler(SerialPortIpcEvents.Request)
     ipcMain.handle(
       SerialPortIpcEvents.Request,
       (_, id: SerialPortDeviceId, data: SerialPortRequest) => {
         return serialport.request(id, data)
-      }
-    )
-    ipcMain.removeHandler(SerialPortIpcEvents.ChangeBaudRate)
-    ipcMain.handle(
-      SerialPortIpcEvents.ChangeBaudRate,
-      (_, id: SerialPortDeviceId, baudRate: number) => {
-        return serialport.changeBaudRate(id, baudRate)
       }
     )
     ipcMain.removeHandler(SerialPortIpcEvents.Freeze)
@@ -72,5 +88,9 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
         return serialport.isFrozen(id)
       }
     )
+    ipcMain.removeHandler(SerialPortIpcEvents.Reset)
+    ipcMain.handle(SerialPortIpcEvents.Reset, (_, id?: SerialPortDeviceId) => {
+      return serialport.reset(id)
+    })
   }
 }

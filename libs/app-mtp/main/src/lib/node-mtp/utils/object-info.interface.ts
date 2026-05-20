@@ -49,10 +49,9 @@ export interface ObjectInfo {
   keywords: string
 }
 
-export interface ObjectInfoInput
-  extends Partial<
-    Omit<ObjectInfo, "objectFormat" | "protectionStatus" | "associationType">
-  > {
+export interface ObjectInfoInput extends Partial<
+  Omit<ObjectInfo, "objectFormat" | "protectionStatus" | "associationType">
+> {
   objectFormat: ObjectFormatCode
   objectCompressedSize: number
   filename: string

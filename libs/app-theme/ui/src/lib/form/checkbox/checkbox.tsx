@@ -15,7 +15,7 @@ import {
   useId,
   useRef,
 } from "react"
-import styled from "styled-components"
+import styled, { CSSProperties } from "styled-components"
 import {
   CheckboxSize,
   IconSize,
@@ -29,7 +29,7 @@ import { Icon } from "../../icon/icon"
 interface Props
   extends
     PropsWithChildren,
-    Pick<ComponentProps<typeof InputWrapper>, "style" | "className">,
+    Pick<ComponentProps<typeof InputWrapper>, "className">,
     Omit<
       InputHTMLAttributes<HTMLInputElement>,
       "style" | "className" | "size" | "type" | "placeholder"
@@ -38,6 +38,7 @@ interface Props
   indeterminate?: boolean
   ref?: Ref<HTMLInputElement>
   ["data-testid"]?: string
+  style?: CSSProperties
 }
 
 export const Checkbox: FunctionComponent<Props> = ({

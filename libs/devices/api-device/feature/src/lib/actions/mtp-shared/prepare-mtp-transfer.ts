@@ -32,6 +32,8 @@ export const prepareMtpTransfer = async ({
   files = [],
   abortController,
 }: PrepareMtpTransferParams): Promise<PrepareMtpTransferResult> => {
+  await AppMtp.prepareMtpEnvironment()
+
   const deviceId = await AppMtp.getMtpDeviceId(device)
 
   if (abortController?.signal.aborted) {

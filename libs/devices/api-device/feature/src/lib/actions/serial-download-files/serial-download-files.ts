@@ -66,17 +66,36 @@ export const serialDownloadFiles = async (
       device,
       transferData,
       onProgress: (progress) => {
-        completedSizes[i] = (progress / 100) * transferData.fileSize
+        const file = files[i]
+        const fileProgress = clamp(Math.floor(progress), 0, 100)
+        const fileLoaded = clamp(
+          Math.floor((progress / 100) * transferData.fileSize),
+          0,
+          transferData.fileSize
+        )
+        completedSizes[i] = fileLoaded
+
         const completedSize = sum(completedSizes)
         const totalSize = sum(totalSizes)
+        const totalProgress = clamp(
+          Math.floor((completedSize / totalSize) * 100),
+          0,
+          100
+        )
         onProgress?.({
-          progress: clamp(
-            Math.floor((completedSize / totalSize) * 100),
-            0,
-            100
-          ),
+          progress: totalProgress,
           loaded: completedSize,
           total: totalSize,
+          file: {
+            id: file.id,
+            name: file.source.path.split("/").pop() || "",
+            type: "file",
+            size: transferData.fileSize,
+            loaded: fileLoaded,
+            progress: fileProgress,
+            path: file.source.path,
+            mimeType: "",
+          },
         })
       },
       abortController,

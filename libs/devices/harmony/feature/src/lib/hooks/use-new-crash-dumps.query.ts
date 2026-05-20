@@ -24,7 +24,7 @@ const queryFn = async (device?: Harmony): Promise<CrashDumpsData> => {
 
 export const useNewCrashDumpsQuery = (device?: Harmony) => {
   return useQuery({
-    queryKey: useNewCrashDumpsQuery.queryKey(device?.path),
+    queryKey: useNewCrashDumpsQuery.queryKey(device?.id),
     enabled: !!device,
     queryFn: () => queryFn(device),
     staleTime: 0,

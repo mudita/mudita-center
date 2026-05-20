@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "types-preload"
+import type {} from "types-preload"
 
 export const AppActions = {
   close: window.api.appActions.close,
   openFileDialog: window.api.appActions.openFileDialog,
   openWindow: window.api.appActions.openWindow,
   getAppVersion: window.api.appActions.getAppVersion,
+  openExternalLink: window.api.appActions.openExternalLink,
 }

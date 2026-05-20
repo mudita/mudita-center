@@ -4,6 +4,8 @@ When submitting code or documentation changes please follow these steps to have 
 
 **Note:** Before writing a new piece of code please make sure that the thing you want to fix/add can't be simulated using [the built-in Developer mode](quickstart.md#enable-developer-mode-inside-the-application) or isn't explained in [Mudita Center Wiki](https://github.com/mudita/mudita-center/wiki).
 
+**Note:** If you're working on a new feature, please make sure that you read the [feature development workflow](./feature-development_workflow.md).
+
 ## Create a new branch
 
 Create a branch, which name is connected to the feature, bug fix, or documentation change you want to contribute e.g. `feature/some-feature` or `fix/some-fix`.

@@ -122,7 +122,7 @@ export const FilePreview: FunctionComponent<Props> = ({
     >
       <ModalContent>
         <Header>
-          <Typography.P1 id={"file-preview-name"} color={"white"}>
+          <Typography.P1 id={"file-preview-name"} color={"white"} lines={1}>
             {file?.name}
           </Typography.P1>
           <ActionButton

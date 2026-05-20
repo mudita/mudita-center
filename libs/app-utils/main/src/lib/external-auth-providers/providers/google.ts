@@ -32,20 +32,17 @@ export class GoogleProvider extends BaseProvider<
   private get redirectUrl() {
     const defaultRedirectUrl = `${this.centerServerUrl}/google-auth-success`
 
-    // Always use production redirect URL
-    if (process.env.NODE_ENV !== "production") {
-      const prodRedirectUrl = new URL(defaultRedirectUrl)
-      const [firstSubdomain] = prodRedirectUrl.host.split(".")
+    // Always use production redirect URL by trimming subdomain from center server URL
+    const prodRedirectUrl = new URL(defaultRedirectUrl)
+    const [firstSubdomain] = prodRedirectUrl.host.split(".")
 
-      if (firstSubdomain && firstSubdomain !== "api") {
-        prodRedirectUrl.host = prodRedirectUrl.host.replace(
-          `${firstSubdomain}.`,
-          ""
-        )
-      }
-      return prodRedirectUrl.toString()
+    if (firstSubdomain && firstSubdomain !== "api") {
+      prodRedirectUrl.host = prodRedirectUrl.host.replace(
+        `${firstSubdomain}.`,
+        ""
+      )
     }
-    return defaultRedirectUrl
+    return prodRedirectUrl.toString()
   }
 
   constructor() {

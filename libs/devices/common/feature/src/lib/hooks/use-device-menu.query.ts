@@ -48,8 +48,8 @@ export const useDeviceMenuQuery = <ErrorType = Error>(device?: Device) => {
     queryKey: useDeviceMenuQuery.queryKey(device?.id),
     queryFn: () => queryFn(device),
     retry: ApiDeviceSerialPort.isCompatible(device)
-      ? (failureCount, error) => {
-          return error === ApiDeviceErrorType.DeviceLocked || failureCount < 3
+      ? (_, error) => {
+          return error === ApiDeviceErrorType.DeviceLocked
         }
       : 3,
     retryDelay: 500,

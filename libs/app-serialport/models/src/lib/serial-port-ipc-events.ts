@@ -7,8 +7,8 @@ export enum SerialPortIpcEvents {
   DevicesChanged = "serialport:devices-changed",
   GetCurrentDevices = "serialport:get-current-devices",
   Request = "serialport:request",
-  ChangeBaudRate = "serialport:change-baud-rate",
   Freeze = "serialport:freeze",
   Unfreeze = "serialport:unfreeze",
   IsFrozen = "serialport:is-frozen",
+  Reset = "serialport:reset",
 }

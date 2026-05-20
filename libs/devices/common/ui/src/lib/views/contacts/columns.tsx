@@ -170,6 +170,7 @@ const PhoneCell = styled(Column)`
 
   p {
     padding-left: 1.2rem;
+    white-space: nowrap;
   }
 `
 

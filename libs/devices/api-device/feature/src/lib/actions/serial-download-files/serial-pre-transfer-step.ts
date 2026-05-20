@@ -9,6 +9,7 @@ import {
   PreFileTransferReadyGetResponse,
 } from "devices/api-device/models"
 import { preGetFileTransfer } from "../../api/pre-get-file-transfer"
+import logger from "electron-log"
 
 interface PreTransferParams {
   device: ApiDevice
@@ -26,6 +27,7 @@ export const serialPreTransferStep = async ({
   })
 
   if (!preTransferResponse.ok) {
+    logger.error(preTransferResponse)
     throw new Error("Failed to initiate file transfer")
   }
 

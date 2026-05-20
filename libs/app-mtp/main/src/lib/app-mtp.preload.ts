@@ -16,6 +16,11 @@ import {
 } from "app-mtp/models"
 
 export const appMtp = {
+  prepareMtpEnvironment: (): Promise<void> => {
+    return electronAPI.ipcRenderer.invoke(
+      AppMtpIpcEvents.PrepareMtpEnvironment
+    )
+  },
   getMtpDeviceId: (
     portInfo: Partial<PortInfo>
   ): Promise<string | undefined> => {

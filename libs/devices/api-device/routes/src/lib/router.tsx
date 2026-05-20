@@ -66,7 +66,7 @@ export const useApiDeviceRouter = (device?: Device) => {
           path={`${ApiDevicePaths.Index}/${DeviceManageFileFeature.Internal}`}
         >
           <Route
-            path={DeviceManageFileFeature.Internal}
+            index
             element={
               <DeviceManageFilesScreen
                 feature={DeviceManageFileFeature.Internal}
@@ -83,7 +83,7 @@ export const useApiDeviceRouter = (device?: Device) => {
           />
         </Route>
         <Route path={`${ApiDevicePaths.Index}/mc-contacts`}>
-          <Route path={"mc-contacts"} element={<McContactsScreen />} />
+          <Route index element={<McContactsScreen />} />
           <Route
             path={"mc-contacts-duplicates"}
             element={<McContactsDuplicatesScreen />}

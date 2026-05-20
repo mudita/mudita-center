@@ -20,10 +20,14 @@ export const GenericConfirmModalWithCheckbox: FunctionComponent<
 > = ({ onCancel, ...props }) => {
   const [checked, setChecked] = useState(false)
 
-  const handleCancel = useCallback(() => {
+  const handleClose = useCallback(() => {
     setChecked(false)
+  }, [])
+
+  const handleCancel = useCallback(() => {
+    handleClose()
     onCancel()
-  }, [onCancel])
+  }, [handleClose, onCancel])
 
   const handleCheckboxChange: ChangeEventHandler<HTMLInputElement> =
     useCallback((event) => {
@@ -34,6 +38,7 @@ export const GenericConfirmModalWithCheckbox: FunctionComponent<
     <GenericConfirmModalLayout
       {...props}
       onCancel={handleCancel}
+      onClose={handleClose}
       confirmDisabled={!checked}
     >
       <Checkbox onChange={handleCheckboxChange}>

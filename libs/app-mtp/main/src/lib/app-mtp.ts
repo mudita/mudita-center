@@ -4,6 +4,7 @@
  */
 
 import { AppResult } from "app-utils/models"
+import { execPromise } from "app-utils/main"
 import {
   CancelTransferResultData,
   GetTransferFileProgressResultData,
@@ -88,5 +89,20 @@ export class AppMtp implements MtpInterface {
     const result = await this.mtp.cancelFileTransfer(data)
     console.log(`[app-mtp] canceling status: ${JSON.stringify(result)}`)
     return result
+  }
+
+  async prepareMtpEnvironment(): Promise<void> {
+    if (process.platform === "linux") {
+      await this.killGvfsdMtp()
+    }
+  }
+
+  private async killGvfsdMtp(): Promise<void> {
+    try {
+      await execPromise("pkill gvfsd-mtp")
+      console.log("[app-mtp] Process gvfsd-mtp killed")
+    } catch (error) {
+      console.error("[app-mtp] Failed to kill gvfsd-mtp:", error)
+    }
   }
 }

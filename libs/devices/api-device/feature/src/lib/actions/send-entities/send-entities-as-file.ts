@@ -98,6 +98,7 @@ export const sendEntitiesAsFile = async ({
     const transferResponse = await transferFiles({
       device,
       transferMode: TransferMode.Serial,
+      autoSwitchMTPMax: 0,
       action: TransferFilesActionType.Upload,
       files: [
         {

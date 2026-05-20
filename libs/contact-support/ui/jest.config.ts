@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "contact-support/ui",
   preset: "../../../jest.preset.js",
   transform: {

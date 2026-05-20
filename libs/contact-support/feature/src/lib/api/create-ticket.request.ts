@@ -8,7 +8,6 @@ import {
   AppHttpRequestConfig,
 } from "app-utils/models"
 import { AppHttp } from "app-utils/renderer"
-import { contactSupportConfig } from "../contact-support-config"
 
 export interface CreateTicketRequestPayload extends Pick<
   AppHttpRequestConfig,
@@ -24,10 +23,7 @@ export const createTicketRequest = async ({
 }: CreateTicketRequestPayload) => {
   const config: Omit<AppHttpRequestConfig, "rid"> = {
     method: "POST",
-    url: `${contactSupportConfig.apiUrl}/api/v2/tickets`,
-    headers: {
-      Authorization: `Basic ${contactSupportConfig.apiToken}`,
-    },
+    url: `${import.meta.env.VITE_MUDITA_CENTER_SERVER_URL}/freshdesk`,
     data,
   }
   if (files) {

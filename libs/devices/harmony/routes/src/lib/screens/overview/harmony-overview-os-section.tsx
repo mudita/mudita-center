@@ -108,9 +108,6 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
   }, [])
 
   const handleUpdateAvailabilityCheck = useCallback(async () => {
-    void queryClient.resetQueries({
-      queryKey: useHarmonyOsUpdateInfoQuery.queryKey(device.id),
-    })
     setUpdateStatus(UpdateStatus.Checking)
     const response = await checkForUpdates()
 
@@ -121,7 +118,7 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
     } else {
       setUpdateStatus(UpdateStatus.NotAvailable)
     }
-  }, [checkForUpdates, device.id, queryClient])
+  }, [checkForUpdates])
 
   const cancelUpdateAvailabilityCheck = useCallback(async () => {
     await queryClient.cancelQueries({
@@ -163,7 +160,6 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
       updateStatus === UpdateStatus.Idle &&
       !isUpdateCheckLoading
     ) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUpdateStatus(UpdateStatus.Available)
     }
   }, [updateAvailability, updateStatus, isUpdateCheckLoading])
@@ -198,8 +194,12 @@ export const HarmonyOverviewOsSection: FunctionComponent<Props> = ({
         return
       }
       setError(HarmonyOSUpdateError.UpdateFailed)
+    } finally {
+      await queryClient.invalidateQueries({
+        queryKey: useHarmonyOsUpdateInfoQuery.queryKey(device.id),
+      })
     }
-  }, [updateAvailability, batteryLevel, updateDevice])
+  }, [updateAvailability, batteryLevel, updateDevice, queryClient, device.id])
 
   const handleFinalModalClose = useCallback(async () => {
     await handleModalClose()

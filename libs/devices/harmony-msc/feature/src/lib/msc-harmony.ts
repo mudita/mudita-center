@@ -4,7 +4,10 @@
  */
 
 import { AppFileSystemGuardOptions } from "app-utils/models"
-import { MSC_HARMONY_SCOPE, MSC_HARMONY_SCOPE_CATALOG_DIR } from "devices/harmony-msc/models"
+import {
+  MSC_HARMONY_SCOPE,
+  MSC_HARMONY_SCOPE_CATALOG_DIR,
+} from "devices/harmony-msc/models"
 
 export const getMscHarmonyLocation = (
   fileName?: string

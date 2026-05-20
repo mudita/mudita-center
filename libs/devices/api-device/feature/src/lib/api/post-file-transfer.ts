@@ -3,21 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import {
+  ApiDevice,
+  buildFileTransferPostRequest,
+  FileTransferPostRequest,
+} from "devices/api-device/models"
 import { ApiDeviceSerialPort } from "devices/api-device/adapters"
-import { ApiDevice, FileTransferPostRequest } from "devices/api-device/models"
 
 export const postFileTransfer = (
   device: ApiDevice,
-  { transferId, chunkNumber, data }: FileTransferPostRequest
+  req: FileTransferPostRequest
 ) => {
   return ApiDeviceSerialPort.request(device, {
-    endpoint: "FILE_TRANSFER",
-    method: "POST",
-    body: {
-      transferId,
-      chunkNumber,
-      data,
-    },
+    ...buildFileTransferPostRequest(req),
     options: {
       timeout: 10_000,
       retries: 2,

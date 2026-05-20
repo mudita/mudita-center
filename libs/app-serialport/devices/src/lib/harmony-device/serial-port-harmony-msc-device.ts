@@ -5,8 +5,7 @@
 
 import path from "path"
 import { app } from "electron"
-import { SerialPortDeviceType } from "app-serialport/models"
-import { styleText } from "util"
+import { SerialPortDeviceType, SerialPortRequest } from "app-serialport/models"
 import {
   HarmonyMscEndpointNamed,
   HarmonyMscErrorType,
@@ -15,17 +14,16 @@ import {
   MSC_HARMONY_SCOPE,
   MSC_HARMONY_SCOPE_CATALOG_DIR,
 } from "devices/harmony-msc/models"
-import { SerialPortDeviceOptions } from "../serial-port-device"
-import { SerialPortDeviceMock } from "../serial-port-device-mock"
+import { SerialPortHandlerMock } from "../serial-port-handler-mock"
 import DeviceFlashFactory from "./device-flash/device-flash.factory"
 
 const getDeviceName = () => {
   return process.platform === "win32" ? "MUDITA HARMONY MSC" : "HARMONY"
 }
 
-export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
-  static readonly matchingVendorIds = ["3310"]
-  static readonly matchingProductIds = ["0103"]
+export class SerialPortHarmonyMscDevice extends SerialPortHandlerMock {
+  static readonly matchingVendorIds = ["3310", "13072"]
+  static readonly matchingProductIds = ["0103", "259", "768"]
   static readonly deviceType = SerialPortDeviceType.HarmonyMsc
   private deviceFlash = DeviceFlashFactory.createDeviceFlashService()
   private mscHarmonyAbsoluteDir = path.join(
@@ -33,49 +31,38 @@ export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
     MSC_HARMONY_SCOPE_CATALOG_DIR
   )
 
-  constructor({ baudRate = 9600, ...options }: SerialPortDeviceOptions) {
-    super({ baudRate, ...options })
-  }
-
-  write(data: HarmonyMscRequest & { id: number }): boolean {
-    if (process.env.SERIALPORT_LOGS_ENABLED === "1") {
-      console.log(
-        styleText(["bold", "bgCyan"], "SerialPort write"),
-        styleText(["bgCyan"], this.path),
-        styleText(["cyan"], `${JSON.stringify(data)}`)
-      )
-    }
+  async request(data: SerialPortRequest): Promise<Record<string, unknown>> {
+    const { endpoint, method } = data as unknown as HarmonyMscRequest<
+      HarmonyMscEndpointNamed,
+      HarmonyMscMethodNamed
+    >
     if (
-      data.endpoint === HarmonyMscEndpointNamed.Flash &&
-      data.method === HarmonyMscMethodNamed.Post
+      endpoint === HarmonyMscEndpointNamed.Flash &&
+      method === HarmonyMscMethodNamed.Post
     ) {
-      void this.flashHarmony(
+      return this.flashHarmony(
         data as unknown as HarmonyMscRequest<
           HarmonyMscEndpointNamed.Flash,
           HarmonyMscMethodNamed.Post
-        > & { id: number }
+        >
       )
     } else if (
-      data.endpoint === HarmonyMscEndpointNamed.Flash &&
-      data.method === HarmonyMscMethodNamed.Get
+      endpoint === HarmonyMscEndpointNamed.Flash &&
+      method === HarmonyMscMethodNamed.Get
     ) {
-      void this.getFlashHarmonyStatus(
-        data as unknown as HarmonyMscRequest<
-          HarmonyMscEndpointNamed.Flash,
-          HarmonyMscMethodNamed.Get
-        > & { id: number }
-      )
+      return this.getFlashHarmonyStatus()
     }
-    return true
+    return {
+      status: HarmonyMscErrorType.DeviceInternalError,
+      endpoint,
+    }
   }
 
   private async flashHarmony(
     data: HarmonyMscRequest<
       HarmonyMscEndpointNamed.Flash,
       HarmonyMscMethodNamed.Post
-    > & {
-      id: number
-    }
+    >
   ) {
     try {
       const { imagePath, scriptPath } = data.body
@@ -90,43 +77,33 @@ export class SerialPortHarmonyMscDevice extends SerialPortDeviceMock {
         this.mscHarmonyAbsoluteDir
       )
 
-      super.emitData(data.id, { status: 200, endpoint: data.endpoint })
+      return { status: 200, endpoint: data.endpoint }
     } catch {
-      super.emitData(data.id, {
+      return {
         status: HarmonyMscErrorType.DeviceInternalError,
         endpoint: data.endpoint,
-      })
+      }
     }
   }
 
-  private async getFlashHarmonyStatus(
-    data: HarmonyMscRequest<
-      HarmonyMscEndpointNamed.Flash,
-      HarmonyMscMethodNamed.Get
-    > & {
-      id: number
-    }
-  ) {
+  async getFlashHarmonyStatus() {
     try {
       const flashStatus = await this.deviceFlash.getFlashStatus?.(
         this.mscHarmonyAbsoluteDir
       )
       if (!flashStatus) {
-        super.emitData(data.id, {
+        return {
           status: HarmonyMscErrorType.DeviceInternalError,
-          endpoint: data.endpoint,
-        })
+        }
       }
-      super.emitData(data.id, {
+      return {
         status: 200,
-        endpoint: data.endpoint,
         body: flashStatus,
-      })
+      }
     } catch {
-      super.emitData(data.id, {
+      return {
         status: HarmonyMscErrorType.DeviceInternalError,
-        endpoint: data.endpoint,
-      })
+      }
     }
   }
 }

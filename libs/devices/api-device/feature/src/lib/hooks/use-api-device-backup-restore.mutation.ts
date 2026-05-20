@@ -4,7 +4,7 @@
  */
 
 import { ApiDevice } from "devices/api-device/models"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { theme } from "app-theme/utils"
 import {
@@ -12,6 +12,7 @@ import {
   RestoreBackupParams,
 } from "../actions/restore-backup/restore-backup"
 import { useApiFeatureQuery } from "./use-api-feature.query"
+import { useApiEntitiesDataQuery } from "./use-api-entities-data.query"
 
 interface Variables {
   features: RestoreBackupParams["features"]
@@ -22,6 +23,8 @@ export const useApiDeviceBackupRestoreMutation = (
   onSuccess?: VoidFunction,
   onError?: (aborted?: boolean) => void
 ) => {
+  const queryClient = useQueryClient()
+
   const { data: fileManagerData } = useApiFeatureQuery(
     "mc-file-manager-internal",
     device
@@ -31,8 +34,8 @@ export const useApiDeviceBackupRestoreMutation = (
   const [neededSpace, setNeededSpace] = useState<number>()
 
   const freeSpace = useMemo(() => {
-    return fileManagerData?.data.storageInformation?.[0]?.freeSpaceBytes
-  }, [fileManagerData?.data.storageInformation])
+    return fileManagerData?.data?.storageInformation?.[0]?.freeSpaceBytes
+  }, [fileManagerData?.data?.storageInformation])
 
   const confirmSpaceAvailability = useCallback(
     async (requiredSpace: number): Promise<boolean> => {
@@ -43,6 +46,20 @@ export const useApiDeviceBackupRestoreMutation = (
       return true
     },
     [freeSpace]
+  )
+
+  const refreshEntities = useCallback(
+    (variables: Variables) => {
+      const features = variables.features.map((feature) =>
+        feature.key.toLowerCase()
+      )
+      if (features.some((feature) => feature.includes("contact"))) {
+        void queryClient.resetQueries({
+          queryKey: useApiEntitiesDataQuery.queryKey("contacts", device?.id),
+        })
+      }
+    },
+    [device?.id, queryClient]
   )
 
   const mutation = useMutation({
@@ -63,11 +80,16 @@ export const useApiDeviceBackupRestoreMutation = (
       setProgress(0)
       setNeededSpace(undefined)
     },
-    onSuccess,
+    onSuccess: async (_, variables) => {
+      refreshEntities(variables)
+      onSuccess?.()
+    },
     onError: (error) => {
       onError?.(error instanceof AbortSignal)
     },
     onSettled: () => {
+      abortControllerRef.current = new AbortController()
+
       setTimeout(() => {
         setProgress(0)
       }, theme.app.constants.modalTransitionDuration)
@@ -76,7 +98,6 @@ export const useApiDeviceBackupRestoreMutation = (
 
   const abort = useCallback(() => {
     abortControllerRef.current.abort()
-    abortControllerRef.current = new AbortController()
     mutation.reset()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

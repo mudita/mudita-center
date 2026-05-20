@@ -13,7 +13,10 @@ const PREFIX_LOG = `[app-mtp/dotnet-mtp]`
 
 const getExecPath = () => {
   try {
-    const buildExecPath = path.join(process.resourcesPath, "MtpFileTransfer.exe")
+    const buildExecPath = path.join(
+      process.resourcesPath,
+      "MtpFileTransfer.exe"
+    )
     const localExecPath = path.join(
       process.cwd().replace("apps\\app", ""),
       "apps/app/resources/MtpFileTransfer.exe"

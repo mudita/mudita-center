@@ -8,4 +8,5 @@ export enum AppActionsIpcEvents {
   OpenDirectoryDialog = "appActions:openDirectoryDialog",
   OpenWindow = "appActions:openWindow",
   GetVersion = "appActions:getVersion",
+  OpenExternalLink = "appActions:openExternalLink",
 }

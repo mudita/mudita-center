@@ -14,8 +14,7 @@ export const Textarea = styled(Input).attrs({ as: "textarea" })`
   overflow-x: hidden;
 `
 
-export interface TextInputTextareaInnerProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextInputTextareaInnerProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   id: string
   placeholder?: string
   ref?: Ref<HTMLTextAreaElement>

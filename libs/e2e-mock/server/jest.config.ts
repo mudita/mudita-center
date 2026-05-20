@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "e2e-mock/server",
   preset: "../../../jest.preset.js",
   transform: {

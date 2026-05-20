@@ -20,7 +20,7 @@ export const postFlash = async (
     endpoint: HarmonyMscEndpointNamed.Flash,
     method: HarmonyMscMethodNamed.Post,
     options: {
-      timeout: 200_000,
+      timeout: 600_000,
     },
     body: {
       imagePath,

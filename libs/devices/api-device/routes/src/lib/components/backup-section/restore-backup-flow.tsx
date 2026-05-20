@@ -130,22 +130,26 @@ export const RestoreBackupFlow: FunctionComponent<Props> = ({
   }, [clearData])
 
   const decryptBackupData = useCallback(() => {
-    if (!backupFile) {
-      return
+    try {
+      if (!backupFile) {
+        return
+      }
+      const decryptedData = Object.entries(backupFile.data).reduce(
+        (acc, [feature, data]) => {
+          acc[feature] = decryptBackupFeature({
+            password,
+            header: backupFile.header,
+            data,
+          })
+          return acc
+        },
+        {} as BackupFileDecrypted["data"]
+      )
+      setBackupFile(undefined)
+      setDecryptedBackupFile({ header: backupFile.header, data: decryptedData })
+    } catch {
+      setStep(Step.Error)
     }
-    const decryptedData = Object.entries(backupFile.data).reduce(
-      (acc, [feature, data]) => {
-        acc[feature] = decryptBackupFeature({
-          password,
-          header: backupFile.header,
-          data,
-        })
-        return acc
-      },
-      {} as BackupFileDecrypted["data"]
-    )
-    setBackupFile(undefined)
-    setDecryptedBackupFile({ header: backupFile.header, data: decryptedData })
   }, [backupFile, password])
 
   const handleFileSelectConfirm = useCallback(

@@ -120,29 +120,36 @@ export const useApiEntitiesDataQueries = <
   }, [entityTypes])
 
   const queries = useQueries({
-    queries: entityTypes.map((entityType) => ({
-      queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
-      queryFn: () => {
-        return queueRef.current.add(() => {
-          return useApiEntitiesDataQuery.queryFn<D>(
-            entityType,
-            device,
-            (progress) => {
-              progressRef.current[entityType] = progress
+    queries: [
+      ...entityTypes.map((entityType) => ({
+        queryKey: useApiEntitiesDataQuery.queryKey(entityType, device?.id),
+        queryFn: () => {
+          return queueRef.current.add(() => {
+            return useApiEntitiesDataQuery.queryFn<D>(
+              entityType,
+              device,
+              (progress) => {
+                progressRef.current[entityType] = progress
 
-              setProgress(
-                Math.floor(
-                  sum(Object.values(progressRef.current)) / entityTypes.length
+                setProgress(
+                  Math.floor(
+                    sum(Object.values(progressRef.current)) / entityTypes.length
+                  )
                 )
-              )
-            },
-            abortRef.current.signal
-          )
-        })
-      },
-      enabled: true,
-      select,
-    })),
+              },
+              abortRef.current.signal
+            )
+          })
+        },
+        enabled: true,
+        select,
+      })),
+      ...entityTypes.map((type) => ({
+        queryKey: useApiEntitiesConfigQuery.queryKey(type, device?.id),
+        queryFn: () => useApiEntitiesConfigQuery.queryFn(device, type) as any,
+        enabled: true,
+      })),
+    ],
     combine: (results) => {
       const isLoading = results.some((r) => r.isLoading)
       const isError = results.some((r) => r.isError)

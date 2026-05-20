@@ -10,25 +10,28 @@ export const parseTextFields = <T extends string>(
   textFieldKeys: readonly T[],
   currentOffset: number
 ): { [K in T]: string } => {
-  return textFieldKeys.reduce((textFields, key, index) => {
-    if (index === 0) {
-      textFields[key] = decodeFromUtf16leToString(buffer, currentOffset)
-    } else {
-      const previousTextLength = (
-        textFields[textFieldKeys[index - 1]] as string
-      ).length
+  return textFieldKeys.reduce(
+    (textFields, key, index) => {
+      if (index === 0) {
+        textFields[key] = decodeFromUtf16leToString(buffer, currentOffset)
+      } else {
+        const previousTextLength = (
+          textFields[textFieldKeys[index - 1]] as string
+        ).length
 
-      const lengthPrefixOffset = 1
-      const nullTerminatorSize = 1
-      const utf8EncodingMultiplier = 2
-      const encodedTextSize =
-        previousTextLength === 0
-          ? 0
-          : (previousTextLength + nullTerminatorSize) * utf8EncodingMultiplier
+        const lengthPrefixOffset = 1
+        const nullTerminatorSize = 1
+        const utf8EncodingMultiplier = 2
+        const encodedTextSize =
+          previousTextLength === 0
+            ? 0
+            : (previousTextLength + nullTerminatorSize) * utf8EncodingMultiplier
 
-      currentOffset = currentOffset + lengthPrefixOffset + encodedTextSize
-      textFields[key] = decodeFromUtf16leToString(buffer, currentOffset)
-    }
-    return textFields
-  }, {} as { [K in T]: string })
+        currentOffset = currentOffset + lengthPrefixOffset + encodedTextSize
+        textFields[key] = decodeFromUtf16leToString(buffer, currentOffset)
+      }
+      return textFields
+    },
+    {} as { [K in T]: string }
+  )
 }

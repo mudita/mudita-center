@@ -374,8 +374,7 @@ export const WithSearchType: Story = {
           "**Note:** The implementation of getting the searched phrase, getting the results and filtering them must be done separately.",
       },
       source: {
-        code:
-          `const items = Array.from({ length: 1000 }, (_, i) => \`Item $\{i + 1}\`)
+        code: `const items = Array.from({ length: 1000 }, (_, i) => \`Item $\{i + 1}\`)
 const [value, setValue] = useState("")
 
 const filteredItems = useMemo(() => {

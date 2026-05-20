@@ -41,7 +41,7 @@ const queryFn = async (device?: Harmony): Promise<QuotationSettings> => {
 
 export const useHarmonyQuotationSettingsQuery = (device?: Harmony) => {
   return useQuery({
-    queryKey: useHarmonyQuotationSettingsQuery.queryKey(device?.path),
+    queryKey: useHarmonyQuotationSettingsQuery.queryKey(device?.id),
     enabled: !!device,
     queryFn: () => queryFn(device),
   })

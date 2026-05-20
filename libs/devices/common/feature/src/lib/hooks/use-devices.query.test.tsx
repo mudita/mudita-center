@@ -34,6 +34,8 @@ describe("useDevicesQuery", () => {
         serialNumber: "654321",
         productId: "product1",
         vendorId: "vendor1",
+        otherProductIds: undefined,
+        otherVendorIds: undefined,
       },
       // second connected device
       {
@@ -44,6 +46,8 @@ describe("useDevicesQuery", () => {
         productId: "product2",
         vendorId: "vendor1",
         deviceSubtype: "subtype2",
+        otherProductIds: undefined,
+        otherVendorIds: undefined,
       },
       // third connected device
       {
@@ -53,6 +57,8 @@ describe("useDevicesQuery", () => {
         serialNumber: "789012",
         productId: "product3",
         vendorId: "vendor1",
+        otherProductIds: undefined,
+        otherVendorIds: undefined,
       },
     ])
 
@@ -80,7 +86,6 @@ describe("useDevicesQuery", () => {
           productId: "product3",
           vendorId: "vendor1",
           serialNumber: "789012",
-          deviceSubtype: undefined,
           otherProductIds: undefined,
           otherVendorIds: undefined,
         },
@@ -91,7 +96,6 @@ describe("useDevicesQuery", () => {
           productId: "product1",
           vendorId: "vendor1",
           serialNumber: "654321",
-          deviceSubtype: undefined,
           otherProductIds: undefined,
           otherVendorIds: undefined,
         },
@@ -132,9 +136,6 @@ describe("useDevicesQuery", () => {
           serialNumber: "654321",
           productId: "product1",
           vendorId: "vendor1",
-          deviceSubtype: undefined,
-          otherProductIds: undefined,
-          otherVendorIds: undefined,
         },
       ])
     )

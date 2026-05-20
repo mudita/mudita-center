@@ -28,7 +28,7 @@ export const saveBackupStep = async ({
   const header = {
     vendorId: device.vendorId,
     productId: device.productId,
-    serialNumber: device.serialNumber,
+    serialNumber: device.realSerialNumber,
     appVersion,
     ...(password
       ? { password: SHA3(password).toString(encBase64), crypto: "AES" }
@@ -51,8 +51,8 @@ export const saveBackupStep = async ({
 
   const backupDirectory = await AppSettings.get("user.backupLocation")
   const deviceDirectory = `${device.vendorId}-${device.productId}`
-  const fileName = device.serialNumber
-    ? `${Date.now()}_${device.serialNumber}`
+  const fileName = device.realSerialNumber
+    ? `${Date.now()}_${device.realSerialNumber}`
     : `${Date.now()}`
   const fileExtension = ".mcbackup"
 

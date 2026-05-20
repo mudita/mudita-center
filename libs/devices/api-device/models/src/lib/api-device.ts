@@ -12,4 +12,6 @@ export type ApiDevice = Pick<
   SerialPortDeviceInfo<SerialPortDeviceType.ApiDevice>,
   "deviceType" | "path" | "id"
 > &
-  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path" | "id">>
+  Partial<Omit<SerialPortDeviceInfo, "deviceType" | "path" | "id">> & {
+    realSerialNumber?: string
+  }

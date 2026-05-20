@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: "news/utils",
   preset: "../../../jest.preset.js",
   transform: {

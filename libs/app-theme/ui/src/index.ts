@@ -44,7 +44,6 @@ export * from "./lib/typography/bytes-formatter/format-bytes"
 export * from "./lib/file-preview/file-preview"
 
 // Legacy components
-export * from "./lib/legacy-button/button.component"
 export * from "./lib/legacy-icon/icon.component"
 export * from "./lib/legacy-icon/icons"
 export * from "./lib/legacy-icon/range-icon.component"
