@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { ApiDevice } from "devices/api-device/models"
 import {
   useApiEntitiesDataQueries,
@@ -21,6 +21,7 @@ import { deviceManageFilesEmptyData } from "./use-device-manage-files-empty-data
 export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
   feature: F
 ) => {
+  const [isReloading, setIsReloading] = useState(false)
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const {
     data: internalMemory,
@@ -37,16 +38,19 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
     refetch: refetchExternalMemory,
   } = useApiFeatureQuery(DeviceManageFileFeature.External, device)
 
+  const internalMemoryCategories = useMemo(() => {
+    return internalMemory?.config?.main?.config?.categories || []
+  }, [internalMemory])
+  const externalMemoryCategories = useMemo(() => {
+    return externalMemory?.config?.main?.config?.categories || []
+  }, [externalMemory])
+
   const entitiesTypes = useMemo(() => {
     return uniq([
-      ...(internalMemory?.config?.main.config.categories.map(
-        (c) => c.entityType
-      ) || []),
-      ...(externalMemory?.config?.main.config.categories.map(
-        (c) => c.entityType
-      ) || []),
+      ...(internalMemoryCategories?.map((c) => c.entityType) || []),
+      ...(externalMemoryCategories?.map((c) => c.entityType) || []),
     ])
-  }, [externalMemory, internalMemory])
+  }, [externalMemoryCategories, internalMemoryCategories])
 
   const {
     data: entitiesData,
@@ -69,13 +73,18 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
 
   const isConfigSuccess = isInternalMemorySuccess && isExternalMemorySuccess
   const isLoading =
-    isInternalMemoryLoading || isExternalMemoryLoading || isEntitiesLoading
+    isInternalMemoryLoading ||
+    isExternalMemoryLoading ||
+    isEntitiesLoading ||
+    isReloading
   const isConfigError = isInternalMemoryError || isExternalMemoryError
 
   const refetch = useCallback(async () => {
+    setIsReloading(true)
     await refetchInternalMemory()
     await refetchExternalMemory()
     await refetchEntities()
+    setIsReloading(false)
   }, [refetchEntities, refetchExternalMemory, refetchInternalMemory])
 
   const data = useMemo(() => {
@@ -83,17 +92,31 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
       return deviceManageFilesEmptyData
     }
     if (feature === DeviceManageFileFeature.Internal) {
+      if (!internalMemoryCategories.length) {
+        return deviceManageFilesEmptyData
+      }
       return mapDeviceToManageFiles({
         featureData: internalMemory,
         entitiesCountData: entitiesData,
       })
     } else {
+      if (!externalMemoryCategories.length) {
+        return deviceManageFilesEmptyData
+      }
       return mapDeviceToManageFiles({
         featureData: externalMemory,
         entitiesCountData: entitiesData,
       })
     }
-  }, [entitiesData, externalMemory, feature, internalMemory, isConfigSuccess])
+  }, [
+    entitiesData,
+    externalMemory,
+    externalMemoryCategories.length,
+    feature,
+    internalMemory,
+    internalMemoryCategories.length,
+    isConfigSuccess,
+  ])
 
   return {
     data,
