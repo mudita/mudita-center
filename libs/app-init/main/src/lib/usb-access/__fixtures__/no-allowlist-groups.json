@@ -1,0 +1,12 @@
+{
+  "id": "no-allowlist-groups",
+  "platform": "linux",
+  "groupsOutput": "mc_none",
+  "expected": {
+    "hasAccess": false,
+    "grant": {
+      "ok": false,
+      "error": "SerialPortGroupsNotFound"
+    }
+  }
+}

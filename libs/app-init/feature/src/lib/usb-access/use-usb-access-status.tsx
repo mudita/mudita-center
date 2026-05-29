@@ -20,5 +20,8 @@ export const useUsbAccessStatus = () => {
     restartRequired: Boolean(
       settings.data?.system.restartRequiredForSerialPortAccess
     ),
+    promptFailureSuppressed: Boolean(
+      settings.data?.system.suppressUsbAccessPromptFailureModal
+    ),
   }
 }

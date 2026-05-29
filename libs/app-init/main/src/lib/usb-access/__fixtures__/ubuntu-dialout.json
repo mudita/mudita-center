@@ -1,0 +1,8 @@
+{
+  "id": "ubuntu-dialout",
+  "platform": "linux",
+  "groupsOutput": "ubuntuuser adm cdrom sudo dip plugdev users dialout",
+  "expected": {
+    "hasAccess": true
+  }
+}

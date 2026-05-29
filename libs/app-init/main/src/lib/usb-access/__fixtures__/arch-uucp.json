@@ -1,0 +1,8 @@
+{
+  "id": "arch-uucp",
+  "platform": "linux",
+  "groupsOutput": "archuser uucp",
+  "expected": {
+    "hasAccess": true
+  }
+}

@@ -12,8 +12,13 @@ export const useUsbAccessActionRequired = () => {
   const [usbAccessActionRequired, setUsbAccessActionRequired] =
     useState<RequirementStatus>(RequirementStatus.Unknown)
 
-  const { isLoading, isError, hasAccess, restartRequired } =
-    useUsbAccessStatus()
+  const {
+    isLoading,
+    isError,
+    hasAccess,
+    restartRequired,
+    promptFailureSuppressed,
+  } = useUsbAccessStatus()
 
   useEffect(() => {
     if (isLoading) {
@@ -28,12 +33,17 @@ export const useUsbAccessActionRequired = () => {
       return
     }
 
+    if (promptFailureSuppressed) {
+      setUsbAccessActionRequired(RequirementStatus.ActionNotRequired)
+      return
+    }
+
     if (!hasAccess || restartRequired) {
       setUsbAccessActionRequired(RequirementStatus.ActionRequired)
     } else {
       setUsbAccessActionRequired(RequirementStatus.ActionNotRequired)
     }
-  }, [isLoading, isError, hasAccess, restartRequired])
+  }, [isLoading, isError, hasAccess, restartRequired, promptFailureSuppressed])
 
   return usbAccessActionRequired
 }
