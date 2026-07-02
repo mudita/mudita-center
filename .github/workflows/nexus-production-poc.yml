@@ -98,8 +98,10 @@ jobs:
           npx nx build:linux app --publish never --output-style stream --no-cloud
       - name: Signing via Digicert
         if: matrix.runner_label == 'windows-nexus'
+        env:
+          SM_CODE_SIGNING_CERT_SHA1_HASH: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
         run: |
+          SET SM_CODE_SIGNING_CERT_SHA1_HASH=%SM_CODE_SIGNING_CERT_SHA1_HASH%
           SET PATH=%PATH%;"C:\Program Files\DigiCert\DigiCert One Signing Manager Tools"
           SET PATH=%PATH%;"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
-          signtool.exe sign /sha1 d97e495588849003df261b9770f4fb820bfe2d55 /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 ./apps/app/release/Mudita-Center.exe
-        shell: cmd
+          signtool.exe sign /sha1 $SM_CODE_SIGNING_CERT_SHA1_HASH /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 ./apps/app/release/Mudita-Center.exe
