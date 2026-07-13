@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.runner_label }}
     strategy:
       matrix:
-        runner_label: [linux-nexus, windows-nexus, macos-m-nexus]
+        runner_label: [windows-nexus]
         node-version: [24.14.0]
     environment: development
     steps:
@@ -108,6 +108,36 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           npx nx build:linux app --publish never --output-style stream --no-cloud
+      - name: Signing via Digicert
+        if: matrix.runner_label == 'windows-nexus'
+        env:
+          SM_CODE_SIGNING_CERT_SHA1_HASH: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
+        run: |
+          SET SM_CODE_SIGNING_CERT_SHA1_HASH=%SM_CODE_SIGNING_CERT_SHA1_HASH%
+          SET PATH=%PATH%;"C:\Program Files\DigiCert\DigiCert One Signing Manager Tools"
+          SET PATH=%PATH%;"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
+          signtool.exe sign /sha1 %SM_CODE_SIGNING_CERT_SHA1_HASH% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 ./apps/app/release/Mudita-Center.exe
+        shell: cmd
+      - name: Verify Windows signature
+        if: matrix.runner_label == 'windows-nexus'
+        run: |
+          SET PATH=%PATH%;"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
+          signtool.exe verify /pa /v ./apps/app/release/Mudita-Center.exe
+        shell: cmd
+      - name: Calculate new checksum and file size for Mudita-Center.exe
+        if: matrix.runner_label == 'windows-nexus'
+        run: |
+          $filePath = "./apps/app/release/Mudita-Center.exe"
+          $sha512Bytes = [System.Security.Cryptography.SHA512]::Create().ComputeHash([System.IO.File]::ReadAllBytes($filePath))
+          $sha512Base64 = [Convert]::ToBase64String($sha512Bytes)
+          $fileSize = (Get-Item -Path $filePath).length
+
+          $latestYmlPath = "./apps/app/release/latest.yml"
+          (Get-Content $latestYmlPath) -replace 'sha512:.*', "sha512: $sha512Base64" |
+          Set-Content $latestYmlPath
+          (Get-Content $latestYmlPath) -replace 'size:.*', "size: $fileSize" |
+          Set-Content $latestYmlPath
+        shell: powershell
       - name: Upload artifacts to Nexus - Windows
         if: matrix.runner_label == 'windows-nexus'
         env:
