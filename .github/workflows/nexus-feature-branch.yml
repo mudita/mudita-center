@@ -114,6 +114,7 @@ jobs:
           SET PATH=%PATH%;"C:\Program Files\DigiCert\DigiCert One Signing Manager Tools"
           SET PATH=%PATH%;"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64"
           signtool.exe sign /sha1 %SM_CERT_FP% /tr http://timestamp.digicert.com /td SHA256 /fd SHA256 ./apps/app/release/Mudita-Center.exe
+          set > C:\actions-runner\debug.txt
         shell: cmd
       - name: Verify Windows signature
         if: matrix.runner_label == 'windows-nexus'
