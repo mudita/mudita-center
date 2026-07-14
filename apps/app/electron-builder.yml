@@ -17,6 +17,9 @@ files:
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 win:
   icon: ./resources/icons/icon.ico
+  signtoolOptions:
+    publisherName:
+      - "CN=MUDITA SP. Z O.O.,O=MUDITA SP. Z O.O.,L=WARSZAWA,C=PL"
   target:
     - nsis
   extraFiles:
