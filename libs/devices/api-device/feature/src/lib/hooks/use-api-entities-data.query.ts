@@ -57,7 +57,7 @@ export const useApiEntitiesDataQuery = <D = EntityData[], R = D>(
     },
     enabled: !!device && !!entityType,
     select,
-    retry: false,
+    retry: 1,
   })
 
   const abort = useCallback(async () => {
