@@ -13,6 +13,19 @@ import { sum } from "lodash"
 import { useApiEntitiesConfigQuery } from "./use-api-entities-config.query"
 import PQueue from "p-queue"
 
+class EntitiesDataRetrievalAbortedError extends Error {
+  constructor() {
+    super("Entities data retrieval aborted")
+    this.name = "EntitiesDataRetrievalAbortedError"
+  }
+}
+
+const shouldRetryEntitiesData = (failureCount: number, error: unknown) => {
+  return (
+    !(error instanceof EntitiesDataRetrievalAbortedError) && failureCount < 1
+  )
+}
+
 const queryFn = async <D = EntityData[]>(
   entityType?: string,
   device?: ApiDevice,
@@ -31,12 +44,22 @@ const queryFn = async <D = EntityData[]>(
     abortController.abort()
   })
 
-  return (await getEntities({
-    device,
-    entitiesType: entityType,
-    onProgress,
-    abortController: abortController,
-  })) as D
+  try {
+    if (abortController.signal.aborted) {
+      throw new EntitiesDataRetrievalAbortedError()
+    }
+    return (await getEntities({
+      device,
+      entitiesType: entityType,
+      onProgress,
+      abortController: abortController,
+    })) as D
+  } catch (error) {
+    if (abortController.signal.aborted) {
+      throw new EntitiesDataRetrievalAbortedError()
+    }
+    throw error
+  }
 }
 
 export const useApiEntitiesDataQuery = <D = EntityData[], R = D>(
@@ -57,7 +80,7 @@ export const useApiEntitiesDataQuery = <D = EntityData[], R = D>(
     },
     enabled: !!device && !!entityType,
     select,
-    retry: 1,
+    retry: shouldRetryEntitiesData,
   })
 
   const abort = useCallback(async () => {
@@ -143,6 +166,7 @@ export const useApiEntitiesDataQueries = <
         },
         enabled: true,
         select,
+        retry: shouldRetryEntitiesData,
       })),
       ...entityTypes.map((type) => ({
         queryKey: useApiEntitiesConfigQuery.queryKey(type, device?.id),
