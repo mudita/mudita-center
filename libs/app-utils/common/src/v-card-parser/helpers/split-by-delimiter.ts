@@ -8,11 +8,14 @@
  * or escaped with backslash.
  * @param text - Text to split
  * @param delimiter - Delimiter or array of delimiters; delimiter must be a single character
+ * @param options.stripQuotes - Whether a fully quoted part is returned without its
+ * surrounding quotes; on by default, turn it off where quotes are part of the value
  * @returns Array of strings split by delimiter
  */
 export const splitByDelimiter = (
   text: string,
-  delimiter: string | string[]
+  delimiter: string | string[],
+  { stripQuotes = true }: { stripQuotes?: boolean } = {}
 ) => {
   const delimiters = Array.isArray(delimiter) ? delimiter : [delimiter]
   let quoteChar: string | null = null
@@ -40,8 +43,9 @@ export const splitByDelimiter = (
     const end = indexes[idx + 1] ? indexes[idx + 1] - 1 : text.length
     const part = text.slice(start, end)
     if (
-      (part.startsWith(`"`) && part.endsWith(`"`)) ||
-      (part.startsWith(`'`) && part.endsWith(`'`))
+      stripQuotes &&
+      ((part.startsWith(`"`) && part.endsWith(`"`)) ||
+        (part.startsWith(`'`) && part.endsWith(`'`)))
     ) {
       return part.slice(1, -1)
     }

@@ -51,3 +51,17 @@ describe("splitByDelimiter", () => {
     expect(result).toEqual(["a", `b,\\"c,d\\"`, "e"])
   })
 })
+
+describe("splitByDelimiter quote handling", () => {
+  it("returns a single quoted part without its quotes", () => {
+    expect(splitByDelimiter("a,'b,c',d", ",")).toEqual(["a", "b,c", "d"])
+  })
+
+  it("keeps the quotes when stripping them is turned off", () => {
+    expect(splitByDelimiter('a,"b,c",d', ",", { stripQuotes: false })).toEqual([
+      "a",
+      '"b,c"',
+      "d",
+    ])
+  })
+})
