@@ -36,20 +36,21 @@ dotenv.config({
     "style.css",
   ]
 
-  try {
-    // Ensure that the fonts main directory exists
-    console.log("Cleaning fonts directory...")
-    if (!fs.existsSync(mainFontsDirectory)) {
-      fs.mkdirSync(mainFontsDirectory)
-    } else {
-      const filesToRemove = fs.readdirSync(mainFontsDirectory)
-      for (const fileName of filesToRemove) {
-        fs.rmSync(path.join(mainFontsDirectory, fileName))
-      }
+  // Replaces the fonts/main directory in one go, so that a download that fails
+  // half way does not leave the build with a partial set of fonts.
+  const replaceMainFonts = (files: { fileName: string; content: Buffer }[]) => {
+    fs.rmSync(mainFontsDirectory, { recursive: true, force: true })
+    fs.mkdirSync(mainFontsDirectory, { recursive: true })
+    for (const { fileName, content } of files) {
+      fs.writeFileSync(path.join(mainFontsDirectory, fileName), content)
     }
+  }
 
-    // Then, download all required files inside the fonts/main directory
+  try {
+    // Download every required file before touching fonts/main
     console.log("Downloading fonts...")
+    const downloadedFiles: { fileName: string; content: Buffer }[] = []
+
     for (const [index, fileName] of Object.entries(requiredFiles)) {
       const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
       const { data } = await axios.get(url, {
@@ -58,21 +59,25 @@ dotenv.config({
           Authorization: `token ${process.env.GH_BUILD_TOKEN}`,
         },
       })
-      fs.writeFileSync(path.join(mainFontsDirectory, fileName), data)
+      downloadedFiles.push({ fileName, content: data })
       console.log(
         `Downloaded file (${Number(index) + 1}/${requiredFiles.length}): ${fileName}`
       )
     }
+
+    console.log("Cleaning fonts directory...")
+    replaceMainFonts(downloadedFiles)
   } catch (error) {
-    // Ensure that the fonts main directory exists
-    if (!fs.existsSync(mainFontsDirectory)) {
-      fs.mkdirSync(mainFontsDirectory)
-    }
-    // In case of an error, copy content of fonts/fallback directory to fonts/main
-    fs.copyFileSync(fallbackFontsDirectory, mainFontsDirectory)
+    // Reported first, so that the reason the download failed is not lost if
+    // falling back fails as well.
     console.warn(
       "Error while downloading fonts. Fallback font will be used instead.",
       error
     )
+
+    // fs.cpSync copies a whole directory; fs.copyFileSync only takes a single
+    // file and fails with EISDIR when handed one.
+    fs.rmSync(mainFontsDirectory, { recursive: true, force: true })
+    fs.cpSync(fallbackFontsDirectory, mainFontsDirectory, { recursive: true })
   }
 })()
