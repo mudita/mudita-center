@@ -66,6 +66,21 @@ describe.each(ALL_VERSIONS)("property names (vCard %s)", (version) => {
     expect(contact.N).toHaveLength(1)
     expect(contact.N?.[0].value.lastName).toBe("Doe")
   })
+
+  it("skips an embedded photo and keeps the following properties", () => {
+    const contact = parseCard(
+      version,
+      "N:Doe;John;;;",
+      `PHOTO;ENCODING=b;TYPE=JPEG:${"A".repeat(100_000)}`,
+      "TEL:123",
+      "NOTE:after the photo"
+    )
+
+    expect(contact).not.toHaveProperty("PHOTO")
+    expect(contact.N?.[0].value.lastName).toBe("Doe")
+    expect(contact.TEL?.[0].value.phoneNumber).toBe("123")
+    expect(contact.NOTE?.[0].value).toBe("after the photo")
+  })
 })
 
 describe.each(ALL_VERSIONS)("escaping (vCard %s)", (version) => {

@@ -157,6 +157,48 @@ describe("mapVcardContacts", () => {
       expect(address.streetAddress).toBe("1 Example St.")
     })
 
+    it("keeps the extended address alongside a new floor component", () => {
+      const address = mapAddress({
+        secondStreetAddress: "Apt 2",
+        floor: "Floor 3",
+      })
+
+      expect(address.extendedAddress).toBe("Apt 2, Floor 3")
+    })
+
+    it("keeps an independent extended address with all new address components", () => {
+      const address = mapAddress({
+        secondStreetAddress: "Side entrance",
+        room: "Room 1",
+        apartment: "Apt 2",
+        floor: "Floor 3",
+        streetNumber: "1",
+        streetName: "Example St.",
+        building: "Building A",
+        block: "Block B",
+        subdistrict: "Subdistrict A",
+        district: "District B",
+        landmark: "Example Landmark",
+        direction: "north",
+      })
+
+      expect(address.extendedAddress).toBe(
+        "Side entrance, Room 1, Apt 2, Floor 3"
+      )
+    })
+
+    it.each(["room", "apartment", "floor"] as const)(
+      "does not repeat an extended address equal to the %s component",
+      (component) => {
+        const address = mapAddress({
+          secondStreetAddress: "Suite 1\\, 2",
+          [component]: "Suite 1\\, 2",
+        })
+
+        expect(address.extendedAddress).toBe("Suite 1, 2")
+      }
+    )
+
     it("keeps the street when a new component says nothing about it", () => {
       // RFC 9554 asks a reader to ignore the street component, but only a
       // component that actually describes the street can replace it.

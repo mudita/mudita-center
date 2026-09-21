@@ -179,13 +179,16 @@ const mapAddressComponents = (address: VCard40Address) => {
     address.streetAddress
 
   const streetComponents = [street, building, block, direction]
-  const extendedComponents = [room, apartment, floor]
+  // Only the legacy street component is superseded by RFC 9554. Preserve
+  // the independent extended address and deduplicate whole component values.
+  const extendedComponents = [
+    ...new Set([address.secondStreetAddress, room, apartment, floor]),
+  ]
   const localityComponents = [subdistrict, district]
 
   return {
     streetAddress: joinComponents(streetComponents, ", "),
-    extendedAddress:
-      joinComponents(extendedComponents, ", ") || address.secondStreetAddress,
+    extendedAddress: joinComponents(extendedComponents, ", "),
     city: joinComponents([...localityComponents, address.city], ", "),
   }
 }

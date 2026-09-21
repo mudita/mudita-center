@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { splitByDelimiter } from "./split-by-delimiter"
-
 /**
  * Returns the upper cased name of the property a content line holds, without
  * its parameters - "TEL" for "TEL;TYPE=home:123".
  */
 export const getPropertyName = (line: string) => {
-  const [propertyWithParameters = ""] = splitByDelimiter(line, ":")
-  const [name = ""] = splitByDelimiter(propertyWithParameters, ";")
+  // Property names cannot contain either separator. Stop at the first one
+  // without scanning parameters or large values such as embedded photos.
+  const end = line.search(/[:;]/)
+  const name = end === -1 ? line : line.slice(0, end)
   return name.trim().toUpperCase()
 }
 
