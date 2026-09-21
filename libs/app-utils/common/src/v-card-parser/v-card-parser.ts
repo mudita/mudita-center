@@ -5,6 +5,7 @@
 
 import { z } from "zod"
 import { versionValidator } from "./helpers/common-validators"
+import { splitByDelimiter } from "./helpers/split-by-delimiter"
 import { validators as validators40 } from "./4-0/properties-validators"
 import { validators as validators30 } from "./3-0/properties-validators"
 import { validators as validators21 } from "./2-1/properties-validators"
@@ -16,6 +17,37 @@ const NEW_LINE_CHAR = "\n"
 
 const cleanLineEndings = (vcf: string) =>
   vcf.replace(/\r\n/g, NEW_LINE_CHAR).replace(/\r/g, NEW_LINE_CHAR)
+
+/**
+ * The part of a content line ahead of its value, holding the property name and
+ * the parameters. The value starts at the first colon that is not inside a
+ * quoted parameter value (RFC 6350 sec. 3.3), and the scan stops there, so a
+ * long value such as an embedded photo is never walked.
+ */
+const getParameterSection = (line: string) => {
+  let quoted = false
+
+  for (let index = 0; index < line.length; index++) {
+    const char = line[index]
+    if (char === `"`) {
+      quoted = !quoted
+    } else if (char === ":" && !quoted) {
+      return line.slice(0, index)
+    }
+  }
+
+  return line
+}
+
+/**
+ * Whether the line declares the quoted-printable encoding. Only the parameters
+ * count: a value that merely contains the words - a note quoting them, say -
+ * must not make the line that follows look like a continuation of it.
+ */
+const declaresQuotedPrintable = (line: string) =>
+  splitByDelimiter(getParameterSection(line), ";").some((parameter) =>
+    /^ENCODING\s*=\s*QUOTED-PRINTABLE$/i.test(parameter.trim())
+  )
 
 /**
  * A quoted-printable value is broken up with a soft line break - an "=" at the
@@ -33,7 +65,7 @@ const joinQuotedPrintableLines = (lines: string[]) =>
     const previous = acc[acc.length - 1]
     const continues =
       previous?.endsWith("=") &&
-      /ENCODING=QUOTED-PRINTABLE/i.test(previous) &&
+      declaresQuotedPrintable(previous) &&
       !/^(BEGIN|END|VERSION):/i.test(line.trim())
 
     if (continues) {

@@ -275,6 +275,44 @@ describe("quoted-printable soft line breaks (vCard 2.1)", () => {
     )
   })
 
+  it("does not treat a value quoting the encoding as a continuation", () => {
+    // Only a real ENCODING parameter marks a soft break; a value that merely
+    // holds the words must not swallow the property that follows it.
+    const contact = new VCardParser(VCardVersion.v21).parse(
+      "BEGIN:VCARD\r\nVERSION:2.1\r\n" +
+        "NOTE:literal ENCODING=QUOTED-PRINTABLE=\r\n" +
+        "TEL;HOME:123456789\r\n" +
+        "END:VCARD\r\n"
+    )[0]
+
+    expect(contact.NOTE?.[0].value).toBe("literal ENCODING=QUOTED-PRINTABLE=")
+    expect(contact.TEL?.[0].value.phoneNumber).toBe("123456789")
+  })
+
+  it("does not treat the encoding inside a quoted parameter as a declaration", () => {
+    const contact = new VCardParser(VCardVersion.v21).parse(
+      "BEGIN:VCARD\r\nVERSION:2.1\r\n" +
+        'NOTE;CHARSET="ENCODING=QUOTED-PRINTABLE":value=\r\n' +
+        "TEL;HOME:123456789\r\n" +
+        "END:VCARD\r\n"
+    )[0]
+
+    expect(contact.TEL?.[0].value.phoneNumber).toBe("123456789")
+  })
+
+  it("still joins a value whose parameter declares the encoding", () => {
+    const contact = new VCardParser(VCardVersion.v21).parse(
+      "BEGIN:VCARD\r\nVERSION:2.1\r\n" +
+        "NOTE;ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8:za=C5=BC=\r\n" +
+        "=C3=B3=C5=82=C4=87\r\n" +
+        "TEL;HOME:123456789\r\n" +
+        "END:VCARD\r\n"
+    )[0]
+
+    expect(contact.NOTE?.[0].value).toBe("zażółć")
+    expect(contact.TEL?.[0].value.phoneNumber).toBe("123456789")
+  })
+
   it("does not swallow the next property of a plain value", () => {
     const contact = new VCardParser(VCardVersion.v21).parse(
       "BEGIN:VCARD\r\nVERSION:2.1\r\nNOTE:ends with=\r\nTEL;HOME:123\r\nEND:VCARD\r\n"
