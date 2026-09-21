@@ -352,3 +352,78 @@ describe("malformed input", () => {
     expect(contact.TEL?.[0].value.phoneNumber).toBe("123456789")
   })
 })
+
+describe.each(ALL_VERSIONS)("apostrophes (vCard %s)", (version) => {
+  // An apostrophe is ordinary content, not a quotation mark, so it must not
+  // suppress the separator that follows it.
+  it("keeps the components of a name holding an apostrophe apart", () => {
+    const contact = parseCard(version, "N:O'Connor;John;;;")
+
+    expect(contact.N?.[0].value).toMatchObject({
+      lastName: "O'Connor",
+      firstName: "John",
+    })
+  })
+
+  it("keeps the components of an address holding an apostrophe apart", () => {
+    const contact = parseCard(
+      version,
+      "ADR:;;1 O'Connor St.;Example City;EX;12345;Example Country"
+    )
+
+    expect(contact.ADR?.[0].value).toMatchObject({
+      streetAddress: "1 O'Connor St.",
+      city: "Example City",
+      zipCode: "12345",
+    })
+  })
+
+  it("keeps an organization holding an apostrophe apart from its unit", () => {
+    const contact = parseCard(version, "ORG:O'Connor's Org;Unit A")
+
+    expect(contact.ORG?.[0].value).toEqual({
+      name: "O'Connor's Org",
+      unit: "Unit A",
+    })
+  })
+})
+
+describe("card boundaries", () => {
+  it("does not end a card on the words END:VCARD inside a value", () => {
+    const file = card(
+      VCardVersion.v30,
+      "N:Doe;John;;;",
+      "NOTE:please write END:VCARD here"
+    )
+
+    expect(VCardParser.splitCards(file)).toHaveLength(1)
+
+    const [contact, ...rest] = new VCardParser(VCardVersion.v30).parse(file)
+
+    expect(contact.NOTE?.[0].value).toBe("please write END:VCARD here")
+    expect(rest).toEqual([])
+  })
+
+  it("ends a card on an END:VCARD line of its own", () => {
+    const file =
+      card(VCardVersion.v30, "N:Doe;John;;;") +
+      card(VCardVersion.v30, "N:Roe;Jane;;;")
+
+    expect(VCardParser.splitCards(file)).toHaveLength(2)
+  })
+})
+
+describe("VCardParser.declaresVersion", () => {
+  it("is true for a version the parser does not support", () => {
+    const file = card(VCardVersion.v30, "N:Doe;John;;;").replace("3.0", "9.9")
+
+    expect(VCardParser.declaresVersion(file)).toBe(true)
+    expect(VCardParser.determineVersion(file)).toBeNull()
+  })
+
+  it("is false when no version is declared", () => {
+    expect(
+      VCardParser.declaresVersion("BEGIN:VCARD\r\nFN:John Doe\r\nEND:VCARD\r\n")
+    ).toBe(false)
+  })
+})

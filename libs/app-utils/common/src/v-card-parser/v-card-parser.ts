@@ -66,7 +66,9 @@ const unfoldLines = (lines: string[]) =>
     return acc
   }, [])
 
-const CARD_END = /END:VCARD\s*/gi
+// Anchored to a whole content line, so that the words "END:VCARD" inside a
+// value do not cut the card in half.
+const CARD_END = /^END:VCARD[ \t]*\n?/im
 
 export class VCardParser<V extends VCardVersion = VCardVersion> {
   constructor(public version: V) {}
@@ -94,6 +96,16 @@ export class VCardParser<V extends VCardVersion = VCardVersion> {
       return null
     }
     return result.data.value
+  }
+
+  /**
+   * Tells whether the data declares a VERSION property at all, which is not
+   * the same as declaring one this parser supports.
+   */
+  static declaresVersion(data: string): boolean {
+    return unfoldLines(cleanLineEndings(data).split(NEW_LINE_CHAR)).some(
+      (line) => /^VERSION:/i.test(line)
+    )
   }
 
   /**

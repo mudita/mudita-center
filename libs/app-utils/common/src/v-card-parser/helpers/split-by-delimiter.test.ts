@@ -53,8 +53,16 @@ describe("splitByDelimiter", () => {
 })
 
 describe("splitByDelimiter quote handling", () => {
-  it("returns a single quoted part without its quotes", () => {
-    expect(splitByDelimiter("a,'b,c',d", ",")).toEqual(["a", "b,c", "d"])
+  it("treats an apostrophe as ordinary content", () => {
+    // RFC 6350 sec. 3.3 gives meaning to the double quote only, and a name
+    // such as O'Connor must not swallow the delimiter after it.
+    expect(splitByDelimiter("O'Connor;John;;;", ";")).toEqual([
+      "O'Connor",
+      "John",
+      "",
+      "",
+      "",
+    ])
   })
 
   it("keeps the quotes when stripping them is turned off", () => {
@@ -63,5 +71,18 @@ describe("splitByDelimiter quote handling", () => {
       '"b,c"',
       "d",
     ])
+  })
+
+  it("splits inside quotes when quote awareness is off", () => {
+    expect(splitByDelimiter('a,"b,c",d', ",", { quoteAware: false })).toEqual([
+      "a",
+      '"b',
+      'c"',
+      "d",
+    ])
+  })
+
+  it("leaves a lone quotation mark alone", () => {
+    expect(splitByDelimiter('a,",b', ",")).toEqual(["a", '",b'])
   })
 })

@@ -44,7 +44,13 @@ export const mapVcardContacts = (data: string): ContactToImportAsFile[] => {
   const fileVersion = VCardParser.determineVersion(data)
 
   return VCardParser.splitCards(data).flatMap((card) => {
-    const version = VCardParser.determineVersion(card) ?? fileVersion
+    // A card that declares a version this parser does not support is skipped
+    // rather than read with another version's grammar. Only a card that
+    // declares no version at all falls back to the one the file opened with.
+    const version = VCardParser.declaresVersion(card)
+      ? VCardParser.determineVersion(card)
+      : fileVersion
+
     return version ? mapCard(card, version) : []
   })
 }

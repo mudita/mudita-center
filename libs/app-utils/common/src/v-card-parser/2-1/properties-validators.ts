@@ -63,9 +63,7 @@ const nameValidator = z
   .transform((val) => {
     const { value, parameters } = baseParser(val)
     const [lastName, firstName, middleName, namePrefix, nameSuffix] =
-      splitByDelimiter(value, ";", { stripQuotes: false }).map(
-        unescapeSemicolon
-      )
+      splitByDelimiter(value, ";", { quoteAware: false }).map(unescapeSemicolon)
 
     return {
       type: "N" as const,
@@ -88,7 +86,7 @@ const nicknameValidator = z
 
     return {
       type: "NICKNAME" as const,
-      value: splitByDelimiter(value, ",", { stripQuotes: false }).map(
+      value: splitByDelimiter(value, ",", { quoteAware: false }).map(
         unescapeSemicolon
       ),
       parameters,
@@ -161,7 +159,7 @@ const addressValidator = z
       state,
       zipCode,
       country,
-    ] = splitByDelimiter(value, ";", { stripQuotes: false }).map(
+    ] = splitByDelimiter(value, ";", { quoteAware: false }).map(
       unescapeSemicolon
     )
 

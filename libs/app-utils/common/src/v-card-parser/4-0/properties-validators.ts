@@ -52,7 +52,7 @@ const nameValidator = z
       // components added by RFC 9554 sec. 2.2
       secondarySurname,
       generation,
-    ] = splitByDelimiter(value, ";", { stripQuotes: false }).map(unescapeValue)
+    ] = splitByDelimiter(value, ";", { quoteAware: false }).map(unescapeValue)
 
     return {
       type: "N" as const,
@@ -77,7 +77,7 @@ const nicknameValidator = z
 
     return {
       type: "NICKNAME" as const,
-      value: splitByDelimiter(value, ",", { stripQuotes: false }).map(
+      value: splitByDelimiter(value, ",", { quoteAware: false }).map(
         unescapeValue
       ),
       parameters,
@@ -165,7 +165,7 @@ const addressValidator = z
       district,
       landmark,
       direction,
-    ] = splitByDelimiter(value, ";", { stripQuotes: false }).map(unescapeValue)
+    ] = splitByDelimiter(value, ";", { quoteAware: false }).map(unescapeValue)
 
     return {
       type: "ADR" as const,

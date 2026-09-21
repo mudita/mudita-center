@@ -15,9 +15,11 @@ const pickType = <T extends string>(
   knownTypes: Record<string, T>,
   fallback: T
 ): T => {
+  // Object.hasOwn rather than "in", which would also reach Object.prototype
+  // and turn a type such as "constructor" into a function.
   const match = types
     ?.map((type) => type.toLowerCase())
-    .find((type) => type in knownTypes)
+    .find((type) => Object.hasOwn(knownTypes, type))
 
   return match ? knownTypes[match] : fallback
 }

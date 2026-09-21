@@ -338,6 +338,44 @@ describe("mapVcardContacts robustness", () => {
     ])
   })
 
+  it("skips a card that declares a version the parser does not support", () => {
+    const contacts = mapVcardContacts(
+      rawVCard("3.0", "N:Doe;John;;;") + rawVCard("9.9", "N:Roe;Jane;;;")
+    )
+
+    expect(contacts.map((c) => c.lastName)).toEqual(["Doe"])
+  })
+
+  it("falls back to the file version only for a card that declares none", () => {
+    const contacts = mapVcardContacts(
+      rawVCard("3.0", "N:Doe;John;;;") +
+        "BEGIN:VCARD\r\nN:Roe;Jane;;;\r\nEND:VCARD\r\n"
+    )
+
+    expect(contacts.map((c) => c.lastName)).toEqual(["Doe", "Roe"])
+  })
+
+  it("does not take a type inherited from Object.prototype", () => {
+    const [contact] = mapVcardContacts(
+      vCard(
+        "4.0",
+        "TEL;TYPE=constructor:123456789",
+        "TEL;TYPE=toString:987654321"
+      )
+    )
+
+    expect(contact.phoneNumbers.map((p) => p.type)).toEqual([
+      PhoneNumberType.Other,
+      PhoneNumberType.Other,
+    ])
+  })
+
+  it("keeps a name holding an apostrophe intact", () => {
+    const [contact] = mapVcardContacts(rawVCard("3.0", "N:O'Connor;John;;;"))
+
+    expect(contact).toMatchObject({ lastName: "O'Connor", firstName: "John" })
+  })
+
   it("keeps importing when one card holds an unsupported grouped property", () => {
     const contacts = mapVcardContacts(
       rawVCard("3.0", "N:Doe;John;;;") +
