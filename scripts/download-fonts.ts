@@ -79,5 +79,17 @@ dotenv.config({
     // file and fails with EISDIR when handed one.
     fs.rmSync(mainFontsDirectory, { recursive: true, force: true })
     fs.cpSync(fallbackFontsDirectory, mainFontsDirectory, { recursive: true })
+
+    // Falling back is fine on a workstation without access to the private
+    // repository, but a build that ships is not allowed to swap GT Pressura
+    // for Roboto without anyone noticing. The workflows put CI in the .env.
+    if (process.env.CI === "true") {
+      console.error(
+        "::error title=Fonts::GT Pressura could not be downloaded, so the " +
+          "build would ship the fallback font. Check that GH_BUILD_TOKEN is " +
+          "valid and still has access to the fonts repository."
+      )
+      process.exitCode = 1
+    }
   }
 })()
