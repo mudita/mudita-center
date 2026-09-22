@@ -1,0 +1,18 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Nowak;Piotr;Jan;;
+FN:Piotr Nowak
+ORG:Przykład Sp. z o.o.;Dział Sprzedaży;Zespół B
+TITLE:Specjalista
+EMAIL;TYPE=INTERNET;TYPE=HOME:piotr.nowak@example.com
+EMAIL;TYPE=INTERNET;TYPE=WORK:p.nowak@example.org
+TEL;TYPE=CELL:+48 602 345 678
+TEL;TYPE=WORK:+48 22 222 22 22
+TEL;TYPE=HOME:+48 22 333 33 33
+ADR;TYPE=HOME:;;ul. Polna 7\, m. 12;Kraków;małopolskie;30-001;Polska
+ADR;TYPE=WORK:;;al. Jerozolimskie 100;Warszawa;mazowieckie;00-807;Polska
+NOTE:Pierwsza linia notatki.\nDruga linia po escape'owanym znaku nowej lini
+ i\, z przecinkiem. Trzecia część jest wystarczająco długa, żeby wymusić za
+ wijanie linii zgodnie ze specyfikacją.
+URL:http://example.com/piotr
+END:VCARD

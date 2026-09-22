@@ -4,15 +4,14 @@
  */
 
 import { VCard30 } from "app-utils/common"
+import { ContactSource, ContactToImportAsFile } from "devices/common/models"
 import {
-  AddressType,
-  ContactSource,
-  ContactToImportAsFile,
-  EmailAddressType,
-  PhoneNumberType,
-  UrlType,
-} from "devices/common/models"
-import { intersection } from "lodash"
+  mapAddressType,
+  mapEmailAddressType,
+  mapOrganizations,
+  mapPhoneNumberType,
+  mapUrlType,
+} from "./map-vcard-common"
 
 export const mapVcard21Contact = (
   contact: VCard30
@@ -25,17 +24,12 @@ export const mapVcard21Contact = (
     const adr = contact.ADR?.sort(sortByPref)
     const org = contact.ORG?.sort(sortByPref)
     const title = contact.TITLE?.sort(sortByPref)
+    const role = contact.ROLE?.sort(sortByPref)
 
     const phoneNumbers =
       tel
         ?.map((t) => {
-          const type = [
-            ...intersection(
-              t.parameters.TYPE?.map((t) => t.toLowerCase()),
-              Object.values(PhoneNumberType)
-            ),
-            PhoneNumberType.Other,
-          ][0] as PhoneNumberType
+          const type = mapPhoneNumberType(t.parameters.TYPE)
           return {
             value: t.value.phoneNumber,
             type,
@@ -47,13 +41,7 @@ export const mapVcard21Contact = (
     const emailAddresses =
       email
         ?.map((e) => {
-          const type = [
-            ...intersection(
-              e.parameters.TYPE?.map((t) => t.toLowerCase()),
-              Object.values(EmailAddressType)
-            ),
-            EmailAddressType.Other,
-          ][0] as EmailAddressType
+          const type = mapEmailAddressType(e.parameters.TYPE)
           return {
             value: e.value,
             type,
@@ -65,13 +53,7 @@ export const mapVcard21Contact = (
     const addresses =
       adr
         ?.map((a) => {
-          const type = [
-            ...intersection(
-              a.parameters.TYPE?.map((t) => t.toLowerCase()),
-              Object.values(AddressType)
-            ),
-            AddressType.Other,
-          ][0] as AddressType
+          const type = mapAddressType(a.parameters.TYPE)
           return {
             streetAddress: a.value.streetAddress,
             extendedAddress: a.value.secondStreetAddress,
@@ -95,27 +77,12 @@ export const mapVcard21Contact = (
           )
         }) || []
 
-    const organizations =
-      org
-        ?.map((o, index) => {
-          return {
-            name: o.value.name,
-            department: o.value.unit,
-            title: title?.[index]?.value,
-          }
-        })
-        .filter((o) => o.name || o.title || o.department) || []
+    const organizations = mapOrganizations(org, title, role)
 
     const urls =
       contact.URL?.sort(sortByPref)
         .map((u) => {
-          const type = [
-            ...intersection(
-              u.parameters.TYPE?.map((t) => t.toLowerCase()),
-              Object.values(UrlType)
-            ),
-            UrlType.Other,
-          ][0] as UrlType
+          const type = mapUrlType(u.parameters.TYPE)
           return {
             value: u.value,
             type,

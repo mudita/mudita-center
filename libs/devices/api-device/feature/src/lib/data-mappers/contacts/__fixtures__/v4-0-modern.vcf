@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:4.0
+KIND:individual
+N:Müller;Hans;;Dr.;
+FN:Dr. Hans Müller
+ORG:Beispiel GmbH;Entwicklung
+TITLE:Entwickler
+TEL;VALUE=uri;TYPE="voice,cell";PREF=1:tel:+49-30-1234567
+TEL;VALUE=uri;TYPE=work:tel:+49-30-7654321;ext=99
+TEL;TYPE=home:+49 30 111111
+EMAIL;TYPE=work;PREF=1:hans.mueller@example.de
+ADR;TYPE=home;LABEL="Beispielstr. 1\n10115 Berlin":;;Beispielstr. 1;Berlin;;10115;Deutschland
+NOTE:Hinweis mit Semikolon\; und Komma\, sowie Zeilenumbruch.\nZweite Zeile.
+URL;TYPE=work:https://example.de/hans
+REV:20260101T120000Z
+END:VCARD
