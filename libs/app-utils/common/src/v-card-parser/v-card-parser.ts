@@ -63,10 +63,11 @@ const declaresQuotedPrintable = (line: string) =>
 const joinQuotedPrintableLines = (lines: string[]) =>
   lines.reduce<string[]>((acc, line) => {
     const previous = acc[acc.length - 1]
+    // The "=" alone decides: after a soft break the whole next physical line
+    // belongs to the value, even when it opens with what looks like a marker
+    // name. END:VCARD never reaches here anyway, the card is split on it first.
     const continues =
-      previous?.endsWith("=") &&
-      declaresQuotedPrintable(previous) &&
-      !/^(BEGIN|END|VERSION):/i.test(line.trim())
+      previous?.endsWith("=") && declaresQuotedPrintable(previous)
 
     if (continues) {
       acc[acc.length - 1] = previous.slice(0, -1) + line

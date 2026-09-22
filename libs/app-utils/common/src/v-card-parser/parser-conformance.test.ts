@@ -313,6 +313,23 @@ describe("quoted-printable soft line breaks (vCard 2.1)", () => {
     expect(contact.TEL?.[0].value.phoneNumber).toBe("123456789")
   })
 
+  it("joins a continuation that opens with a marker name", () => {
+    // After a soft break the whole next line is part of the value, so a note
+    // whose continuation happens to start with "VERSION:" must not be cut.
+    const contact = new VCardParser(VCardVersion.v21).parse(
+      "BEGIN:VCARD\r\nVERSION:2.1\r\n" +
+        "NOTE;ENCODING=QUOTED-PRINTABLE:release notes=0D=0A=\r\n" +
+        "VERSION: details here\r\n" +
+        "TEL;HOME:123456789\r\n" +
+        "END:VCARD\r\n"
+    )[0]
+
+    expect(contact.NOTE?.[0].value).toBe(
+      "release notes\r\nVERSION: details here"
+    )
+    expect(contact.TEL?.[0].value.phoneNumber).toBe("123456789")
+  })
+
   it("does not swallow the next property of a plain value", () => {
     const contact = new VCardParser(VCardVersion.v21).parse(
       "BEGIN:VCARD\r\nVERSION:2.1\r\nNOTE:ends with=\r\nTEL;HOME:123\r\nEND:VCARD\r\n"
