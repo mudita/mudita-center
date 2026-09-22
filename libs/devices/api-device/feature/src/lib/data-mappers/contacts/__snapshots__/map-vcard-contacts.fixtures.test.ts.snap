@@ -1,0 +1,745 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`mapVcardContacts against whole vCard files imports mixed-versions.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Kraków",
+        "country": "Polska",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "30-001",
+        "region": "małopolskie",
+        "streetAddress": "ul. Polna 7, m. 12",
+        "type": "home",
+      },
+      {
+        "city": "Warszawa",
+        "country": "Polska",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "00-807",
+        "region": "mazowieckie",
+        "streetAddress": "al. Jerozolimskie 100",
+        "type": "work",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "piotr.nowak@example.com",
+      },
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "p.nowak@example.org",
+      },
+    ],
+    "firstName": "Piotr",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Nowak",
+    "middleName": "Jan",
+    "nickName": undefined,
+    "note": "Pierwsza linia notatki.
+Druga linia po escape'owanym znaku nowej linii, z przecinkiem. Trzecia część jest wystarczająco długa, żeby wymusić zawijanie linii zgodnie ze specyfikacją.",
+    "organizations": [
+      {
+        "department": "Dział Sprzedaży, Zespół B",
+        "name": "Przykład Sp. z o.o.",
+        "title": "Specjalista",
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+48 602 345 678",
+      },
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "+48 22 222 22 22",
+      },
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "+48 22 333 33 33",
+      },
+    ],
+    "urls": [
+      {
+        "preference": undefined,
+        "type": "other",
+        "value": "http://example.com/piotr",
+      },
+    ],
+  },
+  {
+    "addresses": [
+      {
+        "city": "Dublin",
+        "country": "Ireland",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "D01 F5P2",
+        "region": "",
+        "streetAddress": "12 O'Connell St.",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": undefined,
+        "type": "other",
+        "value": "sean@example.ie",
+      },
+    ],
+    "firstName": "Sean",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "O'Connor",
+    "middleName": "",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [
+      {
+        "department": undefined,
+        "name": "O'Connor & Sons",
+        "title": undefined,
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+353 86 123 4567",
+      },
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "+353 1 234 5678",
+      },
+    ],
+    "urls": [],
+  },
+  {
+    "addresses": [],
+    "emailAddresses": [],
+    "firstName": "John",
+    "honorificPrefix": "Dr.",
+    "honorificSuffix": "Jr.",
+    "importSource": "MC vCard Import",
+    "lastName": "Smith",
+    "middleName": "Q",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+1 555 0100",
+      },
+    ],
+    "urls": [],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v2-1-android-plain.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Dublin",
+        "country": "Ireland",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "D01 F5P2",
+        "region": "",
+        "streetAddress": "12 O'Connell St.",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": undefined,
+        "type": "other",
+        "value": "sean@example.ie",
+      },
+    ],
+    "firstName": "Sean",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "O'Connor",
+    "middleName": "",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [
+      {
+        "department": undefined,
+        "name": "O'Connor & Sons",
+        "title": undefined,
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+353 86 123 4567",
+      },
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "+353 1 234 5678",
+      },
+    ],
+    "urls": [],
+  },
+  {
+    "addresses": [],
+    "emailAddresses": [],
+    "firstName": "John",
+    "honorificPrefix": "Dr.",
+    "honorificSuffix": "Jr.",
+    "importSource": "MC vCard Import",
+    "lastName": "Smith",
+    "middleName": "Q",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+1 555 0100",
+      },
+    ],
+    "urls": [],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v2-1-outlook-quoted-printable.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Warszawa",
+        "country": "Polska",
+        "extendedAddress": "m. 3",
+        "poBox": "",
+        "postalCode": "00-001",
+        "region": "mazowieckie",
+        "streetAddress": "ul. Kwiatowa 5",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "other",
+        "value": "m.kowalska@example.com",
+      },
+    ],
+    "firstName": "Małgorzata",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Kowalska-Nowakówna",
+    "middleName": "",
+    "nickName": undefined,
+    "note": "Notatka z polskimi znakami: zażółć gęślą jaźń.",
+    "organizations": [
+      {
+        "department": "Dział Badań",
+        "name": "Przykład Sp. z o.o.",
+        "title": "Kierownik",
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "home",
+        "value": "+48 22 987 65 43",
+      },
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+48 601 234 567",
+      },
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "+48 22 123 45 67",
+      },
+    ],
+    "urls": [],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v2-1-samsung-quoted-printable.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [],
+    "emailAddresses": [],
+    "firstName": "Kjetil Andreas",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Østdalen-Vikeså",
+    "middleName": "fra",
+    "nickName": undefined,
+    "note": "Møtte på eksempeldag EKSEMPEL",
+    "organizations": [],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "94050001",
+      },
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "94050002",
+      },
+    ],
+    "urls": [],
+  },
+  {
+    "addresses": [],
+    "emailAddresses": [],
+    "firstName": "Andreas",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Eksempel",
+    "middleName": "-",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [
+      {
+        "department": "Avdeling Bergen",
+        "name": "Eksempel AS",
+        "title": "Prosjektleder",
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "94050003",
+      },
+    ],
+    "urls": [],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v3-0-apple-grouped.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Nashville TN",
+        "country": "United States",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "",
+        "region": "37209",
+        "streetAddress": "111 White St.",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "other",
+        "value": "anna@example.com",
+      },
+    ],
+    "firstName": "Anna",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "White",
+    "middleName": "",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [
+      {
+        "department": undefined,
+        "name": "Example Inc.",
+        "title": undefined,
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "other",
+        "value": "+1 (555) 010-0200",
+      },
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+1 (555) 010-0201",
+      },
+    ],
+    "urls": [],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v3-0-apple-ios.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Example City",
+        "country": "USA",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "94965",
+        "region": "EX",
+        "streetAddress": "1001  Example Street",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "home",
+        "value": "anna@example.com",
+      },
+    ],
+    "firstName": "Anna",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Example",
+    "middleName": "",
+    "nickName": "Annie",
+    "note": undefined,
+    "organizations": [],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "home",
+        "value": "555-010-0001",
+      },
+    ],
+    "urls": [],
+  },
+  {
+    "addresses": [
+      {
+        "city": "Other City",
+        "country": "USA",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "94925",
+        "region": "EX",
+        "streetAddress": "332 Example Street",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "home",
+        "value": "daniel@example.com",
+      },
+    ],
+    "firstName": "Daniel",
+    "honorificPrefix": "",
+    "honorificSuffix": "Jr.",
+    "importSource": "MC vCard Import",
+    "lastName": "Second",
+    "middleName": "",
+    "nickName": undefined,
+    "note": "Sister: Emily",
+    "organizations": [],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "home",
+        "value": "555-010-0002",
+      },
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "(408) 555-0103",
+      },
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "(408) 555-0104",
+      },
+    ],
+    "urls": [],
+  },
+  {
+    "addresses": [
+      {
+        "city": "Third City",
+        "country": "USA",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "94920",
+        "region": "EX",
+        "streetAddress": "1747 Example Street",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [],
+    "firstName": "David",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Third",
+    "middleName": "",
+    "nickName": undefined,
+    "note": "Plays on Cole's Little League Baseball Team
+",
+    "organizations": [],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "home",
+        "value": "555-010-0005",
+      },
+    ],
+    "urls": [],
+  },
+  {
+    "addresses": [
+      {
+        "city": "Fourth City",
+        "country": "",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "94010",
+        "region": "EX",
+        "streetAddress": "165 Example Street",
+        "type": "work",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "work",
+        "value": "kate@example.com",
+      },
+    ],
+    "firstName": "Kate",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Fourth",
+    "middleName": "",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [
+      {
+        "department": undefined,
+        "name": "Example Consulting",
+        "title": "Producer",
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "mobile",
+        "value": "(555) 010-0106",
+      },
+      {
+        "preference": undefined,
+        "type": "other",
+        "value": "(415) 555-0107",
+      },
+    ],
+    "urls": [
+      {
+        "preference": 1,
+        "type": "other",
+        "value": "www.example.com",
+      },
+    ],
+  },
+  {
+    "addresses": [],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "other",
+        "value": "fifth@example.com",
+      },
+    ],
+    "firstName": "fifth@example.com",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "",
+    "middleName": "",
+    "nickName": undefined,
+    "note": undefined,
+    "organizations": [],
+    "phoneNumbers": [],
+    "urls": [],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v3-0-google.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Kraków",
+        "country": "Polska",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "30-001",
+        "region": "małopolskie",
+        "streetAddress": "ul. Polna 7, m. 12",
+        "type": "home",
+      },
+      {
+        "city": "Warszawa",
+        "country": "Polska",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "00-807",
+        "region": "mazowieckie",
+        "streetAddress": "al. Jerozolimskie 100",
+        "type": "work",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "piotr.nowak@example.com",
+      },
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "p.nowak@example.org",
+      },
+    ],
+    "firstName": "Piotr",
+    "honorificPrefix": "",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Nowak",
+    "middleName": "Jan",
+    "nickName": undefined,
+    "note": "Pierwsza linia notatki.
+Druga linia po escape'owanym znaku nowej linii, z przecinkiem. Trzecia część jest wystarczająco długa, żeby wymusić zawijanie linii zgodnie ze specyfikacją.",
+    "organizations": [
+      {
+        "department": "Dział Sprzedaży, Zespół B",
+        "name": "Przykład Sp. z o.o.",
+        "title": "Specjalista",
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": undefined,
+        "type": "mobile",
+        "value": "+48 602 345 678",
+      },
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "+48 22 222 22 22",
+      },
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "+48 22 333 33 33",
+      },
+    ],
+    "urls": [
+      {
+        "preference": undefined,
+        "type": "other",
+        "value": "http://example.com/piotr",
+      },
+    ],
+  },
+]
+`;
+
+exports[`mapVcardContacts against whole vCard files imports v4-0-modern.vcf the same way as before 1`] = `
+[
+  {
+    "addresses": [
+      {
+        "city": "Berlin",
+        "country": "Deutschland",
+        "extendedAddress": "",
+        "poBox": "",
+        "postalCode": "10115",
+        "region": "",
+        "streetAddress": "Beispielstr. 1",
+        "type": "home",
+      },
+    ],
+    "emailAddresses": [
+      {
+        "preference": 1,
+        "type": "work",
+        "value": "hans.mueller@example.de",
+      },
+    ],
+    "firstName": "Hans",
+    "honorificPrefix": "Dr.",
+    "honorificSuffix": "",
+    "importSource": "MC vCard Import",
+    "lastName": "Müller",
+    "middleName": "",
+    "nickName": undefined,
+    "note": "Hinweis mit Semikolon; und Komma, sowie Zeilenumbruch.
+Zweite Zeile.",
+    "organizations": [
+      {
+        "department": "Entwicklung",
+        "name": "Beispiel GmbH",
+        "title": "Entwickler",
+      },
+    ],
+    "phoneNumbers": [
+      {
+        "preference": 1,
+        "type": "mobile",
+        "value": "+49-30-1234567",
+      },
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "+49-30-7654321",
+      },
+      {
+        "preference": undefined,
+        "type": "home",
+        "value": "+49 30 111111",
+      },
+    ],
+    "urls": [
+      {
+        "preference": undefined,
+        "type": "work",
+        "value": "https://example.de/hans",
+      },
+    ],
+  },
+]
+`;
