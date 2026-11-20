@@ -18,46 +18,28 @@ import { useActiveDeviceQuery } from "devices/common/feature"
 import { uniq } from "lodash"
 import { deviceManageFilesEmptyData } from "./use-device-manage-files-empty-data"
 
-export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
-  feature: F
-) => {
+export const useDeviceManageFiles = (feature: DeviceManageFileFeatureId) => {
   const [isReloading, setIsReloading] = useState(false)
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
   const {
-    data: internalMemory,
-    isLoading: isInternalMemoryLoading,
-    isError: isInternalMemoryError,
-    isSuccess: isInternalMemorySuccess,
-    refetch: refetchInternalMemory,
-  } = useApiFeatureQuery(DeviceManageFileFeature.Internal, device)
-  const {
-    data: externalMemory,
-    isLoading: isExternalMemoryLoading,
-    isError: isExternalMemoryError,
-    isSuccess: isExternalMemorySuccess,
-    refetch: refetchExternalMemory,
-  } = useApiFeatureQuery(DeviceManageFileFeature.External, device)
+    data: storage,
+    isLoading: isStorageLoading,
+    isError: isStorageError,
+    isSuccess: isConfigSuccess,
+    refetch: refetchStorage,
+  } = useApiFeatureQuery(feature, device)
 
-  const internalMemoryCategories = useMemo(() => {
-    return internalMemory?.config?.main?.config?.categories || []
-  }, [internalMemory])
-  const externalMemoryCategories = useMemo(() => {
-    return externalMemory?.config?.main?.config?.categories || []
-  }, [externalMemory])
-
-  const entitiesTypes = useMemo(() => {
-    return uniq([
-      ...(internalMemoryCategories?.map((c) => c.entityType) || []),
-      ...(externalMemoryCategories?.map((c) => c.entityType) || []),
-    ])
-  }, [externalMemoryCategories, internalMemoryCategories])
+  const categories = storage?.config?.main?.config?.categories
+  const entitiesTypes = useMemo(
+    () => uniq(categories?.map((category) => category.entityType) ?? []),
+    [categories]
+  )
 
   const {
     data: entitiesData,
     isLoading: isEntitiesLoading,
     isError: isEntitiesError,
     isSuccess: isEntitiesSuccess,
-    refetch: refetchEntities,
     progress,
   } = useApiEntitiesDataQueries<{ isInternal: boolean }[], number>(
     entitiesTypes,
@@ -71,52 +53,28 @@ export const useDeviceManageFiles = <F extends DeviceManageFileFeatureId>(
     }
   )
 
-  const isConfigSuccess = isInternalMemorySuccess && isExternalMemorySuccess
-  const isLoading =
-    isInternalMemoryLoading ||
-    isExternalMemoryLoading ||
-    isEntitiesLoading ||
-    isReloading
-  const isConfigError = isInternalMemoryError || isExternalMemoryError
+  const isLoading = isStorageLoading || isEntitiesLoading || isReloading
+  const isConfigError =
+    isStorageError || (isConfigSuccess && !entitiesTypes.length)
 
   const refetch = useCallback(async () => {
     setIsReloading(true)
-    await refetchInternalMemory()
-    await refetchExternalMemory()
-    await refetchEntities()
-    setIsReloading(false)
-  }, [refetchEntities, refetchExternalMemory, refetchInternalMemory])
+    try {
+      await refetchStorage()
+    } finally {
+      setIsReloading(false)
+    }
+  }, [refetchStorage])
 
   const data = useMemo(() => {
-    if (!isConfigSuccess) {
+    if (!isConfigSuccess || !entitiesTypes.length) {
       return deviceManageFilesEmptyData
     }
-    if (feature === DeviceManageFileFeature.Internal) {
-      if (!internalMemoryCategories.length) {
-        return deviceManageFilesEmptyData
-      }
-      return mapDeviceToManageFiles({
-        featureData: internalMemory,
-        entitiesCountData: entitiesData,
-      })
-    } else {
-      if (!externalMemoryCategories.length) {
-        return deviceManageFilesEmptyData
-      }
-      return mapDeviceToManageFiles({
-        featureData: externalMemory,
-        entitiesCountData: entitiesData,
-      })
-    }
-  }, [
-    entitiesData,
-    externalMemory,
-    externalMemoryCategories.length,
-    feature,
-    internalMemory,
-    internalMemoryCategories.length,
-    isConfigSuccess,
-  ])
+    return mapDeviceToManageFiles({
+      featureData: storage,
+      entitiesCountData: entitiesData,
+    })
+  }, [entitiesData, entitiesTypes.length, isConfigSuccess, storage])
 
   return {
     data,
