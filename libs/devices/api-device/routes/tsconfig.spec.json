@@ -2,10 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../../../dist/out-tsc",
-    "module": "commonjs",
-    "moduleResolution": "node10",
     "jsx": "react-jsx",
-    "types": ["jest", "node"]
+    "types": ["jest", "node", "vite/client"]
   },
   "include": [
     "jest.config.ts",
