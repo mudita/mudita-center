@@ -27,12 +27,20 @@ const RESCAN_AFTER_OPEN_ERROR_DELAY = 1_500
 export class AppSerialPortService {
   private eventEmitter = new EventEmitter()
   private devices = new Map<SerialPortDeviceId, SerialPortDevice>()
+  private devicesChangedCallbacks = new Set<DevicesChangeCallback>()
 
   private devicesChangedTimeout?: NodeJS.Timeout
   private rescanAfterOpenErrorTimeout?: NodeJS.Timeout
   private initialScan = true
 
   constructor() {
+    // A single internal listener owns the state transitions driven by a device
+    // change. Subscribers are notified from it, so adding or removing one never
+    // activates or removes a device twice, and never skips it either.
+    this.eventEmitter.on(Events.DevicesChanged, () => {
+      this.handleDevicesChanged()
+    })
+
     this.triggerAttachScan()
 
     usb.on("attach", () => {
@@ -166,33 +174,57 @@ export class AppSerialPortService {
     return removedDevices
   }
 
-  onDevicesChanged(callback: DevicesChangeCallback): void {
-    this.eventEmitter.on(Events.DevicesChanged, () => {
-      const added = this.activateNewDevices()
-      const removed = this.cleanupRemovedDevices()
-
-      const all = this.getCurrentDevices().filter((device) => {
+  /**
+   * The device list in the shape the renderer consumes - only the devices that
+   * belong in the UI. Every path that reports devices to the renderer has to go
+   * through this, otherwise a freshly loaded window would get a different list
+   * than the push channel sends.
+   */
+  getVisibleDevices(): SerialPortDeviceInfo[] {
+    return this.getCurrentDevices()
+      .filter((device) => {
         return [
           SerialPortDeviceStatus.DeviceActive,
           SerialPortDeviceStatus.DeviceFrozen,
         ].includes(device.status)
       })
+      .map((device) => device.info)
+  }
 
-      const data: SerialPortChangedDevices = {
-        all: all.map((device) => device.info),
-        added: this.initialScan ? [] : added.map((device) => device.info),
-        removed: removed.map((device) => device.info),
+  private handleDevicesChanged() {
+    const added = this.activateNewDevices()
+    const removed = this.cleanupRemovedDevices()
+
+    const data: SerialPortChangedDevices = {
+      all: this.getVisibleDevices(),
+      added: this.initialScan ? [] : added.map((device) => device.info),
+      removed: removed.map((device) => device.info),
+    }
+
+    AppLogger.log(
+      "debug",
+      `Devices changed. Emitting updated device list to listeners: ${JSON.stringify(data, null, 2)}`,
+      {
+        doNotTrim: true,
       }
+    )
 
-      AppLogger.log(
-        "debug",
-        `Devices changed. Emitting updated device list to listeners: ${JSON.stringify(data, null, 2)}`,
-        {
-          doNotTrim: true,
-        }
-      )
+    for (const callback of [...this.devicesChangedCallbacks]) {
       callback(data)
-    })
+    }
+  }
+
+  /**
+   * Subscribes to device list changes and returns a function that unsubscribes.
+   * Callers bound to a window must unsubscribe once that window is gone - see
+   * `initSerialPort`.
+   */
+  onDevicesChanged(callback: DevicesChangeCallback): VoidFunction {
+    this.devicesChangedCallbacks.add(callback)
+
+    return () => {
+      this.devicesChangedCallbacks.delete(callback)
+    }
   }
 
   request(deviceId: SerialPortDeviceId, request: SerialPortRequest) {
