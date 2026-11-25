@@ -9,3 +9,5 @@
 /apps/app/LICENSE.md
 /apps/app/tsconfig.json
 /apps/app/tsconfig.*.json
+
+.nx/self-healing
