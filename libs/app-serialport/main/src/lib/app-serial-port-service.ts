@@ -117,12 +117,13 @@ export class AppSerialPortService {
         )
       },
       onOpenRetriesExhausted: (error) => {
+        // Logging only: `handleError` calls this and then `handleDisconnect()`, so
+        // the `onDisconnect` callback above owns rescan scheduling. Scheduling here
+        // as well would clear that timer, double-count the attempt and advance the
+        // backoff twice as fast on every exhausted open.
         AppLogger.log(
           "warn",
           `Open retries exhausted for device at path ${deviceInfo.path} (id: ${deviceInfo.id}). Last error: ${error.message}`
-        )
-        this.scheduleRescan(
-          `open retries exhausted at path ${deviceInfo.path}: ${error.message}`
         )
       },
     })

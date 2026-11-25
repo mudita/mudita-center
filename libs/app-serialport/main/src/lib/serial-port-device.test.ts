@@ -718,6 +718,32 @@ describe("SerialPortDevice", () => {
       expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
     })
 
+    it("keeps serving a disconnected non-serial device instead of pausing its queue", async () => {
+      // MSC/mock devices are not backed by a port, so `request()` admits them while
+      // disconnected - the queue must stay usable for them.
+      Object.assign(mockSerialPortHandler, { nonSerialPortDevice: true })
+
+      try {
+        const device = new SerialPortDevice(mockDeviceInfo)
+        device.attachPort()
+
+        await waitFor(() => {
+          expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+        })
+
+        device["serialPort"]?.emit("close")
+
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+        expect(device["requestsQueue"].pause).not.toHaveBeenCalled()
+        expect(device["requestsQueue"].clear).not.toHaveBeenCalled()
+
+        await expect(device.request({ endpoint: 1 })).resolves.toBeUndefined()
+      } finally {
+        delete (mockSerialPortHandler as unknown as Record<string, unknown>)
+          .nonSerialPortDevice
+      }
+    })
+
     it("rejects queued requests when the device is destroyed", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()

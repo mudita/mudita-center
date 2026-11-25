@@ -187,6 +187,12 @@ export class SerialPortDevice {
         this.requestsQueue.pause()
         break
       case SerialPortDeviceStatus.DeviceDisconnected:
+        // A non-serial device (MSC, mock) is not backed by a port, and `request()`
+        // deliberately keeps serving it while disconnected. Pausing or clearing its
+        // queue would accept requests that can never run; `destroy()` settles them.
+        if (this.instance.nonSerialPortDevice) {
+          break
+        }
         this.requestsQueue.pause()
         this.failPendingRequests(
           new SerialPortError(SerialPortErrorType.PortClosed)
