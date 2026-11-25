@@ -46,6 +46,13 @@ export const devicesImages = {
       [DeviceImageSize.Big]: harmonyMscWhiteBig,
     },
   },
+  // TODO(CP-4075): Placeholder images - replace with the final Device N assets from design.
+  [DeviceImageType.DeviceN]: {
+    [DeviceImageColor.Black]: {
+      [DeviceImageSize.Small]: harmony2BlackSmall,
+      [DeviceImageSize.Big]: harmony2BlackBig,
+    },
+  },
   [DeviceImageType.Pure]: {
     [DeviceImageColor.Black]: {
       [DeviceImageSize.Small]: pureBlackSmall,

@@ -14,6 +14,7 @@ export enum SerialPortDeviceType {
 
 export enum SerialPortDeviceSubtype {
   Kompakt = Product.Kompakt,
+  DeviceN = Product.DeviceN,
 }
 
 export enum KompaktProductID {
@@ -23,6 +24,12 @@ export enum KompaktProductID {
   ChargeDec = "8198", //0x2006
   TransferDec = "8202", //0x200a
   NoDebugDec = "8210", //0x2012
+}
+
+// TODO(CP-4075): Placeholder Product ID - replace with the final Device N PID provided by the firmware team.
+export enum DeviceNProductID {
+  Hex = "20ff", //0x20ff
+  Dec = "8447", //0x20ff
 }
 
 export enum KompaktVendorID {
