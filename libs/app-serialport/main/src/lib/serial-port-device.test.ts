@@ -628,4 +628,113 @@ describe("SerialPortDevice", () => {
       )
     })
   })
+
+  describe("state invariant", () => {
+    it("resumes the requests queue when a frozen device is unfrozen manually", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device.prepareToFreeze(5000)
+      device["freezeHandler"].freeze()
+
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
+      expect(device["requestsQueue"].pause).toHaveBeenCalled()
+
+      const startSpy = jest.spyOn(device["requestsQueue"], "start")
+
+      device.unfreeze()
+
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      expect(startSpy).toHaveBeenCalled()
+    })
+
+    it("restores DeviceActive after a manual unfreeze when the device was already activated", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device.activate()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceActive)
+
+      device.prepareToFreeze(5000)
+      device["freezeHandler"].freeze()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
+
+      device.unfreeze()
+
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceActive)
+    })
+
+    it("reattaches the port when a device whose port is gone is unfrozen manually", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device.prepareToFreeze(5000)
+      device["freezeHandler"].freeze()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
+
+      // The device froze because its port went away.
+      device["serialPort"] = undefined
+      const attachPortSpy = jest
+        .spyOn(device, "attachPort")
+        .mockImplementation(() => undefined)
+
+      device.unfreeze()
+      await jest.advanceTimersByTimeAsync(1000)
+
+      expect(attachPortSpy).toHaveBeenCalled()
+    })
+
+    it("rejects queued requests when the device disconnects instead of dropping them", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      // A task the queue accepted but never ran - exactly what `PQueue.clear()`
+      // discards without settling the promise `add()` returned.
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockReturnValue(new Promise<never>(() => undefined))
+
+      const pendingRequest = device.request({ endpoint: 1 })
+
+      device["serialPort"]?.emit("close")
+
+      await expect(pendingRequest).rejects.toThrow()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+    })
+
+    it("rejects queued requests when the device is destroyed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockReturnValue(new Promise<never>(() => undefined))
+
+      const pendingRequest = device.request({ endpoint: 1 })
+
+      device.destroy()
+
+      await expect(pendingRequest).rejects.toThrow()
+    })
+  })
 })

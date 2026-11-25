@@ -27,6 +27,7 @@ const DEFAULT_OPEN_RETRY_ATTEMPTS = 1
 const WINDOWS_OPEN_RETRY_ATTEMPTS = 3
 const WINDOWS_OPEN_RETRY_BASE_DELAY_MS = 300
 const WINDOWS_OPEN_RETRY_MAX_DELAY_MS = 2_000
+const REATTACH_AFTER_UNFREEZE_DELAY_MS = 250
 
 export enum SerialPortDeviceStatus {
   /**
@@ -79,10 +80,13 @@ export class SerialPortDevice {
 
   private requestsQueue: PQueue
   private requestsQueueAbortController = new AbortController()
+  private readonly pendingRequestRejectors = new Set<(error: Error) => void>()
   private freezeHandler = new DeviceFreezeHandler()
   private serialPort?: SerialPortHandler | SerialPortHandlerMock
   private openRetryTimeout?: NodeJS.Timeout
+  private reattachTimeout?: NodeJS.Timeout
   private hasConnectedOnce = false
+  private hasBeenActivated = false
   private portInstanceId = 0
   private readonly instance:
     | typeof SerialPortHandler
@@ -114,8 +118,7 @@ export class SerialPortDevice {
       AppLogger.log("debug", `Device at path ${this.info.path} is frozen.`, {
         color: "yellow",
       })
-      this.status = SerialPortDeviceStatus.DeviceFrozen
-      this.requestsQueue.pause()
+      this.transition(SerialPortDeviceStatus.DeviceFrozen, "freeze")
     })
 
     this.freezeHandler.on("unfreeze", (reason) => {
@@ -128,8 +131,145 @@ export class SerialPortDevice {
       )
       if (reason === "timeout") {
         this.handleDisconnect()
+        return
       }
+
+      if (this.serialPort?.isOpen) {
+        this.transition(this.getResumeStatus(), "manual unfreeze")
+        return
+      }
+
+      // The port never came back on its own. Whoever unfroze the device may be
+      // about to re-attach it with fresh port info (that is what the scanner
+      // does), so give that a moment before re-opening the known path. Either
+      // way the device must not be left frozen with a paused queue.
+      this.scheduleReattachAfterUnfreeze()
     })
+  }
+
+  /**
+   * The single writer of `status`. The request queue state is derived from the
+   * status here - and nowhere else - so the two can never disagree, which is what
+   * used to leave a manually unfrozen device with a permanently paused queue.
+   */
+  private transition(next: SerialPortDeviceStatus, reason: string) {
+    if (this.status === next) {
+      return
+    }
+
+    if (
+      this.status === SerialPortDeviceStatus.DeviceDisconnected &&
+      next === SerialPortDeviceStatus.DeviceFrozen
+    ) {
+      // A disconnected device has nothing to freeze; it has to be re-attached first.
+      return
+    }
+
+    const previous = this.status
+    this.status = next
+
+    AppLogger.log(
+      "debug",
+      `Device at path ${this.info.path}: ${previous} -> ${next} (${reason}).`,
+      {
+        color:
+          next === SerialPortDeviceStatus.DeviceDisconnected ? "red" : "blue",
+      }
+    )
+
+    switch (next) {
+      case SerialPortDeviceStatus.DeviceConnected:
+      case SerialPortDeviceStatus.DeviceActive:
+        this.requestsQueue.start()
+        break
+      case SerialPortDeviceStatus.DeviceInitializing:
+      case SerialPortDeviceStatus.DeviceFrozen:
+        this.requestsQueue.pause()
+        break
+      case SerialPortDeviceStatus.DeviceDisconnected:
+        this.requestsQueue.pause()
+        this.failPendingRequests(
+          new SerialPortError(SerialPortErrorType.PortClosed)
+        )
+        this.requestsQueue.clear()
+        break
+    }
+  }
+
+  /**
+   * The status a device returns to once its port is usable again: a device that
+   * was already visible in the UI stays visible instead of silently dropping back
+   * to DeviceConnected.
+   */
+  private getResumeStatus() {
+    return this.hasBeenActivated
+      ? SerialPortDeviceStatus.DeviceActive
+      : SerialPortDeviceStatus.DeviceConnected
+  }
+
+  /**
+   * Registers a request as pending so it can be settled explicitly when the device
+   * goes away. `PQueue.clear()` drops queued tasks without settling the promise
+   * `add()` returned, so without this the caller - and the IPC reply behind it -
+   * would wait for the lifetime of the process.
+   */
+  private trackPendingRequest() {
+    let rejector!: (error: Error) => void
+
+    const cancelled = new Promise<never>((_, reject) => {
+      rejector = reject
+    })
+    // The race below may already have settled when the rejection lands.
+    void cancelled.catch(() => undefined)
+
+    this.pendingRequestRejectors.add(rejector)
+
+    return {
+      cancelled,
+      release: () => {
+        this.pendingRequestRejectors.delete(rejector)
+      },
+    }
+  }
+
+  private failPendingRequests(error: Error) {
+    if (this.pendingRequestRejectors.size === 0) {
+      return
+    }
+
+    const rejectors = [...this.pendingRequestRejectors]
+    this.pendingRequestRejectors.clear()
+
+    AppLogger.log(
+      "warn",
+      `Rejecting ${rejectors.length} pending request(s) for device at path ${this.info.path}.`,
+      { color: "yellow" }
+    )
+
+    for (const reject of rejectors) {
+      reject(error)
+    }
+  }
+
+  private scheduleReattachAfterUnfreeze() {
+    clearTimeout(this.reattachTimeout)
+    this.reattachTimeout = setTimeout(() => {
+      this.reattachTimeout = undefined
+
+      if (
+        this.serialPort?.isOpen ||
+        this.status === SerialPortDeviceStatus.DeviceDisconnected
+      ) {
+        return
+      }
+
+      AppLogger.log(
+        "debug",
+        `Re-attaching port of device at path ${this.info.path} after a manual unfreeze.`,
+        { color: "yellow" }
+      )
+      this.attachPort()
+    }, REATTACH_AFTER_UNFREEZE_DELAY_MS)
   }
 
   /**
@@ -144,8 +284,7 @@ export class SerialPortDevice {
       color: "yellow",
     })
 
-    this.status = SerialPortDeviceStatus.DeviceDisconnected
-    this.requestsQueue.clear()
+    this.transition(SerialPortDeviceStatus.DeviceDisconnected, "disconnect")
 
     this.options?.onDisconnect?.()
   }
@@ -162,15 +301,13 @@ export class SerialPortDevice {
     clearTimeout(this.openRetryTimeout)
     this.openRetryTimeout = undefined
 
-    this.status = SerialPortDeviceStatus.DeviceConnected
-
     try {
       this.serialPort?.flush()
     } catch {
       //
     }
 
-    this.requestsQueue.start()
+    this.transition(this.getResumeStatus(), "serial port opened")
 
     if (!this.hasConnectedOnce) {
       this.hasConnectedOnce = true
@@ -212,6 +349,8 @@ export class SerialPortDevice {
     maxAttempts = this.getDefaultOpenRetryAttempts()
   ) {
     AppLogger.log("silly", `Attaching serial port device at path ${info.path}.`)
+    clearTimeout(this.reattachTimeout)
+    this.reattachTimeout = undefined
     this.info = info
     this.portInstanceId++
 
@@ -361,7 +500,8 @@ export class SerialPortDevice {
    */
   activate() {
     if (this.status === SerialPortDeviceStatus.DeviceConnected) {
-      this.status = SerialPortDeviceStatus.DeviceActive
+      this.hasBeenActivated = true
+      this.transition(SerialPortDeviceStatus.DeviceActive, "activate")
     } else {
       AppLogger.log(
         "warn",
@@ -384,9 +524,14 @@ export class SerialPortDevice {
     try {
       clearTimeout(this.openRetryTimeout)
       this.openRetryTimeout = undefined
-      this.requestsQueue.clear()
+      clearTimeout(this.reattachTimeout)
+      this.reattachTimeout = undefined
       this.freezeHandler.off()
-      this.status = SerialPortDeviceStatus.DeviceDisconnected
+      this.transition(SerialPortDeviceStatus.DeviceDisconnected, "destroy")
+      this.failPendingRequests(
+        new SerialPortError(SerialPortErrorType.PortClosed)
+      )
+      this.requestsQueue.clear()
       this.requestsQueueAbortController.abort()
     } catch {
       // do nothing
@@ -457,17 +602,39 @@ export class SerialPortDevice {
       )
     }
 
+    const pending = this.trackPendingRequest()
+
     try {
-      return await this.requestsQueue.add(
-        ({ signal }) => this.makeRequest(request, signal),
-        {
-          timeout:
-            request.options?.timeout || this.instance.defaultRequestTimeout,
-          priority,
-          signal: this.requestsQueueAbortController.signal,
-        }
+      const queued = Promise.resolve(
+        this.requestsQueue.add(
+          ({ signal }) => this.makeRequest(request, signal),
+          {
+            timeout:
+              request.options?.timeout || this.instance.defaultRequestTimeout,
+            priority,
+            signal: this.requestsQueueAbortController.signal,
+          }
+        )
       )
+      // The losing side of the race can still settle later; keep it handled.
+      void queued.catch(() => undefined)
+
+      const response = await Promise.race([queued, pending.cancelled])
+      pending.release()
+
+      return response as SerialPortResponse
     } catch (error) {
+      pending.release()
+
+      // A disconnected device cannot serve a retry: freezing, re-attaching or
+      // re-queueing below would all operate on a device that is already gone.
+      if (
+        this.status === SerialPortDeviceStatus.DeviceDisconnected &&
+        !this.instance.nonSerialPortDevice
+      ) {
+        throw error
+      }
+
       const { body, data, ...rest } = request
       const requestInfo = JSON.stringify(rest)
 
