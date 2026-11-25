@@ -63,3 +63,6 @@ vitest.config.*.timestamp*
 .github/copilot-instructions.md
 
 libs/settings/feature/src/lib/license/licenses.json
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing
