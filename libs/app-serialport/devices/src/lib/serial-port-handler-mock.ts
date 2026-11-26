@@ -128,6 +128,14 @@ export class SerialPortHandlerMock extends SerialPortMock {
     const id = parseInt(uniqueId()) % 99999999 || 1
 
     const dataWithId = set(cloneDeep(data), this.requestIdKey, id)
+
+    // Unlike the real handler, this one writes before it sets up its
+    // listeners - so the already-aborted case has to be caught here or the
+    // request goes out after all.
+    if (signal?.aborted) {
+      throw new SerialPortError(SerialPortErrorType.RequestAborted, id)
+    }
+
     await this.writeAsync(dataWithId)
 
     return new Promise((resolve, reject) => {

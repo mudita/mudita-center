@@ -868,6 +868,31 @@ describe("SerialPortDevice", () => {
       expect(options.timeout).toBeUndefined()
     })
 
+    it("does not write a request that was cancelled before it started", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      const handler = device["serialPort"]
+      if (!handler) {
+        throw new Error("Expected the device to have an attached port.")
+      }
+      const writeSpy = jest.spyOn(handler, "writeAsync")
+
+      const error = await device["makeRequest"](
+        { endpoint: 1 },
+        AbortSignal.abort()
+      ).catch((e) => e)
+
+      expect(writeSpy).not.toHaveBeenCalled()
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.RequestAborted
+      )
+    })
+
     it("rejects when the device has no handler to serve the request", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()

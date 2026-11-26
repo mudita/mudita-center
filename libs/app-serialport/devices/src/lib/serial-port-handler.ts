@@ -89,7 +89,28 @@ export class SerialPortHandler extends SerialPort {
     this.eventEmitter.removeAllListeners()
   }
 
+  private writeChain: Promise<unknown> = Promise.resolve()
+
+  /**
+   * Sends one request at a time, whatever the queue above is doing.
+   *
+   * `request()` cannot await its write - the response timer has to arm first
+   * - so a request that rejects releases the queue slot while its write may
+   * still be parked on `drain`. The retry path below flushes the driver
+   * buffers, and a flush fired for one request would take the bytes of the
+   * one that followed it with it.
+   */
   async writeAsync(data: unknown, retries = 1): Promise<void> {
+    const write = this.writeChain
+      .catch(() => undefined)
+      .then(() => this.performWrite(data, retries))
+
+    this.writeChain = write.catch(() => undefined)
+
+    return write
+  }
+
+  private async performWrite(data: unknown, retries = 1): Promise<void> {
     try {
       const parsedData = this.parseRequest(data)
       const canContinue = super.write(parsedData)
@@ -130,7 +151,9 @@ export class SerialPortHandler extends SerialPort {
           { color: "yellow" }
         )
         this.flush()
-        return this.writeAsync(data, retries - 1)
+        // Straight back to the write: going through `writeAsync` would queue
+        // this retry behind the chain entry it is already holding.
+        return this.performWrite(data, retries - 1)
       } else {
         AppLogger.log(
           "error",

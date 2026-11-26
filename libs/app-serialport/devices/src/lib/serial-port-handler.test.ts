@@ -152,6 +152,42 @@ describe("SerialPortHandler", () => {
         type: SerialPortErrorType.InvalidRequest,
       })
     })
+
+    it("sends one request at a time when the port pushes back", async () => {
+      const handler = createHandler("/dev/test-write-serialized")
+      await openHandler(handler)
+
+      // Back-pressure: the first write parks on `drain` instead of finishing.
+      const writeSpy = jest
+        .spyOn(SerialPortMock.prototype, "write")
+        .mockReturnValue(false)
+
+      try {
+        const settled: string[] = []
+        const first = handler.writeAsync({ endpoint: "first" })
+        const second = handler.writeAsync({ endpoint: "second" })
+        void first.then(() => settled.push("first"))
+        void second.then(() => settled.push("second"))
+
+        await new Promise((resolve) => setTimeout(resolve, 10))
+
+        // The second request must not reach the port while the first is
+        // still outstanding: the retry path flushes the driver buffers, and
+        // a flush fired for one request would take the other's bytes too.
+        expect(writeSpy).toHaveBeenCalledTimes(1)
+
+        handler.emit("drain")
+        await first
+        await new Promise((resolve) => setTimeout(resolve, 10))
+        expect(writeSpy).toHaveBeenCalledTimes(2)
+
+        handler.emit("drain")
+        await second
+        expect(settled).toEqual(["first", "second"])
+      } finally {
+        writeSpy.mockRestore()
+      }
+    })
   })
 
   describe("request", () => {
