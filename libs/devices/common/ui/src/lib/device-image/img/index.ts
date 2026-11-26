@@ -15,6 +15,8 @@ import pureBlackSmall from "./pure-black-small.png"
 import pureBlackBig from "./pure-black-big.png"
 import pureGraySmall from "./pure-gray-small.png"
 import pureGrayBig from "./pure-gray-big.png"
+import deviceNBlackSmall from "./device-n-black-small.png"
+import deviceNBlackBig from "./device-n-black-big.png"
 import {
   DeviceImageColor,
   DeviceImageSize,
@@ -46,11 +48,11 @@ export const devicesImages = {
       [DeviceImageSize.Big]: harmonyMscWhiteBig,
     },
   },
-  // TODO(CP-4075): Placeholder images - replace with the final Device N assets from design.
+  // TODO(CP-4075): Neutral placeholder images - replace with the final Device N assets from design.
   [DeviceImageType.DeviceN]: {
     [DeviceImageColor.Black]: {
-      [DeviceImageSize.Small]: harmony2BlackSmall,
-      [DeviceImageSize.Big]: harmony2BlackBig,
+      [DeviceImageSize.Small]: deviceNBlackSmall,
+      [DeviceImageSize.Big]: deviceNBlackBig,
     },
   },
   [DeviceImageType.Pure]: {
