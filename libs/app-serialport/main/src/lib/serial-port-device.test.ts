@@ -789,6 +789,46 @@ describe("SerialPortDevice", () => {
       expect((error as Error).message).toContain("because it is disconnected")
     })
 
+    it("names a request cancelled during teardown as aborted", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      jest.useRealTimers()
+      // What an aborted `AbortSignal` surfaces as out of the queue.
+      const abortError = new Error("The operation was aborted")
+      abortError.name = "AbortError"
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(abortError)
+
+      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+
+      // We cancelled this one ourselves, so the UI has nothing to report.
+      expect(error).toBeInstanceOf(SerialPortError)
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.RequestAborted
+      )
+    })
+
+    it("names a request that never reached the wire as a closed port", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      jest.useRealTimers()
+      // `makeRequest` throws this before the request reaches the port.
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(new Error("Serial port is not open."))
+
+      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+
+      expect(error).toBeInstanceOf(SerialPortError)
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.PortClosed
+      )
+      expect((error as Error).message).toContain("Serial port is not open.")
+    })
+
     it("leaves an error it cannot name untouched", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
