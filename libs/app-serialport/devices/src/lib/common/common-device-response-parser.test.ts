@@ -277,6 +277,63 @@ describe("CommonDeviceResponseParser", () => {
       expect(boundedParser["buffer"].length).toBe(128)
     })
 
+    it("falls back to the default frame limit when the configured one is not a number", async () => {
+      const boundedParser = new CommonDeviceResponseParser({
+        matcher: /#\d{9}/,
+        maxFrameLength: Number.NaN,
+      })
+      const dataListener = jest.fn()
+      boundedParser.on("data", dataListener)
+
+      // Taken at face value, NaN would disable the bound entirely: every
+      // `expectedLength > NaN` comparison is false.
+      await write(boundedParser, "#999999999#000000003Foo")
+
+      await waitFor(() => {
+        expect(dataListener).toHaveBeenCalledWith(Buffer.from("Foo"))
+      })
+    })
+
+    it("never keeps more look-behind than the configured buffer limit", async () => {
+      const boundedParser = new CommonDeviceResponseParser({
+        matcher: /#\d{9}/,
+        maxBufferLength: 32,
+      })
+      const dataListener = jest.fn()
+      boundedParser.on("data", dataListener)
+
+      await write(boundedParser, Buffer.alloc(128, 0x61))
+
+      expect(boundedParser["buffer"].length).toBe(32)
+
+      await write(boundedParser, "#000000003Bar")
+
+      await waitFor(() => {
+        expect(dataListener).toHaveBeenCalledWith(Buffer.from("Bar"))
+      })
+    })
+
+    it("skips a header whose length carries a minus sign", async () => {
+      const signedParser = new CommonDeviceResponseParser({
+        matcher: /#-\d+/,
+      })
+
+      await write(signedParser, "#-1Foo")
+
+      expect(signedParser["buffer"].toString()).toBe("Foo")
+    })
+
+    it("skips a header holding more than one run of digits", async () => {
+      const splitParser = new CommonDeviceResponseParser({
+        matcher: /#\d+x\d+/,
+      })
+
+      // Stripping non-digits would splice these into a single length of 1234.
+      await write(splitParser, "#12x34rest")
+
+      expect(splitParser["buffer"].toString()).toBe("rest")
+    })
+
     it("skips a header whose declared length is not a number", async () => {
       const headerOnlyParser = new CommonDeviceResponseParser({
         matcher: /@/,

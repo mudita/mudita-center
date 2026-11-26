@@ -33,6 +33,56 @@ const DEFAULT_MAX_BUFFER_LENGTH = 2 * DEFAULT_MAX_FRAME_LENGTH
 const HEADER_LOOKBEHIND_LENGTH = 64
 
 /**
+ * A limit that is not a finite, non-negative number would silently disable the
+ * bound it stands for - `expectedLength > NaN` is false for every frame - so a
+ * bad value falls back to the default instead of being taken at face value.
+ */
+const toLengthLimit = (
+  value: number | undefined,
+  fallback: number,
+  name: string
+) => {
+  if (value === undefined) {
+    return fallback
+  }
+
+  if (!Number.isFinite(value) || value < 0) {
+    AppLogger.log(
+      "warn",
+      `Ignoring ${name}=${value}: a parser limit has to be a finite, non-negative number. Falling back to ${fallback}.`,
+      { color: "yellow" }
+    )
+    return fallback
+  }
+
+  return value
+}
+
+/**
+ * The matched header carries the payload length as its only run of digits.
+ * Stripping every non-digit instead would splice separate runs together
+ * (`#12x34` becomes 1234) and swallow a minus sign (`#-1` becomes 1), turning
+ * a malformed header into a plausible looking length.
+ */
+const parseDeclaredLength = (header: string) => {
+  const digitRuns = header.match(/\d+/g)
+
+  if (!digitRuns || digitRuns.length !== 1) {
+    return null
+  }
+
+  const [digits] = digitRuns
+
+  if (header[header.indexOf(digits) - 1] === "-") {
+    return null
+  }
+
+  const declaredLength = Number(digits)
+
+  return Number.isSafeInteger(declaredLength) ? declaredLength : null
+}
+
+/**
  * CommonDeviceResponseParser is a Transform stream that processes incoming data
  * chunks and emits complete responses based on a specified matcher pattern
  * pointing to the beginning of a response along with its expected length.
@@ -52,8 +102,16 @@ export class CommonDeviceResponseParser extends Transform {
   }: CommonDeviceParserOptions) {
     super(options)
     this.matcher = matcher
-    this.maxFrameLength = maxFrameLength
-    this.maxBufferLength = maxBufferLength
+    this.maxFrameLength = toLengthLimit(
+      maxFrameLength,
+      DEFAULT_MAX_FRAME_LENGTH,
+      "maxFrameLength"
+    )
+    this.maxBufferLength = toLengthLimit(
+      maxBufferLength,
+      DEFAULT_MAX_BUFFER_LENGTH,
+      "maxBufferLength"
+    )
     this.encoding = options.encoding || this.encoding
   }
 
@@ -64,7 +122,7 @@ export class CommonDeviceResponseParser extends Transform {
   private findHeaderInBuffer(): {
     headerIndex: number
     headerLength: number
-    expectedLength: number
+    expectedLength: number | null
   } | null {
     const bufferData = this.buffer.toString(this.encoding)
     const headerMatch = bufferData.match(this.matcher)
@@ -74,7 +132,7 @@ export class CommonDeviceResponseParser extends Transform {
     }
 
     const header = headerMatch[0]
-    const expectedLength = parseInt(header.replace(/\D/g, ""), 10)
+    const expectedLength = parseDeclaredLength(header)
     // Convert string index to byte index
     const headerIndex = Buffer.byteLength(
       bufferData.slice(0, headerMatch.index || 0),
@@ -96,17 +154,18 @@ export class CommonDeviceResponseParser extends Transform {
 
     const { headerIndex, headerLength, expectedLength } = headerInfo
 
-    if (
-      !Number.isInteger(expectedLength) ||
-      expectedLength < 0 ||
-      expectedLength > this.maxFrameLength
-    ) {
-      // A length this far out of range is a corrupted prefix, not a frame the
-      // device is about to send. Skip past the header and look for the next
-      // one instead of waiting for data that will never arrive.
+    if (expectedLength === null || expectedLength > this.maxFrameLength) {
+      // A header the parser cannot read, or one declaring a length this far
+      // out of range, is a corrupted prefix rather than a frame the device is
+      // about to send. Skip past it and look for the next header instead of
+      // waiting for data that will never arrive.
       AppLogger.log(
         "warn",
-        `Discarding a response header declaring ${expectedLength} bytes (limit ${this.maxFrameLength}). Re-syncing on the next header.`,
+        `Discarding a response header declaring ${
+          expectedLength === null
+            ? "an unreadable length"
+            : `${expectedLength} bytes`
+        } (limit ${this.maxFrameLength} bytes). Re-syncing on the next header.`,
         { color: "yellow" }
       )
       this.buffer = this.buffer.subarray(headerIndex + headerLength)
@@ -186,7 +245,13 @@ export class CommonDeviceResponseParser extends Transform {
       return
     }
 
-    const droppedLength = this.buffer.length - HEADER_LOOKBEHIND_LENGTH
+    // Keeping more than the configured limit would make the limit meaningless,
+    // and would make the dropped count negative.
+    const lookbehindLength = Math.min(
+      HEADER_LOOKBEHIND_LENGTH,
+      this.maxBufferLength
+    )
+    const droppedLength = this.buffer.length - lookbehindLength
 
     AppLogger.log(
       "warn",
@@ -195,7 +260,7 @@ export class CommonDeviceResponseParser extends Transform {
     )
 
     this.buffer = Buffer.from(
-      this.buffer.subarray(this.buffer.length - HEADER_LOOKBEHIND_LENGTH)
+      this.buffer.subarray(this.buffer.length - lookbehindLength)
     )
   }
 
