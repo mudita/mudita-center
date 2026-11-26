@@ -673,7 +673,15 @@ export class SerialPortDevice {
 
     return new Promise((resolve, reject) => {
       const onAbort = () => {
-        reject(new Error("Request aborted."))
+        // Typed at the source: unlike the queue's own abort, which arrives as
+        // a DOMException named AbortError, this one is raised inside the task
+        // and leaves nothing downstream could recognise it by.
+        reject(
+          typedError(
+            SerialPortErrorType.RequestAborted,
+            new Error("Request aborted.")
+          )
+        )
       }
 
       signal?.addEventListener("abort", onAbort)

@@ -810,6 +810,41 @@ describe("SerialPortDevice", () => {
       )
     })
 
+    it("names a request cancelled while in flight as aborted", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      const handler = device["serialPort"]
+      if (!handler) {
+        throw new Error("Expected the device to have an attached port.")
+      }
+      jest
+        .spyOn(handler, "request")
+        .mockReturnValue(new Promise<never>(() => undefined))
+
+      const controller = new AbortController()
+      const pending = device["makeRequest"](
+        { endpoint: 1 },
+        controller.signal
+      ).catch((error) => error)
+
+      controller.abort()
+      const error = await pending
+
+      // This cancellation is raised inside the task, so `name` is plain
+      // "Error" and the AbortError predicate never sees it. Left untyped it
+      // reaches the renderer as Unknown, which the UI calls critical.
+      expect(error).toBeInstanceOf(SerialPortError)
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.RequestAborted
+      )
+      expect((error as Error).message).toContain("Request aborted.")
+    })
+
     it("names a request that never reached the wire as a closed port", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
