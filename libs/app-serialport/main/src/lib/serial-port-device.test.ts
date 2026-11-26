@@ -7,7 +7,9 @@ import { SerialPortDevice, SerialPortDeviceStatus } from "./serial-port-device"
 import {
   SerialPortDeviceInfo,
   SerialPortDeviceType,
+  SerialPortErrorType,
 } from "app-serialport/models"
+import { SerialPortError } from "app-serialport/utils"
 import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import {
   SerialPortHandler,
@@ -534,7 +536,7 @@ describe("SerialPortDevice", () => {
       })
     })
 
-    it("freezes device and retries request with higher priority when request fails and device is freezable", async () => {
+    it("freezes device and retries request with higher priority when a transport error hits a freezable device", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
       device.prepareToFreeze(5000)
@@ -542,7 +544,7 @@ describe("SerialPortDevice", () => {
       const freezeSpy = jest.spyOn(device["freezeHandler"], "freeze")
       jest
         .spyOn(device["requestsQueue"], "add")
-        .mockRejectedValueOnce(new Error("Request failed before freeze"))
+        .mockRejectedValueOnce(new SerialPortError(SerialPortErrorType.PortClosed))
         .mockResolvedValueOnce({ ok: true })
 
       await expect(device.request({ endpoint: 1 })).resolves.toEqual({
@@ -612,6 +614,77 @@ describe("SerialPortDevice", () => {
       await requestExpectation
       expect(attachPortSpy).toHaveBeenCalledTimes(2)
       expect(device["requestsQueue"].add).toHaveBeenCalledTimes(2)
+    })
+
+    it("does not freeze a freezable device when the failure is not a transport error", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+      device.prepareToFreeze(5000)
+
+      const freezeSpy = jest.spyOn(device["freezeHandler"], "freeze")
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(
+          new SerialPortError(SerialPortErrorType.InvalidResponse)
+        )
+
+      // A malformed response says nothing about the port being usable, so it
+      // must not take the whole device out of service.
+      await expect(device.request({ endpoint: 1 })).rejects.toThrow()
+      expect(freezeSpy).not.toHaveBeenCalled()
+      expect(device.status).not.toBe(SerialPortDeviceStatus.DeviceFrozen)
+      expect(device["requestsQueue"].add).toHaveBeenCalledTimes(1)
+    })
+
+    it("stops waiting out a freeze after the budget is spent", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+      device.prepareToFreeze(5000)
+      device["serialPort"]?.emit("close")
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValue(new Error("Device is frozen"))
+
+      // Two waits are allowed; the third failure ends the ladder instead of
+      // re-queueing for as long as the device stays frozen.
+      await expect(device.request({ endpoint: 1 })).rejects.toThrow(
+        "Device is frozen"
+      )
+      expect(device["requestsQueue"].add).toHaveBeenCalledTimes(3)
+    })
+
+    it("bounds a timing-out request to its retries plus a single reattach", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      const attachPortSpy = jest.spyOn(device, "attachPort")
+
+      device.attachPort()
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValue(new TimeoutError("Request timed out"))
+
+      const requestPromise = device.request({
+        endpoint: 1,
+        options: { retries: 2 },
+      })
+      const requestExpectation = expect(requestPromise).rejects.toThrow(
+        "Request timed out"
+      )
+
+      await jest.advanceTimersByTimeAsync(1000)
+      await requestExpectation
+
+      // Two caller retries, then one reattach, then the error is let through.
+      expect(device["requestsQueue"].add).toHaveBeenCalledTimes(4)
+      expect(attachPortSpy).toHaveBeenCalledTimes(2)
     })
 
     it("throws error when request fails from reason other than device being frozen", async () => {
