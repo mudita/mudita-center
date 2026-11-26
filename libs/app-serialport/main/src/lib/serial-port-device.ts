@@ -31,6 +31,13 @@ const REATTACH_AFTER_UNFREEZE_DELAY_MS = 250
 const REATTACH_SETTLE_DELAY_MS = 1_000
 
 /**
+ * How long to wait for a port to finish closing before opening the path
+ * again. A port that never reports closed must not block the next open for
+ * good - the open retries are there for exactly that case.
+ */
+const PORT_CLOSE_TIMEOUT_MS = 2_000
+
+/**
  * Budget for a single `request()` call. Every rung of the retry ladder spends
  * from it, so one call can never produce an unbounded chain of retries.
  */
@@ -461,11 +468,23 @@ export class SerialPortDevice {
     this.info = info
     this.portInstanceId++
 
-    if (this.serialPort) {
-      this.detachPort()
+    if (!this.serialPort) {
+      this.createSerialPort(info.path, maxAttempts)
+      return
     }
 
-    this.createSerialPort(info.path, maxAttempts)
+    // Opening the path while the previous handle is still closing is what
+    // Windows answers with "access denied" or "unknown error code 433" - the
+    // errors `isWindowsTransientOpenError` then retries around. Waiting for
+    // the close removes the cause instead of papering over it.
+    const instanceId = this.portInstanceId
+
+    void this.detachPort().then(() => {
+      if (instanceId !== this.portInstanceId) {
+        return
+      }
+      this.createSerialPort(info.path, maxAttempts)
+    })
   }
 
   /**
@@ -473,21 +492,35 @@ export class SerialPortDevice {
    * This method is called when the device is being reinitialized with a new serial port or when the device is destroyed.
    * After detaching, the device will no longer have an associated serial port until attachPort is called again.
    */
-  private detachPort() {
-    if (!this.serialPort) {
-      return
-    }
-
-    if (this.serialPort.isOpen) {
-      try {
-        this.serialPort.close()
-      } catch {
-        //
-      }
-    }
-
-    this.serialPort.cleanup()
+  private detachPort(): Promise<void> {
+    const port = this.serialPort
     this.serialPort = undefined
+
+    if (!port) {
+      return Promise.resolve()
+    }
+
+    const closed = new Promise<void>((resolve) => {
+      if (!port.isOpen) {
+        resolve()
+        return
+      }
+      try {
+        port.close(() => resolve())
+      } catch {
+        resolve()
+      }
+    })
+
+    let closeTimeout: NodeJS.Timeout | undefined
+    const guard = new Promise<void>((resolve) => {
+      closeTimeout = setTimeout(resolve, PORT_CLOSE_TIMEOUT_MS)
+    })
+
+    return Promise.race([closed, guard]).then(() => {
+      clearTimeout(closeTimeout)
+      port.cleanup()
+    })
   }
 
   private getDefaultOpenRetryAttempts() {
@@ -645,7 +678,7 @@ export class SerialPortDevice {
     }
 
     if (this.serialPort) {
-      this.detachPort()
+      void this.detachPort()
     }
   }
 

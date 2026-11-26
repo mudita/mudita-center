@@ -962,6 +962,50 @@ describe("SerialPortDevice", () => {
     })
   })
 
+  describe("port lifecycle", () => {
+    it("waits for the old port to close before opening the path again", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      const firstPort = device["serialPort"]
+      if (!firstPort) {
+        throw new Error("Expected the device to have an attached port.")
+      }
+
+      // Hold the close open, so the window the old code opened in is
+      // observable rather than a matter of timing.
+      let finishClose: (() => void) | undefined
+      jest
+        .spyOn(firstPort, "close")
+        .mockImplementation(((callback?: (error?: Error | null) => void) => {
+          finishClose = () => callback?.(null)
+        }) as never)
+
+      const cleanupSpy = jest.spyOn(firstPort, "cleanup")
+
+      device.attachPort()
+
+      // Opening the path while the previous handle is still closing is what
+      // Windows refuses with "access denied".
+      expect(device["serialPort"]).toBeUndefined()
+      // And the handler has to survive until then: cleaning it up first would
+      // drop the close callback being waited on.
+      expect(cleanupSpy).not.toHaveBeenCalled()
+
+      finishClose?.()
+
+      await waitFor(() => {
+        expect(device["serialPort"]).toBeDefined()
+      })
+      expect(device["serialPort"]).not.toBe(firstPort)
+      expect(cleanupSpy).toHaveBeenCalled()
+    })
+  })
+
   describe("state invariant", () => {
     it("resumes the requests queue when a frozen device is unfrozen manually", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)

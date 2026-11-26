@@ -108,6 +108,40 @@ describe("SerialPortHandler", () => {
     })
   })
 
+  describe("cleanup", () => {
+    it("releases the parser it was piped into", async () => {
+      const parser = new Transform({
+        transform(chunk, _encoding, callback) {
+          callback(null, chunk)
+        },
+      })
+      const handler = createHandler("/dev/test-cleanup-parser", { parser })
+      await openHandler(handler)
+
+      handler.cleanup()
+
+      // Dropping listeners is not enough: `pipe()` keeps its own on the
+      // source, so the parser stayed attached to a stream nobody reads,
+      // holding whatever half-frame it had when the port went away.
+      expect(parser.destroyed).toBe(true)
+    })
+
+    it("can be called more than once", async () => {
+      const parser = new Transform({
+        transform(chunk, _encoding, callback) {
+          callback(null, chunk)
+        },
+      })
+      const handler = createHandler("/dev/test-cleanup-twice", { parser })
+      await openHandler(handler)
+
+      // A port that errors cleans up, and the device then detaches it - so
+      // the second call is the normal case, not an edge one.
+      handler.cleanup()
+      expect(() => handler.cleanup()).not.toThrow()
+    })
+  })
+
   describe("writeAsync", () => {
     it("calls parseRequest before writing", async () => {
       const parseRequestSpy = jest.fn((data: unknown) =>

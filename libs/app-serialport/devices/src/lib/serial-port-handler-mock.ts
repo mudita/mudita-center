@@ -13,6 +13,7 @@ import {
   SerialPortRequest,
 } from "app-serialport/models"
 import EventEmitter from "events"
+import { Transform } from "stream"
 import { SerialPortHandlerOptions } from "./serial-port-handler"
 import { usb } from "usb"
 
@@ -40,6 +41,8 @@ export class SerialPortHandlerMock extends SerialPortMock {
   static readonly defaultRequestTimeout = DEFAULT_REQUEST_TIMEOUT
   readonly requestIdKey: string = "id"
   private detachListener: (device: usb.Device) => void
+  private readonly parser?: Transform
+  private cleanedUp = false
 
   constructor(options: Omit<SerialPortHandlerOptions, "baudRate">) {
     SerialPortMock.binding.createPort(options.path)
@@ -62,6 +65,8 @@ export class SerialPortHandlerMock extends SerialPortMock {
         this.cleanup()
       })
     }
+
+    this.parser = parser
 
     if (parser) {
       this.pipe(parser)
@@ -99,6 +104,19 @@ export class SerialPortHandlerMock extends SerialPortMock {
   }
 
   cleanup() {
+    if (this.cleanedUp) {
+      return
+    }
+    this.cleanedUp = true
+
+    if (this.parser) {
+      // `pipe()` keeps its own listeners on the source, so dropping listeners
+      // without unpiping leaves the parser attached and holding whatever
+      // half-frame it had when the port went away.
+      this.unpipe(this.parser)
+      this.parser.destroy()
+    }
+
     this.removeAllListeners()
     this.eventEmitter.removeAllListeners()
     usb.off("detach", this.detachListener)
