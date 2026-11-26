@@ -466,6 +466,19 @@ describe("SerialPortDevice", () => {
     })
   })
 
+  // `jest.setup.ts` mocks p-queue away, so nothing runs a queued task on its
+  // own. This stands in for the queue, signal included.
+  const runQueuedTasks = (device: SerialPortDevice) =>
+    jest
+      .spyOn(device["requestsQueue"], "add")
+      .mockImplementation((task, options) =>
+        Promise.resolve(
+          (task as (context: { signal?: AbortSignal }) => unknown)({
+            signal: (options as { signal?: AbortSignal })?.signal,
+          })
+        )
+      )
+
   describe("error handling", () => {
     it("throws error when instance is not found", () => {
       ;(
@@ -825,16 +838,7 @@ describe("SerialPortDevice", () => {
       const handlerSpy = jest
         .spyOn(handler, "request")
         .mockResolvedValue({ ok: true })
-      // The suite mocks p-queue away, so run the queued task by hand.
-      jest
-        .spyOn(device["requestsQueue"], "add")
-        .mockImplementation((task, options) =>
-          Promise.resolve(
-            (task as (context: { signal?: AbortSignal }) => unknown)({
-              signal: (options as { signal?: AbortSignal })?.signal,
-            })
-          )
-        )
+      runQueuedTasks(device)
 
       await device.request({ endpoint: 1 })
 
@@ -862,6 +866,56 @@ describe("SerialPortDevice", () => {
       // timer is the one that can both reject and release.
       const options = addSpy.mock.calls[0][1] as { timeout?: number }
       expect(options.timeout).toBeUndefined()
+    })
+
+    it("rejects when the device has no handler to serve the request", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device["serialPort"] = undefined
+      runQueuedTasks(device)
+
+      // Falling through to `this.serialPort?.request(...)` evaluated to
+      // undefined and left the promise unsettled for good - the one failure
+      // a caller cannot come back from.
+      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+
+      expect(error).toBeInstanceOf(SerialPortError)
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.PortClosed
+      )
+      expect((error as Error).message).toContain(
+        "SerialPortHandler is not initialized."
+      )
+    })
+
+    it("rejects a request made while the port is closed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      const handler = device["serialPort"]
+      if (!handler) {
+        throw new Error("Expected the device to have an attached port.")
+      }
+      jest.spyOn(handler, "isOpen", "get").mockReturnValue(false)
+      const handlerSpy = jest.spyOn(handler, "request")
+      runQueuedTasks(device)
+
+      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+
+      expect(handlerSpy).not.toHaveBeenCalled()
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.PortClosed
+      )
+      expect((error as Error).message).toContain("Serial port is not open.")
     })
 
     it("leaves an error it cannot name untouched", async () => {
