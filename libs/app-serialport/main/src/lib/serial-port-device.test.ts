@@ -810,7 +810,7 @@ describe("SerialPortDevice", () => {
       )
     })
 
-    it("names a request cancelled while in flight as aborted", async () => {
+    it("hands the cancellation signal to the handler", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
 
@@ -822,46 +822,46 @@ describe("SerialPortDevice", () => {
       if (!handler) {
         throw new Error("Expected the device to have an attached port.")
       }
-      jest
+      const handlerSpy = jest
         .spyOn(handler, "request")
-        .mockReturnValue(new Promise<never>(() => undefined))
+        .mockResolvedValue({ ok: true })
+      // The suite mocks p-queue away, so run the queued task by hand.
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockImplementation((task, options) =>
+          Promise.resolve(
+            (task as (context: { signal?: AbortSignal }) => unknown)({
+              signal: (options as { signal?: AbortSignal })?.signal,
+            })
+          )
+        )
 
-      const controller = new AbortController()
-      const pending = device["makeRequest"](
-        { endpoint: 1 },
-        controller.signal
-      ).catch((error) => error)
+      await device.request({ endpoint: 1 })
 
-      controller.abort()
-      const error = await pending
-
-      // This cancellation is raised inside the task, so `name` is plain
-      // "Error" and the AbortError predicate never sees it. Left untyped it
-      // reaches the renderer as Unknown, which the UI calls critical.
-      expect(error).toBeInstanceOf(SerialPortError)
-      expect((error as SerialPortError).type).toBe(
-        SerialPortErrorType.RequestAborted
-      )
-      expect((error as Error).message).toContain("Request aborted.")
+      // Cancelling has to reach the layer holding the port. Stopping at the
+      // device would only stop us awaiting, while the request kept its
+      // listeners armed and its timer running against a port the next
+      // request is about to use.
+      expect(handlerSpy).toHaveBeenCalledTimes(1)
+      expect(handlerSpy.mock.calls[0][1]).toBeInstanceOf(AbortSignal)
     })
 
-    it("names a request that never reached the wire as a closed port", async () => {
+    it("leaves request timing to the handler instead of the queue", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
 
-      jest.useRealTimers()
-      // `makeRequest` throws this before the request reaches the port.
-      jest
+      const addSpy = jest
         .spyOn(device["requestsQueue"], "add")
-        .mockRejectedValueOnce(new Error("Serial port is not open."))
+        .mockResolvedValue({ ok: true })
 
-      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+      await device.request({ endpoint: 1, options: { timeout: 2_000 } })
 
-      expect(error).toBeInstanceOf(SerialPortError)
-      expect((error as SerialPortError).type).toBe(
-        SerialPortErrorType.PortClosed
-      )
-      expect((error as Error).message).toContain("Serial port is not open.")
+      // A timeout here cannot cancel anything: when it fired the queue freed
+      // the slot and sent the next request while the handler still held the
+      // port, so `concurrency: 1` stopped meaning anything. The handler's own
+      // timer is the one that can both reject and release.
+      const options = addSpy.mock.calls[0][1] as { timeout?: number }
+      expect(options.timeout).toBeUndefined()
     })
 
     it("leaves an error it cannot name untouched", async () => {
