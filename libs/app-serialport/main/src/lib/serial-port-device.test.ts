@@ -718,6 +718,52 @@ describe("SerialPortDevice", () => {
       expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
     })
 
+    it("does not freeze a device that is already disconnected", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device["serialPort"]?.emit("close")
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+
+      device.prepareToFreeze(5000)
+      device["freezeHandler"].freeze()
+
+      // Freezing a device that is already gone would resurrect it into a state
+      // nothing re-attaches from.
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+    })
+
+    it("skips the deferred re-attach when the port is open again", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device.prepareToFreeze(5000)
+      device["freezeHandler"].freeze()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceFrozen)
+
+      const openPort = device["serialPort"]
+      device["serialPort"] = undefined
+
+      device.unfreeze()
+
+      // The scanner re-attached the device with fresh port info before the
+      // deferred re-attach fired, so it must not open a second port.
+      device["serialPort"] = openPort
+      const attachPortSpy = jest.spyOn(device, "attachPort")
+
+      await jest.advanceTimersByTimeAsync(1000)
+
+      expect(attachPortSpy).not.toHaveBeenCalled()
+    })
+
     it("keeps serving a disconnected non-serial device instead of pausing its queue", async () => {
       // MSC/mock devices are not backed by a port, so `request()` admits them while
       // disconnected - the queue must stay usable for them.
