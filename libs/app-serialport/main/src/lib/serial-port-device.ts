@@ -35,6 +35,13 @@ const REATTACH_SETTLE_DELAY_MS = 1_000
  * from it, so one call can never produce an unbounded chain of retries.
  */
 const MAX_REQUEST_ATTEMPTS = 6
+
+/**
+ * A frozen device keeps its queue paused, so a queued request normally waits
+ * there instead of failing. This budget bounds the other case: a request that
+ * *fails* while the device is frozen, which would otherwise be re-queued for
+ * as long as the freeze lasts.
+ */
 const MAX_FREEZE_WAITS = 2
 const MAX_FREEZE_ATTEMPTS = 1
 const MAX_REATTACH_ATTEMPTS = 1
@@ -771,12 +778,35 @@ export class SerialPortDevice {
       reattaches: MAX_REATTACH_ATTEMPTS,
     }
 
-    let priority = request.options?.priority ?? 1
+    const basePriority = request.options?.priority ?? 1
+    // A retry keeps its place ahead of work queued while it was failing, but it
+    // does not climb: raising the priority on every rung would let one failing
+    // request displace fresh ones again and again.
+    const retryPriority = basePriority + 1
+
+    let lastError: unknown
 
     for (let attempt = 1; ; attempt++) {
+      // The device can go away between attempts - while a re-attach settles,
+      // for instance. By then `transition(DeviceDisconnected)` has drained the
+      // rejector set, so a request queued now would sit on a paused queue with
+      // nothing left to settle it.
+      if (attempt > 1 && this.isUnreachable()) {
+        throw lastError instanceof Error
+          ? lastError
+          : new Error(
+              `Device at path ${this.info.path} disconnected while retrying request ${requestInfo}.`
+            )
+      }
+
       try {
-        return await this.runQueuedRequest(request, priority)
+        return await this.runQueuedRequest(
+          request,
+          attempt === 1 ? basePriority : retryPriority
+        )
       } catch (error) {
+        lastError = error
+
         if (this.isUnreachable()) {
           throw error
         }
@@ -798,8 +828,6 @@ export class SerialPortDevice {
         )
 
         await this.applyEscalation(escalation)
-        // Retries jump ahead of freshly queued work.
-        priority += 1
       }
     }
   }

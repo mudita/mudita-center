@@ -687,6 +687,41 @@ describe("SerialPortDevice", () => {
       expect(attachPortSpy).toHaveBeenCalledTimes(2)
     })
 
+    it("gives up instead of re-queueing when the device disconnects while a reattach settles", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+
+      device.attachPort()
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      const addSpy = jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValue(new TimeoutError("Request timed out"))
+
+      // The re-open fails and takes the device down while the loop waits out
+      // the settle delay.
+      jest.spyOn(device, "attachPort").mockImplementation(() => {
+        device["serialPort"]?.emit("close")
+      })
+
+      const requestPromise = device.request({ endpoint: 1 })
+      const requestExpectation = expect(requestPromise).rejects.toThrow(
+        "Request timed out"
+      )
+
+      await jest.advanceTimersByTimeAsync(1000)
+      await requestExpectation
+
+      // Without the pre-attempt reachability check the retry would be handed
+      // to a paused queue whose rejector set has already been drained, and its
+      // promise would never settle.
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+      })
+      expect(addSpy).toHaveBeenCalledTimes(1)
+    })
+
     it("throws error when request fails from reason other than device being frozen", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
