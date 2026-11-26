@@ -16,7 +16,14 @@ type DevicesChangeCallback = (data: SerialPortChangedDevices) => void
 
 const mockDevicesChangedCallbacks: DevicesChangeCallback[] = []
 const mockGetVisibleDevices = jest.fn((): SerialPortDeviceInfo[] => [])
-const mockGetCurrentDevices = jest.fn(() => [])
+const mockGetCurrentDevices = jest.fn(
+  (): { info: SerialPortDeviceInfo }[] => []
+)
+const mockRequest = jest.fn()
+const mockFreeze = jest.fn()
+const mockUnfreeze = jest.fn()
+const mockIsFrozen = jest.fn()
+const mockReset = jest.fn()
 
 jest.mock("./app-serial-port-service", () => ({
   AppSerialPortService: jest.fn().mockImplementation(() => ({
@@ -31,11 +38,11 @@ jest.mock("./app-serial-port-service", () => ({
     },
     getVisibleDevices: mockGetVisibleDevices,
     getCurrentDevices: mockGetCurrentDevices,
-    request: jest.fn(),
-    freeze: jest.fn(),
-    unfreeze: jest.fn(),
-    isFrozen: jest.fn(),
-    reset: jest.fn(),
+    request: mockRequest,
+    freeze: mockFreeze,
+    unfreeze: mockUnfreeze,
+    isFrozen: mockIsFrozen,
+    reset: mockReset,
   })),
 }))
 
@@ -95,6 +102,7 @@ describe("initSerialPort", () => {
     jest.clearAllMocks()
     mockDevicesChangedCallbacks.length = 0
     mockGetVisibleDevices.mockReturnValue([])
+    mockGetCurrentDevices.mockReturnValue([])
     // The module keeps the service and the current window binding in module
     // scope, so every test needs a fresh copy of it.
     jest.resetModules()
@@ -222,5 +230,61 @@ describe("initSerialPort", () => {
     expect((ipcMain.handle as jest.Mock).mock.calls.length).toEqual(
       handlersAfterFirstInit
     )
+  })
+
+  describe("ipc handlers", () => {
+    const getHandler = (channel: SerialPortIpcEvents) => {
+      const call = (ipcMain.handle as jest.Mock).mock.calls.find(
+        ([registeredChannel]) => registeredChannel === channel
+      )
+      if (!call) {
+        throw new Error(`No handler registered for ${channel}`)
+      }
+      return call[1] as (...args: unknown[]) => unknown
+    }
+
+    beforeEach(() => {
+      initSerialPort(ipcMain, asBrowserWindow(createFakeWindow()))
+    })
+
+    it("answers GetCurrentDevices with the unfiltered device info list", () => {
+      mockGetCurrentDevices.mockReturnValue([{ info: deviceInfo }])
+
+      expect(getHandler(SerialPortIpcEvents.GetCurrentDevices)()).toEqual([
+        deviceInfo,
+      ])
+    })
+
+    it("forwards Request to the service", () => {
+      const request = { endpoint: "test" }
+
+      getHandler(SerialPortIpcEvents.Request)(null, deviceInfo.id, request)
+
+      expect(mockRequest).toHaveBeenCalledWith(deviceInfo.id, request)
+    })
+
+    it("forwards Freeze to the service", () => {
+      getHandler(SerialPortIpcEvents.Freeze)(null, deviceInfo.id, 1000)
+
+      expect(mockFreeze).toHaveBeenCalledWith(deviceInfo.id, 1000)
+    })
+
+    it("forwards Unfreeze to the service", () => {
+      getHandler(SerialPortIpcEvents.Unfreeze)(null, deviceInfo.id)
+
+      expect(mockUnfreeze).toHaveBeenCalledWith(deviceInfo.id)
+    })
+
+    it("forwards IsFrozen to the service", () => {
+      getHandler(SerialPortIpcEvents.IsFrozen)(null, deviceInfo.id)
+
+      expect(mockIsFrozen).toHaveBeenCalledWith(deviceInfo.id)
+    })
+
+    it("forwards Reset to the service", () => {
+      getHandler(SerialPortIpcEvents.Reset)(null, deviceInfo.id)
+
+      expect(mockReset).toHaveBeenCalledWith(deviceInfo.id)
+    })
   })
 })
