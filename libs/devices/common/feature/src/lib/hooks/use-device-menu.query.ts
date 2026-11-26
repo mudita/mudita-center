@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device } from "devices/common/models"
+import { Device, DeviceErrorType } from "devices/common/models"
 import { useQuery } from "@tanstack/react-query"
 import { devicesQueryKeys } from "./devices-query-keys"
 import { getApiMenuConfig } from "devices/api-device/feature"
@@ -48,8 +48,16 @@ export const useDeviceMenuQuery = <ErrorType = Error>(device?: Device) => {
     queryKey: useDeviceMenuQuery.queryKey(device?.id),
     queryFn: () => queryFn(device),
     retry: ApiDeviceSerialPort.isCompatible(device)
-      ? (_, error) => {
-          return error === ApiDeviceErrorType.DeviceLocked
+      ? (failureCount, error) => {
+          // A locked device is waiting on the user, not failing, so keep
+          // asking until they unlock it.
+          if (error === ApiDeviceErrorType.DeviceLocked) {
+            return true
+          }
+          // A link that drops mid-initialization is not a broken device. Give
+          // it a few goes before the initializer calls it critical and sends
+          // the user off to troubleshooting.
+          return error === DeviceErrorType.TransportFailure && failureCount < 3
         }
       : 3,
     retryDelay: 500,

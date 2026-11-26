@@ -60,7 +60,18 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       }
       return outbox
     },
-    retry: 4,
+    retry: (failureCount, error) => {
+      // A body the device refused to parse will not parse on the fifth try
+      // either, and an aborted request has no device left to ask. Retrying
+      // those only adds traffic to a link that is already in trouble.
+      if (
+        error === DeviceErrorType.RequestParsingFailed ||
+        error === DeviceErrorType.RequestAborted
+      ) {
+        return false
+      }
+      return failureCount < 4
+    },
     retryDelay: 2000,
     refetchInterval: (response) => {
       const data = response.state.data
@@ -239,6 +250,17 @@ export const useOutboxQuery = (device?: ApiDevice, enabled?: boolean) => {
       switch (query.error) {
         case ApiDeviceErrorType.DeviceLocked:
           status = DeviceStatus.Locked
+          break
+        // The link gave up after the transport had already retried on its own.
+        // That is worth flagging, but it says nothing about the device being
+        // broken - so do not throw the user onto the troubleshooting page and
+        // out of whatever they were in the middle of.
+        case DeviceErrorType.TransportFailure:
+          status = DeviceStatus.Issue
+          break
+        // Cancelled on our side, during teardown. Nothing happened to the
+        // device and there is nothing to tell the user.
+        case DeviceErrorType.RequestAborted:
           break
         case ApiDeviceErrorType.DeviceInternalError:
         case DeviceErrorType.Critical:

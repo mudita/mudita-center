@@ -735,6 +735,77 @@ describe("SerialPortDevice", () => {
         "Some other error"
       )
     })
+
+    it("names a timed-out request so its type survives the IPC boundary", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValue(new TimeoutError("Promise timed out"))
+
+      const requestPromise = device
+        .request({ endpoint: 1 })
+        .catch((error) => error)
+      await jest.advanceTimersByTimeAsync(1000)
+      const error = await requestPromise
+
+      // Only a SerialPortError carries its type across IPC. A bare
+      // TimeoutError reaches the renderer as `Unknown`, which the UI reads as
+      // a critical device fault and answers with the troubleshooting page.
+      expect(error).toBeInstanceOf(SerialPortError)
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.ResponseTimeout
+      )
+      // The original reason rides in front of the marker, so logs and stack
+      // traces still say what actually happened.
+      expect((error as Error).message).toContain("Promise timed out")
+    })
+
+    it("names a request to a disconnected device as a closed port", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      device["serialPort"]?.emit("close")
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+      })
+
+      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+
+      expect(error).toBeInstanceOf(SerialPortError)
+      expect((error as SerialPortError).type).toBe(
+        SerialPortErrorType.PortClosed
+      )
+      expect((error as Error).message).toContain("because it is disconnected")
+    })
+
+    it("leaves an error it cannot name untouched", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      jest.useRealTimers()
+      jest
+        .spyOn(device["requestsQueue"], "add")
+        .mockRejectedValueOnce(new Error("Some other error"))
+
+      const error = await device.request({ endpoint: 1 }).catch((e) => e)
+
+      // Guessing a type here would be worse than admitting we have none: the
+      // renderer maps an unnamed error to `Critical`, which is the right
+      // answer for a failure nobody has classified.
+      expect(error).not.toBeInstanceOf(SerialPortError)
+      expect((error as Error).message).toBe("Some other error")
+    })
   })
 
   describe("state invariant", () => {

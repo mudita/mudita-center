@@ -19,7 +19,7 @@ import {
   ApiDeviceResponse,
   ApiDeviceResponseBody,
 } from "devices/api-device/models"
-import { DeviceErrorType } from "devices/common/models"
+import { DeviceErrorType, getDeviceErrorType } from "devices/common/models"
 import { ZodNumber, ZodObject, ZodType } from "zod"
 
 export type OKResponse<
@@ -100,12 +100,11 @@ export class ApiDeviceSerialPort {
       )) as ApiDeviceResponse<E, M>
     } catch (error) {
       if (error instanceof SerialPortError) {
-        const message = new SerialPortError(error).message
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: DeviceErrorType.Critical,
-          error: message,
+          status: getDeviceErrorType(error.type),
+          error: error.message,
         }
       }
       return {

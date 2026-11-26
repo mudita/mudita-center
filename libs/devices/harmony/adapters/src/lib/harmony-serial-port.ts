@@ -21,7 +21,7 @@ import {
   HarmonyResponse,
   HarmonyResponseBody,
 } from "devices/harmony/models"
-import { DeviceErrorType } from "devices/common/models"
+import { DeviceErrorType, getDeviceErrorType } from "devices/common/models"
 import { z } from "zod"
 
 export type OKResponse<
@@ -96,7 +96,7 @@ export class HarmonySerialPort {
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: DeviceErrorType.Critical,
+          status: getDeviceErrorType(error.type),
           error: error.type,
         }
       }
