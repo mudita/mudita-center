@@ -7,7 +7,7 @@ import { FunctionComponent, useCallback, useMemo } from "react"
 import { ApiDevice } from "devices/api-device/models"
 import { Overview } from "devices/common/ui"
 import { DeviceImageColor, DeviceImageType } from "devices/common/models"
-import { Icon } from "app-theme/ui"
+import { Icon, Typography } from "app-theme/ui"
 import { useApiFeatureQuery } from "devices/api-device/feature"
 import { IconSize, IconType } from "app-theme/models"
 import { motion } from "motion/react"
@@ -19,19 +19,27 @@ import { SerialPortDeviceSubtype } from "app-serialport/models"
 import { useParams } from "react-router"
 import { BackupSection } from "../components/backup-section/backup-section"
 import { useHelpShortcut } from "help/feature"
+import { defineMessages, formatMessage } from "app-localize/utils"
+
+const messages = defineMessages({
+  loadError: {
+    id: "apiDevice.overview.loadError",
+  },
+})
 
 export const McOverviewScreen: FunctionComponent = () => {
   const { subviewKey } = useParams()
   const helpShortcut = useHelpShortcut()
   const { data: device } = useActiveDeviceQuery<ApiDevice>()
-  const { data: feature } = useApiFeatureQuery("mc-overview", device)
+  const { data: feature, isError } = useApiFeatureQuery("mc-overview", device)
+  const isDeviceN = device?.deviceSubtype === SerialPortDeviceSubtype.DeviceN
 
   const deviceImageType = useMemo(() => {
-    if (device?.deviceSubtype === SerialPortDeviceSubtype.DeviceN) {
+    if (isDeviceN) {
       return DeviceImageType.DeviceN
     }
     return DeviceImageType.Kompakt
-  }, [device?.deviceSubtype])
+  }, [isDeviceN])
 
   const onHelpButtonClick = useCallback(() => {
     helpShortcut("how-to-update-kompakt")
@@ -45,10 +53,12 @@ export const McOverviewScreen: FunctionComponent = () => {
     }
     const update = feature?.update && {
       title: feature.update.title,
+      badgeText: feature.update.badgeText,
       children: (
         <McOverviewUpdate
           version={feature.update.version}
-          onHelpButtonClick={onHelpButtonClick}
+          // TODO(CP-4076): The help article covers Kompakt only - add a Device N article when available.
+          onHelpButtonClick={isDeviceN ? undefined : onHelpButtonClick}
         />
       ),
     }
@@ -62,7 +72,23 @@ export const McOverviewScreen: FunctionComponent = () => {
       ),
     }
     return [status, update, backup].filter(Boolean)
-  }, [feature, onHelpButtonClick])
+  }, [feature, isDeviceN, onHelpButtonClick])
+
+  if (!feature && isError) {
+    return (
+      <LoaderWrapper
+        key="error"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+      >
+        <Typography.P1 data-testid="overview-load-error">
+          {formatMessage(messages.loadError)}
+        </Typography.P1>
+      </LoaderWrapper>
+    )
+  }
 
   if (!feature) {
     return (

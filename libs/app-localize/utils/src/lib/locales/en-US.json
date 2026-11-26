@@ -167,6 +167,7 @@
   "apiDevice.overview.backupSection.lastBackupLabel": "Last backup:",
   "apiDevice.overview.backupSection.noBackupsInfo": "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss.",
   "apiDevice.overview.backupSection.restoreButton": "Restore from backup",
+  "apiDevice.overview.loadError": "Unable to load device information. Reconnect the device and try again.",
   "apiDevice.overview.updateSection.howToUpdateButton": "How to update?",
   "apiDevice.passcodeModal.description": "Enter your passcode or scan your fingerprint",
   "apiDevice.passcodeModal.title": "Unlock your phone",
