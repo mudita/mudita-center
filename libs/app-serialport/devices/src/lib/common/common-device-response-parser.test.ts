@@ -219,4 +219,72 @@ describe("CommonDeviceResponseParser", () => {
 
     expect(dataListener).toHaveBeenCalledTimes(1)
   })
+
+  describe("re-syncing on corrupted framing", () => {
+    const write = (target: CommonDeviceResponseParser, data: Buffer | string) =>
+      new Promise<void>((resolve) => {
+        target.write(data, () => resolve())
+      })
+
+    it("skips a header declaring more than the frame limit and parses the next one", async () => {
+      const boundedParser = new CommonDeviceResponseParser({
+        matcher: /#\d{9}/,
+        maxFrameLength: 1024,
+      })
+      const dataListener = jest.fn()
+      boundedParser.on("data", dataListener)
+
+      // A corrupted prefix claiming ~1 GB, immediately followed by a good
+      // frame. Waiting for the declared payload would hold the connection
+      // open until the device is re-plugged.
+      await write(boundedParser, "#999999999#000000003Foo")
+
+      await waitFor(() => {
+        expect(dataListener).toHaveBeenCalledWith(Buffer.from("Foo"))
+      })
+      expect(dataListener).toHaveBeenCalledTimes(1)
+    })
+
+    it("drops unparsable data once it passes the buffer limit", async () => {
+      const boundedParser = new CommonDeviceResponseParser({
+        matcher: /#\d{9}/,
+        maxBufferLength: 256,
+      })
+      const dataListener = jest.fn()
+      boundedParser.on("data", dataListener)
+
+      await write(boundedParser, Buffer.alloc(1024, 0x61))
+
+      // Only the look-behind window survives, so a header split across the
+      // boundary can still be found.
+      expect(boundedParser["buffer"].length).toBe(64)
+
+      await write(boundedParser, "#000000003Bar")
+
+      await waitFor(() => {
+        expect(dataListener).toHaveBeenCalledWith(Buffer.from("Bar"))
+      })
+    })
+
+    it("keeps buffering while the data stays under the buffer limit", async () => {
+      const boundedParser = new CommonDeviceResponseParser({
+        matcher: /#\d{9}/,
+        maxBufferLength: 256,
+      })
+
+      await write(boundedParser, Buffer.alloc(128, 0x61))
+
+      expect(boundedParser["buffer"].length).toBe(128)
+    })
+
+    it("skips a header whose declared length is not a number", async () => {
+      const headerOnlyParser = new CommonDeviceResponseParser({
+        matcher: /@/,
+      })
+
+      await write(headerOnlyParser, "@abc")
+
+      expect(headerOnlyParser["buffer"].toString()).toBe("abc")
+    })
+  })
 })

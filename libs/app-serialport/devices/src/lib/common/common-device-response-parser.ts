@@ -8,7 +8,29 @@ import { AppLogger } from "app-serialport/utils"
 
 interface CommonDeviceParserOptions extends TransformOptions {
   matcher: RegExp
+  maxFrameLength?: number
+  maxBufferLength?: number
 }
+
+/**
+ * A `#` + 9 digit header can declare up to 999,999,999 bytes. Nothing this
+ * transport carries comes close, so a frame that large is a corrupted length
+ * prefix - and waiting for it to arrive would hold the connection open until
+ * the device is re-plugged.
+ */
+const DEFAULT_MAX_FRAME_LENGTH = 8 * 1024 * 1024
+
+/**
+ * How much unparsable data may pile up before the parser stops trying to
+ * re-sync and drops it.
+ */
+const DEFAULT_MAX_BUFFER_LENGTH = 2 * DEFAULT_MAX_FRAME_LENGTH
+
+/**
+ * Kept when dropping unparsable data, so a header split across the boundary
+ * is still found once the rest of it arrives.
+ */
+const HEADER_LOOKBEHIND_LENGTH = 64
 
 /**
  * CommonDeviceResponseParser is a Transform stream that processes incoming data
@@ -18,11 +40,20 @@ interface CommonDeviceParserOptions extends TransformOptions {
 export class CommonDeviceResponseParser extends Transform {
   private readonly encoding: BufferEncoding = "utf8"
   private readonly matcher: RegExp
+  private readonly maxFrameLength: number
+  private readonly maxBufferLength: number
   private buffer = Buffer.alloc(0)
 
-  constructor({ matcher, ...options }: CommonDeviceParserOptions) {
+  constructor({
+    matcher,
+    maxFrameLength = DEFAULT_MAX_FRAME_LENGTH,
+    maxBufferLength = DEFAULT_MAX_BUFFER_LENGTH,
+    ...options
+  }: CommonDeviceParserOptions) {
     super(options)
     this.matcher = matcher
+    this.maxFrameLength = maxFrameLength
+    this.maxBufferLength = maxBufferLength
     this.encoding = options.encoding || this.encoding
   }
 
@@ -59,14 +90,38 @@ export class CommonDeviceResponseParser extends Transform {
 
     if (!headerInfo) {
       // No valid header found, waiting for more data
+      this.dropUnparsableBuffer()
       return false
     }
 
     const { headerIndex, headerLength, expectedLength } = headerInfo
+
+    if (
+      !Number.isInteger(expectedLength) ||
+      expectedLength < 0 ||
+      expectedLength > this.maxFrameLength
+    ) {
+      // A length this far out of range is a corrupted prefix, not a frame the
+      // device is about to send. Skip past the header and look for the next
+      // one instead of waiting for data that will never arrive.
+      AppLogger.log(
+        "warn",
+        `Discarding a response header declaring ${expectedLength} bytes (limit ${this.maxFrameLength}). Re-syncing on the next header.`,
+        { color: "yellow" }
+      )
+      this.buffer = this.buffer.subarray(headerIndex + headerLength)
+      return true
+    }
+
     const totalNeededLength = headerIndex + headerLength + expectedLength
 
     if (this.buffer.length < totalNeededLength) {
-      // Not enough data received yet, waiting for more data
+      // Not enough data received yet, waiting for more data. Anything before
+      // the header is never going to be part of this frame, so drop it now
+      // rather than carrying it until the frame completes.
+      if (headerIndex > 0) {
+        this.buffer = this.buffer.subarray(headerIndex)
+      }
       return false
     }
 
@@ -120,6 +175,28 @@ export class CommonDeviceResponseParser extends Transform {
     }
     // Indicate that a whole response was processed and there might be more data to process in the buffer
     return true
+  }
+
+  /**
+   * Without a header there is nothing to parse, and the buffer would otherwise
+   * grow for as long as the device keeps sending data the parser cannot frame.
+   */
+  private dropUnparsableBuffer() {
+    if (this.buffer.length <= this.maxBufferLength) {
+      return
+    }
+
+    const droppedLength = this.buffer.length - HEADER_LOOKBEHIND_LENGTH
+
+    AppLogger.log(
+      "warn",
+      `Dropping ${droppedLength} bytes of unparsable data: no response header found within ${this.maxBufferLength} bytes.`,
+      { color: "yellow" }
+    )
+
+    this.buffer = Buffer.from(
+      this.buffer.subarray(this.buffer.length - HEADER_LOOKBEHIND_LENGTH)
+    )
   }
 
   _transform(
