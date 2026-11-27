@@ -4,6 +4,12 @@
  */
 
 /**
+ * How long (ms) the mocks hold an operation, so that transient "please wait"
+ * modals stay visible for the whole time the tests are asserting them.
+ */
+export const TRANSIENT_MODAL_MOCK_DELAY = 5000
+
+/**
  * Checks if current operating system is Linux
  * @returns boolean
  */

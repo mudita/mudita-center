@@ -6,4 +6,6 @@
 export interface SetUsbAccessPayload {
   serialPortAccess?: boolean
   grantAccessToSerialPortResult?: boolean
+  // Delay (ms) before the grant result is returned, keeps the processing modal visible
+  grantAccessToSerialPortDelay?: number
 }

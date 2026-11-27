@@ -9,4 +9,6 @@ export interface MockAppHttpResponsePayload {
   url: AppHttpRequestConfig["url"]
   method: AppHttpRequestConfig["method"]
   response: AppHttpResult<unknown>
+  // Delay (ms) before the mocked response is returned
+  delay?: number
 }

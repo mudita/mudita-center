@@ -14,12 +14,12 @@ interface SetAppUpdaterCheckSuccessPayload extends AppUpdaterState {
 }
 
 export type SetAppUpdaterCheckPayload =
-  | SetAppUpdaterCheckErrorPayload
-  | SetAppUpdaterCheckSuccessPayload
-  | null
+  SetAppUpdaterCheckErrorPayload | SetAppUpdaterCheckSuccessPayload | null
 
 export interface SetAppUpdaterPayload {
   check: SetAppUpdaterCheckPayload
+  // Delay (ms) before the check result is returned, keeps the checking modal visible
+  checkDelay?: number
   download?: {
     error?: boolean
   }

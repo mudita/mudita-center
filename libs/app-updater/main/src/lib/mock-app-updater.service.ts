@@ -8,6 +8,7 @@ import logger from "electron-log/main"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
 import { AppError, AppResult, AppResultFactory } from "app-utils/models"
+import { delay } from "app-utils/common"
 import { AppUpdaterState, SetAppUpdaterPayload } from "app-updater/models"
 
 export class MockAppUpdaterService {
@@ -16,6 +17,7 @@ export class MockAppUpdaterService {
   private downloadResult: AppResult = AppResultFactory.success(null)
   private installResult: AppResult = AppResultFactory.success(null)
   private downloadProgressCallbacks: Array<(percent: number) => void> = []
+  private checkDelay = 0
 
   constructor(private mockServer: IpcMockServer) {
     this.registerListeners()
@@ -23,6 +25,9 @@ export class MockAppUpdaterService {
 
   async check(): Promise<AppResult<AppUpdaterState | null>> {
     logger.info("MockAppUpdaterService: check for updates called")
+    if (this.checkDelay > 0) {
+      await delay(this.checkDelay)
+    }
     return this.checkResult
   }
 
@@ -58,9 +63,12 @@ export class MockAppUpdaterService {
 
   private handleSetAppUpdaterState = ({
     check,
+    checkDelay = 0,
     download,
     install,
   }: SetAppUpdaterPayload) => {
+    this.checkDelay = checkDelay
+
     if (check?.error) {
       this.checkResult = AppResultFactory.failed(new AppError())
     } else {
