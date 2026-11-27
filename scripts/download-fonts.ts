@@ -71,6 +71,12 @@ dotenv.config({
         recursive: true,
       })
       console.log("Fallback fonts copied to the fonts/main directory.")
+      if (process.env.GITHUB_ACTIONS === "true") {
+        console.error(
+          "::error title=Fonts::GT Pressura could not be downloaded. Check GH_BUILD_TOKEN."
+        )
+        process.exitCode = 1
+      }
     } catch (fallbackError) {
       console.error(
         "Error while copying fallback fonts. The fonts/main directory is unusable.",
