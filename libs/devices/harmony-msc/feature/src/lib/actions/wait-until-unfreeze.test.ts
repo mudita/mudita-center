@@ -5,7 +5,7 @@
 
 import { waitUntilUnfreeze } from "./wait-until-unfreeze"
 import { AppSerialPort } from "app-serialport/renderer"
-import { HarmonyMsc } from "devices/harmony-msc/models"
+import { HarmonyMsc, HarmonyMscProcessState } from "devices/harmony-msc/models"
 import { SerialPortDeviceType } from "app-serialport/models"
 
 jest.mock("app-serialport/renderer", () => ({
@@ -34,8 +34,20 @@ describe("waitUntilUnfreeze", () => {
     jest.useRealTimers()
   })
 
-  const waitFor = (signal = new AbortController().signal) => {
-    return waitUntilUnfreeze({ device, signal })
+  const waitFor = (
+    overrides: Partial<Parameters<typeof waitUntilUnfreeze>[0]> = {}
+  ) => {
+    return waitUntilUnfreeze({
+      device,
+      signal: new AbortController().signal,
+      ...overrides,
+    })
+  }
+
+  const abortedSignal = () => {
+    const controller = new AbortController()
+    controller.abort()
+    return controller.signal
   }
 
   it("gives up on a device the main process no longer holds", async () => {
@@ -113,5 +125,48 @@ describe("waitUntilUnfreeze", () => {
     const result = await waitFor()
 
     expect(result.ok).toBe(true)
+  })
+  it("stops waiting for the freeze once the flow is aborted", async () => {
+    isFrozenMock.mockResolvedValue(false)
+
+    const result = await waitFor({ signal: abortedSignal() })
+
+    expect(result.ok).toBe(true)
+  })
+
+  it("stops waiting for the reconnect once the flow is aborted, and releases the device", async () => {
+    isFrozenMock.mockResolvedValue(true)
+    getCurrentDevicesMock.mockResolvedValue([])
+
+    const result = await waitFor({ signal: abortedSignal() })
+
+    expect(result.ok).toBe(true)
+    // The flow is giving up, so the freeze it asked for has to come off -
+    // otherwise the device stays held until the timeout runs out.
+    expect(AppSerialPort.unfreeze).toHaveBeenCalledWith(device.id)
+  })
+
+  it("returns when the device unfreezes under the same id", async () => {
+    // Nothing re-enumerated: the same entry simply stopped being frozen.
+    isFrozenMock.mockResolvedValueOnce(true).mockResolvedValue(false)
+    getCurrentDevicesMock.mockResolvedValue([])
+
+    const result = await waitFor()
+
+    expect(result.ok).toBe(true)
+  })
+
+  it("reports the frozen state to the caller once the device is frozen", async () => {
+    isFrozenMock.mockResolvedValue(true)
+    const onProgress = jest.fn()
+
+    await waitFor({
+      onProgress,
+      onFrozenState: HarmonyMscProcessState.Complete,
+    })
+
+    expect(onProgress).toHaveBeenCalledWith({
+      state: HarmonyMscProcessState.Complete,
+    })
   })
 })
