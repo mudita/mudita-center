@@ -36,7 +36,7 @@ export const serialPort = {
   unfreeze: (id: SerialPortDeviceId) => {
     return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.Unfreeze, id)
   },
-  isFrozen: (id: SerialPortDeviceId): Promise<boolean> => {
+  isFrozen: (id: SerialPortDeviceId): Promise<boolean | undefined> => {
     return electronAPI.ipcRenderer.invoke(SerialPortIpcEvents.IsFrozen, id)
   },
   reset: (id?: SerialPortDeviceId) => {

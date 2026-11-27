@@ -170,7 +170,20 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         await updateHarmony(device)
 
         // Wait for device to disconnect and freeze
-        while (!(await isDeviceFrozen(device))) {
+        for (;;) {
+          const frozen = await isDeviceFrozen(device)
+
+          // `undefined` is not `false`: the main process no longer holds this
+          // device, so it will never report itself frozen and this wait would
+          // never end. Without the device there is no update to finish.
+          if (frozen === undefined) {
+            throw HarmonyOSUpdateError.UpdateFailed
+          }
+
+          if (frozen) {
+            break
+          }
+
           if (abortControllerRef.current.signal.aborted) {
             break
           }
@@ -178,7 +191,20 @@ export const useHarmonyOsUpdateMutation = (device?: Harmony) => {
         }
 
         // Wait for device to reconnect and unfreeze
-        while (await isDeviceFrozen(device)) {
+        for (;;) {
+          const frozen = await isDeviceFrozen(device)
+
+          // The freeze ran out before the device came back and the main
+          // process has forgotten it. Nothing is left to unfreeze, so this
+          // is the update failing, not the device returning.
+          if (frozen === undefined) {
+            throw HarmonyOSUpdateError.UpdateFailed
+          }
+
+          if (!frozen) {
+            break
+          }
+
           if (abortControllerRef.current.signal.aborted) {
             break
           }

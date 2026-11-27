@@ -27,7 +27,7 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
       const changedDevices: SerialPortChangedDevices = {
         added: [],
         removed: [],
-        all: serialport.getCurrentDevices().map((device) => device.info),
+        all: serialport.getVisibleDevices(),
       }
       mainWindow.webContents.send(
         SerialPortIpcEvents.DevicesChanged,
@@ -58,7 +58,7 @@ export const initSerialPort = (ipcMain: IpcMain, mainWindow: BrowserWindow) => {
     })
     ipcMain.removeHandler(SerialPortIpcEvents.GetCurrentDevices)
     ipcMain.handle(SerialPortIpcEvents.GetCurrentDevices, () => {
-      return serialport.getCurrentDevices().map((device) => device.info)
+      return serialport.getVisibleDevices()
     })
     ipcMain.removeHandler(SerialPortIpcEvents.Request)
     ipcMain.handle(

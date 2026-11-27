@@ -46,10 +46,14 @@ const flashHarmonyMacOsCompletionFlow = async (
   console.log("Flash completed, waiting for device to freeze and reconnect")
 
   onProgress?.({ state: HarmonyMscProcessState.Restarting })
-  await waitUntilUnfreeze({
+  const unfreezeResult = await waitUntilUnfreeze({
     ...params,
     onFrozenState: HarmonyMscProcessState.Complete,
   })
+
+  if (!unfreezeResult.ok) {
+    return unfreezeResult
+  }
 
   return AppResultFactory.success()
 }
@@ -66,10 +70,14 @@ const flashHarmonyWindowsCompletionFlow = async (
   onProgress?.({ state: HarmonyMscProcessState.FinalStep })
 
   AppSerialPort.freeze(params.device.id, FREEZE_TIMEOUT_MS)
-  await waitUntilUnfreeze({
+  const unfreezeResult = await waitUntilUnfreeze({
     ...params,
     onFrozenState: HarmonyMscProcessState.Complete,
   })
+
+  if (!unfreezeResult.ok) {
+    return unfreezeResult
+  }
 
   return AppResultFactory.success()
 }
@@ -86,10 +94,14 @@ const flashHarmonyLinuxCompletionFlow = async (
   onProgress?.({ state: HarmonyMscProcessState.Restarting })
 
   AppSerialPort.freeze(params.device.id, FREEZE_TIMEOUT_MS)
-  await waitUntilUnfreeze({
+  const unfreezeResult = await waitUntilUnfreeze({
     ...params,
     onFrozenState: undefined,
   })
+
+  if (!unfreezeResult.ok) {
+    return unfreezeResult
+  }
 
   return AppResultFactory.success()
 }

@@ -46,7 +46,12 @@ export const AppSerialPort = {
   unfreeze: (id: SerialPortDeviceId) => {
     window.api.serialPort.unfreeze(id)
   },
-  isFrozen: (id: SerialPortDeviceId) => {
+  /**
+   * `undefined` means the main process holds no such device - not that the
+   * device is running. Anything waiting for a freeze has to tell the two
+   * apart, or it waits on a device that can no longer answer.
+   */
+  isFrozen: (id: SerialPortDeviceId): Promise<boolean | undefined> => {
     return window.api.serialPort.isFrozen(id)
   },
   reset: (id?: SerialPortDeviceId) => {
