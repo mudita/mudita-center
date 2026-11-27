@@ -250,7 +250,7 @@ describe("SerialPortDevice", () => {
   })
 
   describe("port handling", () => {
-    it("replaces serial port instance on attachPort with new path", () => {
+    it("replaces serial port instance on attachPort with new path", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
 
@@ -259,8 +259,95 @@ describe("SerialPortDevice", () => {
       const newInfo = { ...mockDeviceInfo, path: "/dev/ttyUSB1" }
       device.attachPort(newInfo)
 
+      // The old handle is released first, so the new port only appears once
+      // that close has settled.
+      await waitFor(() => {
+        expect(device["serialPort"]?.path).toBe("/dev/ttyUSB1")
+      })
       expect(device["serialPort"]).not.toBe(oldPort)
       expect(device.info.path).toBe("/dev/ttyUSB1")
+    })
+
+    const holdPortOpen = (port: SerialPortHandler) => {
+      jest.spyOn(port, "isOpen", "get").mockReturnValue(true)
+      return jest.spyOn(port, "close").mockImplementation(() => undefined)
+    }
+
+    it("does not open the new port while the old one is still closing", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const close = holdPortOpen(device["serialPort"] as SerialPortHandler)
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+      await jest.advanceTimersByTimeAsync(0)
+
+      // Opening the path while the previous handle still holds it is what
+      // Windows answers with "access denied" or "unknown error code 433".
+      expect(close).toHaveBeenCalled()
+      expect(device["serialPort"]).toBeUndefined()
+    })
+
+    it("opens the new port anyway when the old one never reports closed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const oldPort = device["serialPort"] as SerialPortHandler
+      holdPortOpen(oldPort)
+      const cleanup = jest.spyOn(oldPort, "cleanup")
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // A handle that never calls its close callback must not block the path
+      // for good - the wait is bounded and the device moves on.
+      expect(device["serialPort"]?.path).toBe("/dev/ttyUSB1")
+      expect(cleanup).toHaveBeenCalled()
+    })
+
+    it("releases a port whose close throws", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const oldPort = device["serialPort"] as SerialPortHandler
+      jest.spyOn(oldPort, "isOpen", "get").mockReturnValue(true)
+      jest.spyOn(oldPort, "close").mockImplementation(() => {
+        throw new Error("Port is not open")
+      })
+      const cleanup = jest.spyOn(oldPort, "cleanup")
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+
+      await waitFor(() => {
+        expect(device["serialPort"]?.path).toBe("/dev/ttyUSB1")
+      })
+      expect(cleanup).toHaveBeenCalled()
+    })
+
+    it("drops a port replacement that a newer attach superseded", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB2" })
+
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // The first replacement finishes closing after the second has already
+      // opened its port. Carrying on would leave the device on a path that
+      // nothing asked for any more.
+      expect(device["serialPort"]?.path).toBe("/dev/ttyUSB2")
+    })
+
+    it("destroys a device that has no port to detach", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      device.destroy()
+      await jest.advanceTimersByTimeAsync(2000)
+
+      expect(() => device.destroy()).not.toThrow()
+      expect(device["serialPort"]).toBeUndefined()
     })
 
     it("ignores events from detached serial port", async () => {

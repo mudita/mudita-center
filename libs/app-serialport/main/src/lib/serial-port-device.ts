@@ -677,9 +677,9 @@ export class SerialPortDevice {
       // do nothing
     }
 
-    if (this.serialPort) {
-      void this.detachPort()
-    }
+    // `detachPort` already answers "is there a port?" - asking it twice only
+    // leaves one of the two answers untested.
+    void this.detachPort()
   }
 
   /**
