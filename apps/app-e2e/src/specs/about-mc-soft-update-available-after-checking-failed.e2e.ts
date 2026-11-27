@@ -13,6 +13,7 @@ import {
   itBehavesLikeUpdateErrorModal,
 } from "../helpers/about-mc-update.helper"
 import { itBehavesLikeAvailableModal } from "../helpers/mc-update.helper"
+import { TRANSIENT_MODAL_MOCK_DELAY } from "../helpers/tests.helper"
 
 describe("About MC Soft Update Available After Checking Failed", () => {
   const version = "5.0.0"
@@ -28,7 +29,11 @@ describe("About MC Soft Update Available After Checking Failed", () => {
   itBehavesLikeUpdateErrorModal()
   describe("When user retries check manually and soft update is found", () => {
     before(async () => {
+      // The retry runs its own check, so it needs the same hold the first
+      // one got from `simulateMcUpdateCheckFromAbout` - without it the
+      // checking modal is gone before the assertions below reach it.
       E2EMockClient.setAppUpdaterState({
+        checkDelay: TRANSIENT_MODAL_MOCK_DELAY,
         check: { version, forced: false },
       })
     })

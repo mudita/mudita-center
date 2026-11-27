@@ -11,6 +11,7 @@ import { itBehavesLikeAvailableModal } from "../helpers/mc-update.helper"
 import AppInitPage from "../page-objects/app-init.page"
 import SettingsPage from "../page-objects/settings.page"
 import { SPEC_TITLE } from "../consts/spec-title"
+import { TRANSIENT_MODAL_MOCK_DELAY } from "../helpers/tests.helper"
 
 describe(
   SPEC_TITLE.ABOUT_MC_SOFT_UPDATE_AVAILABLE_AFTER_APP_INIT_CHECKING_FAILED,
@@ -32,7 +33,11 @@ describe(
 
     describe("Soft update check from About tab after App Init check failure", () => {
       before(async () => {
+        // This check is set up here rather than through
+        // `simulateMcUpdateCheckFromAbout`, so the hold that keeps the
+        // checking modal on screen has to be asked for explicitly.
         E2EMockClient.setAppUpdaterState({
+          checkDelay: TRANSIENT_MODAL_MOCK_DELAY,
           check: { version, forced: false },
         })
       })
