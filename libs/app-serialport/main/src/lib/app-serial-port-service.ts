@@ -22,14 +22,16 @@ enum Events {
 }
 
 const DEVICE_CHANGE_DEBOUNCE_TIME = 1_000
-const RESCAN_AFTER_OPEN_ERROR_DELAY = 1_500
+const RESCAN_BASE_DELAY = 1_500
+const RESCAN_MAX_DELAY = 30_000
 
 export class AppSerialPortService {
   private eventEmitter = new EventEmitter()
   private devices = new Map<SerialPortDeviceId, SerialPortDevice>()
 
   private devicesChangedTimeout?: NodeJS.Timeout
-  private rescanAfterOpenErrorTimeout?: NodeJS.Timeout
+  private rescanTimeout?: NodeJS.Timeout
+  private rescanAttempts = 0
   private initialScan = true
 
   constructor() {
@@ -37,6 +39,8 @@ export class AppSerialPortService {
 
     usb.on("attach", () => {
       this.initialScan = false
+      // A physical change means the previous failures are no longer relevant.
+      this.rescanAttempts = 0
       this.triggerAttachScan()
     })
   }
@@ -64,15 +68,32 @@ export class AppSerialPortService {
     })
   }
 
-  private scheduleRescanAfterOpenError() {
-    clearTimeout(this.rescanAfterOpenErrorTimeout)
-    this.rescanAfterOpenErrorTimeout = setTimeout(() => {
-      AppLogger.log(
-        "warn",
-        "Open retries exhausted. Triggering active serial devices rescan."
-      )
+  /**
+   * Schedules a rescan of the connected serial devices. Without this a device that
+   * is dropped by the main process while it is still physically plugged in - a
+   * freeze that timed out, a port error - would stay gone until the user replugs
+   * the cable, because `usb.on("attach")` is the only other scan trigger.
+   *
+   * Repeated failures back off exponentially so a device that cannot be opened at
+   * all does not turn into a rescan loop (on Windows a scan spawns PowerShell).
+   */
+  private scheduleRescan(reason: string) {
+    clearTimeout(this.rescanTimeout)
+
+    const delay = Math.min(
+      RESCAN_BASE_DELAY * 2 ** this.rescanAttempts,
+      RESCAN_MAX_DELAY
+    )
+    this.rescanAttempts++
+
+    AppLogger.log(
+      "warn",
+      `Scheduling serial devices rescan in ${delay}ms. Reason: ${reason}.`
+    )
+
+    this.rescanTimeout = setTimeout(() => {
       this.triggerAttachScan()
-    }, RESCAN_AFTER_OPEN_ERROR_DELAY)
+    }, delay)
   }
 
   private initializeDevice(deviceInfo: SerialPortDeviceInfo): void {
@@ -82,6 +103,7 @@ export class AppSerialPortService {
           "debug",
           `Device connected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
+        this.rescanAttempts = 0
         void this.debounceDevicesChanged()
       },
       onDisconnect: () => {
@@ -90,13 +112,19 @@ export class AppSerialPortService {
           `Device disconnected at path ${deviceInfo.path} (id: ${deviceInfo.id}).`
         )
         void this.debounceDevicesChanged()
+        this.scheduleRescan(
+          `device disconnected at path ${deviceInfo.path} (id: ${deviceInfo.id})`
+        )
       },
       onOpenRetriesExhausted: (error) => {
+        // Logging only: `handleError` calls this and then `handleDisconnect()`, so
+        // the `onDisconnect` callback above owns rescan scheduling. Scheduling here
+        // as well would clear that timer, double-count the attempt and advance the
+        // backoff twice as fast on every exhausted open.
         AppLogger.log(
           "warn",
           `Open retries exhausted for device at path ${deviceInfo.path} (id: ${deviceInfo.id}). Last error: ${error.message}`
         )
-        this.scheduleRescanAfterOpenError()
       },
     })
 
@@ -204,7 +232,8 @@ export class AppSerialPortService {
   }
 
   async reset(deviceId?: SerialPortDeviceId, rescan = true): Promise<void> {
-    clearTimeout(this.rescanAfterOpenErrorTimeout)
+    clearTimeout(this.rescanTimeout)
+    this.rescanAttempts = 0
 
     if (deviceId) {
       const device = this.devices.get(deviceId)
