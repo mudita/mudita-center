@@ -213,7 +213,6 @@ export class SerialPortDevice {
       intervalCap:
         options?.queueIntervalCapacity ?? DEFAULT_QUEUE_INTERVAL_CAPACITY,
       autoStart: false,
-      timeout: this.instance.defaultRequestTimeout,
     })
 
     this.freezeHandler.on("freeze", () => {
@@ -659,49 +658,34 @@ export class SerialPortDevice {
     request: SerialPortRequest,
     signal?: AbortSignal
   ): Promise<SerialPortResponse> {
-    const isRealSerialPort = !this.instance.nonSerialPortDevice
-
-    if (isRealSerialPort) {
-      if (!this.serialPort) {
-        throw new Error("SerialPortHandler is not initialized.")
-      }
-
-      if (!this.serialPort.isOpen) {
-        throw new Error("Serial port is not open.")
-      }
+    // A device with no handler at all cannot serve the request. Falling
+    // through used to leave the promise unsettled forever, which is the one
+    // outcome the caller cannot recover from.
+    if (!this.serialPort) {
+      throw new Error("SerialPortHandler is not initialized.")
     }
 
-    return new Promise((resolve, reject) => {
-      const onAbort = () => {
-        // Typed at the source: unlike the queue's own abort, which arrives as
-        // a DOMException named AbortError, this one is raised inside the task
-        // and leaves nothing downstream could recognise it by.
-        reject(
-          typedError(
-            SerialPortErrorType.RequestAborted,
-            new Error("Request aborted.")
-          )
-        )
-      }
+    if (!this.instance.nonSerialPortDevice && !this.serialPort.isOpen) {
+      throw new Error("Serial port is not open.")
+    }
 
-      signal?.addEventListener("abort", onAbort)
-
-      this.serialPort
-        ?.request(request)
-        .then((response) => {
-          signal?.removeEventListener("abort", onAbort)
-          resolve(response as SerialPortResponse)
-        })
-        .catch((error) => {
-          signal?.removeEventListener("abort", onAbort)
-          reject(error)
-        })
-    })
+    // The handler owns the request from here, the signal included: cancelling
+    // has to release the port, not just stop us from awaiting it.
+    return (await this.serialPort.request(
+      request,
+      signal
+    )) as SerialPortResponse
   }
 
   /**
    * Runs one attempt through the queue and settles it, whichever comes first:
    * the queued task, or an explicit cancellation when the device goes away.
+   *
+   * Request timing belongs to the handler, which is the only layer that can
+   * act on it: its timer arms before the write and its rejection releases the
+   * port. A second timeout here would only stop us waiting - the queue would
+   * free the slot and send the next request while this one still held the
+   * wire, and `concurrency: 1` would stop meaning anything.
    */
   private async runQueuedRequest(
     request: SerialPortRequest,
@@ -714,8 +698,6 @@ export class SerialPortDevice {
         this.requestsQueue.add(
           ({ signal }) => this.makeRequest(request, signal),
           {
-            timeout:
-              request.options?.timeout || this.instance.defaultRequestTimeout,
             priority,
             signal: this.requestsQueueAbortController.signal,
           }

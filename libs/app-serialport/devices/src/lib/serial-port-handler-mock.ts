@@ -121,10 +121,21 @@ export class SerialPortHandlerMock extends SerialPortMock {
     return data
   }
 
-  async request(data: SerialPortRequest): Promise<Response["body"]> {
+  async request(
+    data: SerialPortRequest,
+    signal?: AbortSignal
+  ): Promise<Response["body"]> {
     const id = parseInt(uniqueId()) % 99999999 || 1
 
     const dataWithId = set(cloneDeep(data), this.requestIdKey, id)
+
+    // Unlike the real handler, this one writes before it sets up its
+    // listeners - so the already-aborted case has to be caught here or the
+    // request goes out after all.
+    if (signal?.aborted) {
+      throw new SerialPortError(SerialPortErrorType.RequestAborted, id)
+    }
+
     await this.writeAsync(dataWithId)
 
     return new Promise((resolve, reject) => {
@@ -132,6 +143,7 @@ export class SerialPortHandlerMock extends SerialPortMock {
         this.eventEmitter.off(SerialPortHandlerEvent.Response, onResponse)
         this.eventEmitter.off(SerialPortHandlerEvent.Error, onError)
         this.off("close", onClose)
+        signal?.removeEventListener("abort", onAbort)
         clearTimeout(timeoutId)
       }
 
@@ -154,6 +166,14 @@ export class SerialPortHandlerMock extends SerialPortMock {
         reject(new SerialPortError(SerialPortErrorType.PortClosed, id))
       }
 
+      // Without this the caller stops awaiting but the request keeps the port:
+      // its listeners stay armed and its timer keeps running, so the queue's
+      // next request goes out while this one is still outstanding.
+      const onAbort = () => {
+        cleanupListeners()
+        reject(new SerialPortError(SerialPortErrorType.RequestAborted, id))
+      }
+
       const onTimeout = () => {
         AppLogger.log(
           "warn",
@@ -172,6 +192,12 @@ export class SerialPortHandlerMock extends SerialPortMock {
       this.eventEmitter.on(SerialPortHandlerEvent.Response, onResponse)
       this.eventEmitter.on(SerialPortHandlerEvent.Error, onError)
       this.once("close", onClose)
+
+      if (signal?.aborted) {
+        onAbort()
+        return
+      }
+      signal?.addEventListener("abort", onAbort)
 
       if (process.env.NODE_ENV === "development") {
         AppLogger.log(

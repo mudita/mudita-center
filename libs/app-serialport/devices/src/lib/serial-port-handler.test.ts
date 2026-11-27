@@ -7,7 +7,10 @@ import { SerialPortMock } from "serialport"
 import { SerialPortError } from "app-serialport/utils"
 import { SerialPortErrorType } from "app-serialport/models"
 import { Transform } from "stream"
-import { SerialPortHandler } from "./serial-port-handler"
+import {
+  SerialPortHandler,
+  SerialPortHandlerEvent,
+} from "./serial-port-handler"
 import { waitFor } from "@testing-library/react"
 
 jest.mock("serialport", () => {
@@ -148,6 +151,42 @@ describe("SerialPortHandler", () => {
       await expect(handler.writeAsync({ test: "data" })).rejects.toMatchObject({
         type: SerialPortErrorType.InvalidRequest,
       })
+    })
+
+    it("sends one request at a time when the port pushes back", async () => {
+      const handler = createHandler("/dev/test-write-serialized")
+      await openHandler(handler)
+
+      // Back-pressure: the first write parks on `drain` instead of finishing.
+      const writeSpy = jest
+        .spyOn(SerialPortMock.prototype, "write")
+        .mockReturnValue(false)
+
+      try {
+        const settled: string[] = []
+        const first = handler.writeAsync({ endpoint: "first" })
+        const second = handler.writeAsync({ endpoint: "second" })
+        void first.then(() => settled.push("first"))
+        void second.then(() => settled.push("second"))
+
+        await new Promise((resolve) => setTimeout(resolve, 10))
+
+        // The second request must not reach the port while the first is
+        // still outstanding: the retry path flushes the driver buffers, and
+        // a flush fired for one request would take the other's bytes too.
+        expect(writeSpy).toHaveBeenCalledTimes(1)
+
+        handler.emit("drain")
+        await first
+        await new Promise((resolve) => setTimeout(resolve, 10))
+        expect(writeSpy).toHaveBeenCalledTimes(2)
+
+        handler.emit("drain")
+        await second
+        expect(settled).toEqual(["first", "second"])
+      } finally {
+        writeSpy.mockRestore()
+      }
     })
   })
 
@@ -292,6 +331,86 @@ describe("SerialPortHandler", () => {
       await expect(requestPromise).rejects.toThrow(SerialPortError)
       await expect(requestPromise).rejects.toMatchObject({
         type: SerialPortErrorType.PortClosed,
+      })
+    })
+
+    it("rejects with RequestAborted when its signal is aborted", async () => {
+      const mockParser = new Transform({
+        transform(chunk, _encoding, callback) {
+          callback(null, chunk)
+        },
+      })
+
+      const handler = createJsonHandler("/dev/test-abort", {
+        parser: mockParser,
+      })
+
+      await openHandler(handler)
+
+      const controller = new AbortController()
+      const requestPromise = handler.request(
+        { endpoint: "test", method: "GET", options: { timeout: 5000 } },
+        controller.signal
+      )
+
+      setTimeout(() => controller.abort(), 10)
+
+      await expect(requestPromise).rejects.toThrow(SerialPortError)
+      await expect(requestPromise).rejects.toMatchObject({
+        type: SerialPortErrorType.RequestAborted,
+      })
+    })
+
+    it("releases the port when a request is aborted", async () => {
+      const mockParser = new Transform({
+        transform(chunk, _encoding, callback) {
+          callback(null, chunk)
+        },
+      })
+
+      const handler = createJsonHandler("/dev/test-abort-cleanup", {
+        parser: mockParser,
+      })
+
+      await openHandler(handler)
+
+      const controller = new AbortController()
+      const requestPromise = handler.request(
+        { endpoint: "test", method: "GET", options: { timeout: 5000 } },
+        controller.signal
+      )
+      controller.abort()
+      await expect(requestPromise).rejects.toThrow(SerialPortError)
+
+      // An abort that left these armed would keep matching responses meant
+      // for a request nobody is waiting for, and the timer would still be
+      // counting down against a port the next request now owns.
+      const emitter = handler["eventEmitter"]
+      expect(emitter.listenerCount(SerialPortHandlerEvent.Response)).toBe(0)
+      expect(emitter.listenerCount(SerialPortHandlerEvent.Error)).toBe(0)
+      expect(handler.listenerCount("close")).toBe(0)
+    })
+
+    it("rejects without writing when handed an already-aborted signal", async () => {
+      const mockParser = new Transform({
+        transform(chunk, _encoding, callback) {
+          callback(null, chunk)
+        },
+      })
+
+      const handler = createJsonHandler("/dev/test-abort-upfront", {
+        parser: mockParser,
+      })
+
+      await openHandler(handler)
+
+      await expect(
+        handler.request(
+          { endpoint: "test", method: "GET", options: { timeout: 5000 } },
+          AbortSignal.abort()
+        )
+      ).rejects.toMatchObject({
+        type: SerialPortErrorType.RequestAborted,
       })
     })
 
