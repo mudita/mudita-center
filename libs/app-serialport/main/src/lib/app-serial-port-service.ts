@@ -214,10 +214,10 @@ export class AppSerialPortService {
 
       AppLogger.log(
         "debug",
-        `Devices changed. Emitting updated device list to listeners: ${JSON.stringify(data, null, 2)}`,
-        {
-          doNotTrim: true,
-        }
+        () =>
+          `Devices changed. Emitting updated device list to listeners: ${JSON.stringify(
+            data
+          )}`
       )
       callback(data)
     })

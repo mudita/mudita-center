@@ -225,7 +225,7 @@ export class SerialPortHandlerMock extends SerialPortMock {
             color: "magenta",
           }
         )
-        AppLogger.log("debug", JSON.stringify(dataWithId), {
+        AppLogger.log("debug", () => JSON.stringify(dataWithId), {
           color: "gray",
           addNewLine: true,
         })
@@ -238,7 +238,7 @@ export class SerialPortHandlerMock extends SerialPortMock {
             color: "magenta",
           }
         )
-        AppLogger.log("debug", JSON.stringify(rest), {
+        AppLogger.log("debug", () => JSON.stringify(rest), {
           color: "gray",
           addNewLine: true,
         })

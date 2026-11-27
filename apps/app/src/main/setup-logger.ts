@@ -36,6 +36,11 @@ const devLogLevel = (process.env.SERIALPORT_LOGS_LEVEL ||
 const isDev =
   process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
 
+// The file transport writes on the main thread. Left synchronous, every log
+// line during a transfer is time the event loop is not serving the device -
+// which is how the logging of a request ends up producing its own timeout.
+// Asynchronous writes are batched; a hard kill can lose the last batch.
+logger.transports.file.sync = false
 logger.transports.file.level = isDev ? devLogLevel : "debug"
 logger.transports.console.level = isDev ? devLogLevel : false
 logger.transports.console.useStyles = true
