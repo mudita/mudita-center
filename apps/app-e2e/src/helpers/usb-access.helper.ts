@@ -7,6 +7,7 @@ import { E2EMockClient } from "e2e-mock/client"
 import { SetUsbAccessPayload } from "app-init/models"
 import AppInitPage from "../page-objects/app-init.page"
 import UsbAccessPage from "../page-objects/usb-access.page"
+import { TRANSIENT_MODAL_MOCK_DELAY } from "./tests.helper"
 
 export const simulateAppInitUsbAccessStep = async (
   payload: SetUsbAccessPayload
@@ -15,7 +16,10 @@ export const simulateAppInitUsbAccessStep = async (
   if (process.env.MOCK_SERVER_ENABLED === "1") {
     await E2EMockClient.connect()
 
-    E2EMockClient.setUsbAccess(payload)
+    E2EMockClient.setUsbAccess({
+      grantAccessToSerialPortDelay: TRANSIENT_MODAL_MOCK_DELAY,
+      ...payload,
+    })
   }
   await AppInitPage.acceptPrivacyPolicy()
 }

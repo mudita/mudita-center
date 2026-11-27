@@ -8,6 +8,7 @@ import {
   AppHttpResult,
   MockAppHttpResponsePayload,
 } from "app-utils/models"
+import { delay as wait } from "app-utils/common"
 import { IpcMockServer } from "e2e-mock/server"
 import { E2eMockIpcEvents } from "e2e-mock/models"
 import { AppHttpService } from "./app-http.service"
@@ -16,7 +17,10 @@ import { AppFileSystemService } from "../app-file-system/app-file-system.service
 const DUMMY_BASE_URL = "http://dummy"
 
 export class MockAppHttpService extends AppHttpService {
-  private responsesMap: Map<string, AppHttpResult<unknown>> = new Map()
+  private responsesMap: Map<
+    string,
+    { response: AppHttpResult<unknown>; delay: number }
+  > = new Map()
 
   constructor(
     private mockServer: IpcMockServer,
@@ -29,20 +33,20 @@ export class MockAppHttpService extends AppHttpService {
   async request<Data = unknown>(
     config: AppHttpRequestConfig
   ): Promise<AppHttpResult<Data>> {
-    const mockResponse = this.findResponse<Data>(config)
+    const mockResponse = this.findResponse(config)
     if (mockResponse) {
-      return mockResponse
+      if (mockResponse.delay > 0) {
+        await wait(mockResponse.delay)
+      }
+      return mockResponse.response as AppHttpResult<Data>
     } else {
       return super.request<Data>(config)
     }
   }
 
-  private findResponse<Data = unknown>({
-    method,
-    url,
-  }: AppHttpRequestConfig): AppHttpResult<Data> | undefined {
+  private findResponse({ method, url }: AppHttpRequestConfig) {
     const key = this.normalizeKey(url, method)
-    return this.responsesMap.get(key) as AppHttpResult<Data> | undefined
+    return this.responsesMap.get(key)
   }
 
   private registerListeners(): void {
@@ -56,9 +60,10 @@ export class MockAppHttpService extends AppHttpService {
     method,
     url,
     response,
+    delay = 0,
   }: MockAppHttpResponsePayload): Promise<void> => {
     const key = this.normalizeKey(url, method)
-    this.responsesMap.set(key, response)
+    this.responsesMap.set(key, { response, delay })
   }
 
   private normalizeKey(url: string, method: string): string {

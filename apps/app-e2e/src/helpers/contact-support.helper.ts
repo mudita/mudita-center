@@ -7,13 +7,16 @@ import { E2EMockClient } from "e2e-mock/client"
 import { MockAppHttpResponsePayload } from "app-utils/models"
 import HelpPage from "../page-objects/help.page"
 import ContactSupport from "../page-objects/contact-support.page"
-import testsHelper from "./tests.helper"
+import testsHelper, { TRANSIENT_MODAL_MOCK_DELAY } from "./tests.helper"
 import { goToHelpCenter } from "./help-center.helper"
 
 export async function goToSupportModal(payload?: MockAppHttpResponsePayload) {
   if (process.env.MOCK_SERVER_ENABLED === "1" && payload) {
     await E2EMockClient.connect()
-    E2EMockClient.mockAppHttpResponse(payload)
+    E2EMockClient.mockAppHttpResponse({
+      delay: TRANSIENT_MODAL_MOCK_DELAY,
+      ...payload,
+    })
   }
 
   await goToHelpCenter()
