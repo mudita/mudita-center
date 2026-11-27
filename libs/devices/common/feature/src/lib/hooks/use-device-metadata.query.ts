@@ -32,7 +32,22 @@ const messages = defineMessages({
   kompakt: {
     id: "general.devices.kompakt.name",
   },
+  deviceN: {
+    id: "general.devices.deviceN.name",
+  },
 })
+
+const getApiDeviceImageColor = (variant?: string): DeviceImageColor => {
+  switch (variant) {
+    case "white":
+      return DeviceImageColor.White
+    case "gray":
+      return DeviceImageColor.Gray
+    case "black":
+    default:
+      return DeviceImageColor.Black
+  }
+}
 
 const queryFn = (
   device?: Device,
@@ -43,26 +58,23 @@ const queryFn = (
   }
   if (ApiDeviceSerialPort.isCompatible(device)) {
     if (device.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
-      let color: DeviceImageColor
-      switch (config.variant) {
-        case "black":
-          color = DeviceImageColor.Black
-          break
-        case "white":
-          color = DeviceImageColor.White
-          break
-        case "gray":
-          color = DeviceImageColor.Gray
-          break
-        default:
-          color = DeviceImageColor.Black
-      }
       return {
         id: device.id,
         name: formatMessage(messages.kompakt),
         image: {
           type: DeviceImageType.Kompakt,
-          color,
+          color: getApiDeviceImageColor(config.variant),
+        },
+        serialNumber: config.serialNumber,
+      }
+    }
+    if (device.deviceSubtype === SerialPortDeviceSubtype.DeviceN) {
+      return {
+        id: device.id,
+        name: formatMessage(messages.deviceN),
+        image: {
+          type: DeviceImageType.DeviceN,
+          color: getApiDeviceImageColor(config.variant),
         },
         serialNumber: config.serialNumber,
       }
@@ -126,6 +138,16 @@ const placeholderData = (device?: Device): DeviceMetadata | null => {
         serialNumber: device.serialNumber || "",
       }
     }
+    if (device.deviceSubtype === SerialPortDeviceSubtype.DeviceN) {
+      return {
+        id: device?.id || "",
+        name: formatMessage(messages.deviceN),
+        image: {
+          type: DeviceImageType.DeviceN,
+        },
+        serialNumber: device.serialNumber || "",
+      }
+    }
   }
   if (HarmonySerialPort.isCompatible(device)) {
     return {
@@ -175,3 +197,5 @@ export const useDeviceMetadataQuery = (device?: Device) => {
   })
 }
 useDeviceMetadataQuery.queryKey = devicesQueryKeys.deviceMetadata
+useDeviceMetadataQuery.queryFn = queryFn
+useDeviceMetadataQuery.placeholderData = placeholderData

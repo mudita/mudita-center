@@ -8,13 +8,17 @@ import { SetAppUpdaterPayload } from "app-updater/models"
 import SettingsPage from "../page-objects/settings.page"
 import McUpdatePage from "../page-objects/mc-update.page"
 import AboutPage from "../page-objects/about.page"
+import { TRANSIENT_MODAL_MOCK_DELAY } from "./tests.helper"
 
 export const simulateMcUpdateCheckFromAbout = async (
   payload: SetAppUpdaterPayload
 ) => {
   if (process.env.MOCK_SERVER_ENABLED === "1") {
     await E2EMockClient.connect()
-    E2EMockClient.setAppUpdaterState(payload)
+    E2EMockClient.setAppUpdaterState({
+      checkDelay: TRANSIENT_MODAL_MOCK_DELAY,
+      ...payload,
+    })
   }
 
   await SettingsPage.settingsMenuItem.click()

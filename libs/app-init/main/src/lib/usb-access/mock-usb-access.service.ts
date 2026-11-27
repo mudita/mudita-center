@@ -12,6 +12,7 @@ import { SetUsbAccessPayload } from "app-init/models"
 export class MockUsbAccessService {
   private serialPortAccess = true
   private grantAccessToSerialPortResult = true
+  private grantAccessToSerialPortDelay = 0
 
   constructor(private mockServer: IpcMockServer) {
     this.registerListeners()
@@ -26,6 +27,9 @@ export class MockUsbAccessService {
   }
 
   async grantAccessToSerialPort(): Promise<AppResult> {
+    if (this.grantAccessToSerialPortDelay > 0) {
+      await delay(this.grantAccessToSerialPortDelay)
+    }
     if (this.grantAccessToSerialPortResult) {
       return AppResultFactory.success()
     } else {
@@ -46,8 +50,10 @@ export class MockUsbAccessService {
   private handleSetUsbAccess = ({
     serialPortAccess = this.serialPortAccess,
     grantAccessToSerialPortResult = this.grantAccessToSerialPortResult,
+    grantAccessToSerialPortDelay = this.grantAccessToSerialPortDelay,
   }: SetUsbAccessPayload) => {
     this.serialPortAccess = serialPortAccess
     this.grantAccessToSerialPortResult = grantAccessToSerialPortResult
+    this.grantAccessToSerialPortDelay = grantAccessToSerialPortDelay
   }
 }
