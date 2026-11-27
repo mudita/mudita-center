@@ -68,6 +68,8 @@ export class SerialPortHandler extends SerialPort {
       })
     }
 
+    this.parser = parser
+
     if (parser) {
       this.pipe(parser)
         .on("data", (data) => {
@@ -84,11 +86,30 @@ export class SerialPortHandler extends SerialPort {
     }
   }
 
+  /**
+   * Releases everything this handler holds. The handler is finished
+   * afterwards - whoever owns it replaces it rather than reopening it.
+   */
   cleanup() {
+    if (this.cleanedUp) {
+      return
+    }
+    this.cleanedUp = true
+
+    if (this.parser) {
+      // `pipe()` keeps its own listeners on the source, so dropping listeners
+      // without unpiping leaves the parser attached to a stream nobody reads
+      // - still holding whatever half-frame it had when the port went away.
+      this.unpipe(this.parser)
+      this.parser.destroy()
+    }
+
     this.removeAllListeners()
     this.eventEmitter.removeAllListeners()
   }
 
+  private readonly parser?: Transform
+  private cleanedUp = false
   private writeChain: Promise<unknown> = Promise.resolve()
 
   /**

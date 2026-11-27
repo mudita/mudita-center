@@ -250,7 +250,7 @@ describe("SerialPortDevice", () => {
   })
 
   describe("port handling", () => {
-    it("replaces serial port instance on attachPort with new path", () => {
+    it("replaces serial port instance on attachPort with new path", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
 
@@ -259,8 +259,153 @@ describe("SerialPortDevice", () => {
       const newInfo = { ...mockDeviceInfo, path: "/dev/ttyUSB1" }
       device.attachPort(newInfo)
 
+      // The old handle is released first, so the new port only appears once
+      // that close has settled.
+      await waitFor(() => {
+        expect(device["serialPort"]?.path).toBe("/dev/ttyUSB1")
+      })
       expect(device["serialPort"]).not.toBe(oldPort)
       expect(device.info.path).toBe("/dev/ttyUSB1")
+    })
+
+    const holdPortOpen = (port: SerialPortHandler) => {
+      jest.spyOn(port, "isOpen", "get").mockReturnValue(true)
+      return jest.spyOn(port, "close").mockImplementation(() => undefined)
+    }
+
+    it("does not open the new port while the old one is still closing", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const close = holdPortOpen(device["serialPort"] as SerialPortHandler)
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+      await jest.advanceTimersByTimeAsync(0)
+
+      // Opening the path while the previous handle still holds it is what
+      // Windows answers with "access denied" or "unknown error code 433".
+      expect(close).toHaveBeenCalled()
+      expect(device["serialPort"]).toBeUndefined()
+    })
+
+    it("opens the new port anyway when the old one never reports closed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const oldPort = device["serialPort"] as SerialPortHandler
+      holdPortOpen(oldPort)
+      const cleanup = jest.spyOn(oldPort, "cleanup")
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // A handle that never calls its close callback must not block the path
+      // for good - the wait is bounded and the device moves on.
+      expect(device["serialPort"]?.path).toBe("/dev/ttyUSB1")
+      expect(cleanup).toHaveBeenCalled()
+    })
+
+    it("releases a port whose close throws", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const oldPort = device["serialPort"] as SerialPortHandler
+      jest.spyOn(oldPort, "isOpen", "get").mockReturnValue(true)
+      jest.spyOn(oldPort, "close").mockImplementation(() => {
+        throw new Error("Port is not open")
+      })
+      const cleanup = jest.spyOn(oldPort, "cleanup")
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+
+      await waitFor(() => {
+        expect(device["serialPort"]?.path).toBe("/dev/ttyUSB1")
+      })
+      expect(cleanup).toHaveBeenCalled()
+    })
+
+    it("waits for a pending close even once the port field is clear", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const close = holdPortOpen(device["serialPort"] as SerialPortHandler)
+
+      // The first reattach clears `serialPort` and leaves the close running.
+      device.attachPort()
+      await jest.advanceTimersByTimeAsync(0)
+      expect(close).toHaveBeenCalledTimes(1)
+
+      // A second one arriving in that window sees no port at all. Taking
+      // that for "nothing holds the path" reopens it from under the handle
+      // that is still closing on it - the access-denied race again.
+      device.attachPort()
+      await jest.advanceTimersByTimeAsync(0)
+
+      expect(device["serialPort"]).toBeUndefined()
+
+      await jest.advanceTimersByTimeAsync(2000)
+      expect(device["serialPort"]).toBeDefined()
+    })
+
+    it("does not open a port for an attach that destroy has overtaken", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      holdPortOpen(device["serialPort"] as SerialPortHandler)
+
+      device.attachPort()
+      device.destroy()
+
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // The close lands after the device is gone. Letting its continuation
+      // through would open a port that nothing will ever close again.
+      expect(device["serialPort"]).toBeUndefined()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+    })
+
+    it("ignores a close that lands after the device was destroyed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+      device["freezeHandler"].prepareToFreeze(5000)
+
+      const port = device["serialPort"] as SerialPortHandler
+      device.destroy()
+      port.emit("close")
+
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // `destroy` only unhooks the freeze handler's listeners, so a close
+      // still reaching `handleClose` would freeze a device that is already
+      // gone, and leave the freeze timeout running behind it.
+      expect(device["freezeHandler"].isFrozen).toBe(false)
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+    })
+
+    it("drops a port replacement that a newer attach superseded", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB1" })
+      device.attachPort({ ...mockDeviceInfo, path: "/dev/ttyUSB2" })
+
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // The first replacement finishes closing after the second has already
+      // opened its port. Carrying on would leave the device on a path that
+      // nothing asked for any more.
+      expect(device["serialPort"]?.path).toBe("/dev/ttyUSB2")
+    })
+
+    it("destroys a device that has no port to detach", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      device.destroy()
+      await jest.advanceTimersByTimeAsync(2000)
+
+      expect(() => device.destroy()).not.toThrow()
+      expect(device["serialPort"]).toBeUndefined()
     })
 
     it("ignores events from detached serial port", async () => {
@@ -959,6 +1104,50 @@ describe("SerialPortDevice", () => {
       // answer for a failure nobody has classified.
       expect(error).not.toBeInstanceOf(SerialPortError)
       expect((error as Error).message).toBe("Some other error")
+    })
+  })
+
+  describe("port lifecycle", () => {
+    it("waits for the old port to close before opening the path again", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      await waitFor(() => {
+        expect(device.status).toBe(SerialPortDeviceStatus.DeviceConnected)
+      })
+
+      const firstPort = device["serialPort"]
+      if (!firstPort) {
+        throw new Error("Expected the device to have an attached port.")
+      }
+
+      // Hold the close open, so the window the old code opened in is
+      // observable rather than a matter of timing.
+      let finishClose: (() => void) | undefined
+      jest
+        .spyOn(firstPort, "close")
+        .mockImplementation(((callback?: (error?: Error | null) => void) => {
+          finishClose = () => callback?.(null)
+        }) as never)
+
+      const cleanupSpy = jest.spyOn(firstPort, "cleanup")
+
+      device.attachPort()
+
+      // Opening the path while the previous handle is still closing is what
+      // Windows refuses with "access denied".
+      expect(device["serialPort"]).toBeUndefined()
+      // And the handler has to survive until then: cleaning it up first would
+      // drop the close callback being waited on.
+      expect(cleanupSpy).not.toHaveBeenCalled()
+
+      finishClose?.()
+
+      await waitFor(() => {
+        expect(device["serialPort"]).toBeDefined()
+      })
+      expect(device["serialPort"]).not.toBe(firstPort)
+      expect(cleanupSpy).toHaveBeenCalled()
     })
   })
 
