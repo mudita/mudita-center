@@ -37,16 +37,10 @@ dotenv.config({
   ]
 
   try {
-    // Ensure that the fonts main directory exists
+    // Ensure that the fonts main directory exists and is empty
     console.log("Cleaning fonts directory...")
-    if (!fs.existsSync(mainFontsDirectory)) {
-      fs.mkdirSync(mainFontsDirectory)
-    } else {
-      const filesToRemove = fs.readdirSync(mainFontsDirectory)
-      for (const fileName of filesToRemove) {
-        fs.rmSync(path.join(mainFontsDirectory, fileName))
-      }
-    }
+    fs.rmSync(mainFontsDirectory, { recursive: true, force: true })
+    fs.mkdirSync(mainFontsDirectory, { recursive: true })
 
     // Then, download all required files inside the fonts/main directory
     console.log("Downloading fonts...")
@@ -64,15 +58,31 @@ dotenv.config({
       )
     }
   } catch (error) {
-    // Ensure that the fonts main directory exists
-    if (!fs.existsSync(mainFontsDirectory)) {
-      fs.mkdirSync(mainFontsDirectory)
-    }
-    // In case of an error, copy content of fonts/fallback directory to fonts/main
-    fs.copyFileSync(fallbackFontsDirectory, mainFontsDirectory)
+    // Report the original failure first, so it is never masked by the fallback
     console.warn(
       "Error while downloading fonts. Fallback font will be used instead.",
-      error
+      error instanceof Error ? error.message : error
     )
+
+    try {
+      // In case of an error, copy content of fonts/fallback directory to fonts/main
+      fs.rmSync(mainFontsDirectory, { recursive: true, force: true })
+      fs.cpSync(fallbackFontsDirectory, mainFontsDirectory, {
+        recursive: true,
+      })
+      console.log("Fallback fonts copied to the fonts/main directory.")
+      if (process.env.GITHUB_ACTIONS === "true") {
+        console.error(
+          "::error title=Fonts::GT Pressura could not be downloaded. Check GH_BUILD_TOKEN."
+        )
+        process.exitCode = 1
+      }
+    } catch (fallbackError) {
+      console.error(
+        "Error while copying fallback fonts. The fonts/main directory is unusable.",
+        fallbackError
+      )
+      process.exitCode = 1
+    }
   }
 })()
