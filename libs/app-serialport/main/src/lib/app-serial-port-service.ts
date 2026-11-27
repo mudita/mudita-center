@@ -169,6 +169,23 @@ export class AppSerialPortService {
     return Array.from(this.devices.values()).map((device) => device)
   }
 
+  /**
+   * The device list in the shape the renderer consumes - only the devices that
+   * belong in the UI. Every path that reports devices to the renderer goes
+   * through this one, otherwise a window that asks for the list gets a
+   * different answer than the one the push channel sends it.
+   */
+  getVisibleDevices(): SerialPortDeviceInfo[] {
+    return this.getCurrentDevices()
+      .filter((device) => {
+        return [
+          SerialPortDeviceStatus.DeviceActive,
+          SerialPortDeviceStatus.DeviceFrozen,
+        ].includes(device.status)
+      })
+      .map((device) => device.info)
+  }
+
   private activateNewDevices() {
     const devices = this.getCurrentDevices().filter((device) => {
       return device.status === SerialPortDeviceStatus.DeviceConnected
@@ -199,15 +216,8 @@ export class AppSerialPortService {
       const added = this.activateNewDevices()
       const removed = this.cleanupRemovedDevices()
 
-      const all = this.getCurrentDevices().filter((device) => {
-        return [
-          SerialPortDeviceStatus.DeviceActive,
-          SerialPortDeviceStatus.DeviceFrozen,
-        ].includes(device.status)
-      })
-
       const data: SerialPortChangedDevices = {
-        all: all.map((device) => device.info),
+        all: this.getVisibleDevices(),
         added: this.initialScan ? [] : added.map((device) => device.info),
         removed: removed.map((device) => device.info),
       }
@@ -282,10 +292,20 @@ export class AppSerialPortService {
     device.unfreeze()
   }
 
-  isFrozen(deviceId: SerialPortDeviceId): boolean {
+  /**
+   * `undefined` means this service holds no such device, which is a different
+   * answer from `false`. A caller waiting for a device to freeze has to stop
+   * waiting once the device is gone: a device nobody holds will never report
+   * itself frozen, and `false` would keep that wait going forever.
+   */
+  isFrozen(deviceId: SerialPortDeviceId): boolean | undefined {
     const device = this.devices.get(deviceId)
     if (!device) {
-      return false
+      AppLogger.log(
+        "warn",
+        `Device not found at id ${deviceId}. Cannot tell whether it is frozen.`
+      )
+      return undefined
     }
     return device.isFrozen()
   }

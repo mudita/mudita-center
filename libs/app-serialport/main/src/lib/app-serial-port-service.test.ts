@@ -195,6 +195,41 @@ describe("AppSerialPortService", () => {
     })
   })
 
+  describe("device visibility", () => {
+    it("keeps the devices the renderer has no business seeing out of the list", async () => {
+      const service = await createService()
+
+      // Straight out of the scan: the port is not open yet, so the device
+      // cannot answer anything and does not belong in the UI.
+      expect(service.getVisibleDevices()).toEqual([])
+      expect(service.getCurrentDevices()).toHaveLength(1)
+
+      devices[0].status = "DeviceActive"
+      expect(service.getVisibleDevices()).toEqual([mockDeviceInfo])
+
+      devices[0].status = "DeviceDisconnected"
+      expect(service.getVisibleDevices()).toEqual([])
+    })
+
+    it("says it does not know a device it never held", async () => {
+      const service = await createService()
+
+      // Not `false`: answering "not frozen" for a device that is gone is
+      // what leaves a caller waiting for a freeze that can never arrive.
+      expect(service.isFrozen("no-such-device")).toBeUndefined()
+    })
+
+    it("passes on the answer of a device it does hold", async () => {
+      const service = await createService()
+
+      devices[0].isFrozen.mockReturnValue(true)
+      expect(service.isFrozen(mockDeviceInfo.id)).toBe(true)
+
+      devices[0].isFrozen.mockReturnValue(false)
+      expect(service.isFrozen(mockDeviceInfo.id)).toBe(false)
+    })
+  })
+
   describe("rescan scheduling", () => {
     it("schedules a rescan when a device disconnects", async () => {
       await createService()
