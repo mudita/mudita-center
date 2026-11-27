@@ -78,6 +78,20 @@ describe("waitUntilUnfreeze", () => {
     expect(result.ok).toBe(false)
   })
 
+  it("takes the phone being back as a Harmony for success, whatever became of the MSC entry", async () => {
+    // MSC is left for good, so the entry this flow froze can already be gone
+    // by the time the phone is back - and that is the flash having worked,
+    // not the device being lost.
+    isFrozenMock.mockResolvedValueOnce(true).mockResolvedValue(undefined)
+    getCurrentDevicesMock.mockResolvedValue([
+      { deviceType: SerialPortDeviceType.Harmony },
+    ])
+
+    const result = await waitFor()
+
+    expect(result.ok).toBe(true)
+  })
+
   it("waits until the device is back on the list as a Harmony", async () => {
     isFrozenMock.mockResolvedValue(true)
     getCurrentDevicesMock

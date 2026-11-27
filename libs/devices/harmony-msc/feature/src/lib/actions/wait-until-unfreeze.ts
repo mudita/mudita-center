@@ -56,11 +56,19 @@ export const waitUntilUnfreeze = async ({
   }
 
   for (;;) {
+    // MSC is a mode the phone leaves for good, so what comes back is a
+    // different device under a different id. A Harmony on the list is the
+    // flash having worked, and it settles this wait whatever has become of
+    // the MSC entry behind it - which is why it is asked first.
+    if (await isHarmonyConnected()) {
+      break
+    }
+
     const frozen = await AppSerialPort.isFrozen(device.id)
 
-    // It was frozen a moment ago and is not held at all now: the freeze ran
-    // out before the device came back. Leaving the loop here would report a
-    // device that never returned as one that reconnected.
+    // Nothing came back and the MSC entry is not held any more, so its
+    // freeze ran out. Leaving the loop here would report a phone that never
+    // returned as one that reconnected.
     if (frozen === undefined) {
       console.log(
         "[wait-util-unfreeze] Device was forgotten before it returned"
@@ -72,7 +80,7 @@ export const waitUntilUnfreeze = async ({
       )
     }
 
-    if (!frozen || (await isHarmonyConnected())) {
+    if (!frozen) {
       break
     }
 
