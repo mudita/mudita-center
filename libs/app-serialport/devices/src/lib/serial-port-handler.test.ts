@@ -12,6 +12,7 @@ import {
   SerialPortHandlerEvent,
 } from "./serial-port-handler"
 import { waitFor } from "@testing-library/react"
+import logger from "electron-log"
 
 jest.mock("serialport", () => {
   const { SerialPortMock } = jest.requireActual("serialport")
@@ -678,6 +679,71 @@ describe("SerialPortHandler", () => {
       await expect(requestPromise).rejects.toMatchObject({
         type: SerialPortErrorType.ResponseTimeout,
       })
+    })
+  })
+
+  describe("development logging", () => {
+    class JsonHandler extends SerialPortHandler {
+      parseRequest(data: unknown) {
+        return JSON.stringify(data)
+      }
+    }
+
+    const originalEnv = process.env.NODE_ENV
+
+    afterEach(() => {
+      process.env.NODE_ENV = originalEnv
+    })
+
+    it("resolves the deferred message to the whole payload in development", async () => {
+      process.env.NODE_ENV = "development"
+      ;(logger.debug as jest.Mock).mockClear()
+
+      SerialPortMock.binding.createPort("/dev/test-dev-logging")
+      const handler = new JsonHandler({
+        path: "/dev/test-dev-logging",
+        baudRate: 115200,
+        parser: new Transform({
+          transform(chunk, _encoding, callback) {
+            callback(null, chunk)
+          },
+        }),
+      })
+      await openHandler(handler)
+
+      let capturedId: number | undefined
+      const originalParseRequest = handler.parseRequest.bind(handler)
+      handler.parseRequest = (data: unknown) => {
+        capturedId = (data as { id?: number }).id
+        return originalParseRequest(data)
+      }
+
+      const request = handler.request({
+        endpoint: "test",
+        method: "GET",
+        body: { markerInTheRequest: "sent" },
+      } as unknown as Parameters<SerialPortHandler["request"]>[0])
+
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      ;(handler as unknown as SerialPortMock).port?.emitData(
+        Buffer.from(
+          JSON.stringify({
+            id: capturedId,
+            body: { markerInTheResponse: "received" },
+          })
+        )
+      )
+      await request
+
+      const logged = (logger.debug as jest.Mock).mock.calls
+        .map((call) => String(call[0]))
+        .join("\n")
+
+      // Production strips `body` from both lines. Development is the mode
+      // that exists to show them, so the deferred message has to resolve to
+      // the whole payload rather than to the stripped one.
+      expect(logged).toContain("markerInTheRequest")
+      expect(logged).toContain("markerInTheResponse")
     })
   })
 

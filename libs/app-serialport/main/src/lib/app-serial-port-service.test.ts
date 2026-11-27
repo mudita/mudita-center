@@ -10,6 +10,7 @@ import {
 import { AppSerialPortService } from "./app-serial-port-service"
 import { AppSerialportDeviceScanner } from "./app-serialport-device-scanner"
 import { SerialPortDevice } from "./serial-port-device"
+import { usb } from "usb"
 
 jest.mock("usb", () => ({
   usb: {
@@ -42,6 +43,16 @@ interface DeviceOptions {
   onOpenRetriesExhausted?: (error: Error) => void
 }
 
+interface MockDevice {
+  info: SerialPortDeviceInfo
+  status: string
+  attachPort: jest.Mock
+  destroy: jest.Mock
+  unfreeze: jest.Mock
+  isFrozen: jest.Mock
+  activate: jest.Mock
+}
+
 describe("AppSerialPortService", () => {
   const mockDeviceInfo: SerialPortDeviceInfo = {
     id: "device-123",
@@ -59,23 +70,32 @@ describe("AppSerialPortService", () => {
   const deviceMock = SerialPortDevice as unknown as jest.Mock
 
   let deviceOptions: DeviceOptions
+  let devices: MockDevice[] = []
 
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers()
 
+    devices = []
     scanMock.mockResolvedValue([mockDeviceInfo])
     deviceMock.mockImplementation(
       (info: SerialPortDeviceInfo, options: DeviceOptions) => {
         deviceOptions = options
-        return {
+        const device: MockDevice = {
           info,
           status: "DeviceInitializing",
           attachPort: jest.fn(),
           destroy: jest.fn(),
           unfreeze: jest.fn(),
           isFrozen: jest.fn().mockReturnValue(false),
+          // The real device transitions on activation, and the service reads
+          // the status again afterwards to decide what belongs in `all`.
+          activate: jest.fn(() => {
+            device.status = "DeviceActive"
+          }),
         }
+        devices.push(device)
+        return device
       }
     )
   })
@@ -90,6 +110,90 @@ describe("AppSerialPortService", () => {
     await jest.advanceTimersByTimeAsync(0)
     return service
   }
+
+  describe("device change notifications", () => {
+    const notifyDevicesChanged = async () => {
+      deviceOptions.onConnect?.()
+      await jest.advanceTimersByTimeAsync(1_000)
+    }
+
+    const triggerUsbAttach = async () => {
+      const attach = (usb.on as jest.Mock).mock.calls.find(
+        ([event]) => event === "attach"
+      )
+      attach?.[1]()
+      await jest.advanceTimersByTimeAsync(0)
+    }
+
+    it("activates a connected device and reports it in the list", async () => {
+      const service = await createService()
+      const changed = jest.fn()
+      service.onDevicesChanged(changed)
+
+      devices[0].status = "DeviceConnected"
+      await notifyDevicesChanged()
+
+      expect(devices[0].activate).toHaveBeenCalledTimes(1)
+      expect(changed).toHaveBeenCalledWith({
+        all: [mockDeviceInfo],
+        // Nothing was plugged in - this is what was already there at
+        // startup, and announcing it as new pops the device drawer open.
+        added: [],
+        removed: [],
+      })
+    })
+
+    it("reports a device as added once the first scan is behind it", async () => {
+      const service = await createService()
+      const changed = jest.fn()
+      service.onDevicesChanged(changed)
+
+      await triggerUsbAttach()
+
+      devices[0].status = "DeviceConnected"
+      await notifyDevicesChanged()
+
+      expect(changed).toHaveBeenCalledWith({
+        all: [mockDeviceInfo],
+        added: [mockDeviceInfo],
+        removed: [],
+      })
+    })
+
+    it("destroys a disconnected device and forgets it", async () => {
+      const service = await createService()
+      const changed = jest.fn()
+      service.onDevicesChanged(changed)
+
+      devices[0].status = "DeviceDisconnected"
+      await notifyDevicesChanged()
+
+      expect(devices[0].destroy).toHaveBeenCalledTimes(1)
+      expect(changed).toHaveBeenCalledWith({
+        all: [],
+        added: [],
+        removed: [mockDeviceInfo],
+      })
+      expect(service.getCurrentDevices()).toEqual([])
+    })
+
+    it("leaves a frozen device in the list", async () => {
+      const service = await createService()
+      const changed = jest.fn()
+      service.onDevicesChanged(changed)
+
+      // A frozen device is one the app is waiting on, not one that left.
+      devices[0].status = "DeviceFrozen"
+      await notifyDevicesChanged()
+
+      expect(devices[0].destroy).not.toHaveBeenCalled()
+      expect(changed).toHaveBeenCalledWith({
+        all: [mockDeviceInfo],
+        added: [],
+        removed: [],
+      })
+    })
+  })
 
   describe("rescan scheduling", () => {
     it("schedules a rescan when a device disconnects", async () => {
