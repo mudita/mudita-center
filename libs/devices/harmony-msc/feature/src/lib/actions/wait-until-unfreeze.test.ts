@@ -66,6 +66,33 @@ describe("waitUntilUnfreeze", () => {
     expect(isFrozenMock.mock.calls.length).toBeGreaterThan(2)
   })
 
+  it("gives up when the device is forgotten while it waits to come back", async () => {
+    // Frozen on the first look, not held at all on the next: the freeze ran
+    // out and the device never returned. Leaving the wait here would report
+    // that as a reconnect.
+    isFrozenMock.mockResolvedValueOnce(true).mockResolvedValue(undefined)
+    getCurrentDevicesMock.mockResolvedValue([])
+
+    const result = await waitFor()
+
+    expect(result.ok).toBe(false)
+  })
+
+  it("waits until the device is back on the list as a Harmony", async () => {
+    isFrozenMock.mockResolvedValue(true)
+    getCurrentDevicesMock
+      .mockResolvedValueOnce([])
+      .mockResolvedValue([{ deviceType: SerialPortDeviceType.Harmony }])
+
+    const pending = waitFor()
+    await jest.advanceTimersByTimeAsync(2_000)
+
+    await expect(pending).resolves.toEqual(
+      expect.objectContaining({ ok: true })
+    )
+    expect(getCurrentDevicesMock.mock.calls.length).toBeGreaterThan(1)
+  })
+
   it("returns once the device is frozen and back on the list", async () => {
     isFrozenMock.mockResolvedValue(true)
 

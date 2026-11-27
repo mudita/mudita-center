@@ -4,7 +4,7 @@
  */
 
 import { flashHarmonyMscParams } from "./flash-harmony-msc/flash-harmony-msc.types"
-import { HarmonyMsc, HarmonyMscProcessState } from "devices/harmony-msc/models"
+import { HarmonyMscProcessState } from "devices/harmony-msc/models"
 import { AppSerialPort } from "app-serialport/renderer"
 import { delay } from "app-utils/common"
 import { SerialPortDeviceType } from "app-serialport/models"
@@ -55,7 +55,27 @@ export const waitUntilUnfreeze = async ({
     onProgress?.({ state: onFrozenState })
   }
 
-  while (await isNotReconnected(device)) {
+  for (;;) {
+    const frozen = await AppSerialPort.isFrozen(device.id)
+
+    // It was frozen a moment ago and is not held at all now: the freeze ran
+    // out before the device came back. Leaving the loop here would report a
+    // device that never returned as one that reconnected.
+    if (frozen === undefined) {
+      console.log(
+        "[wait-util-unfreeze] Device was forgotten before it returned"
+      )
+      return AppResultFactory.failed(
+        new AppError(
+          `Device ${device.id} did not reconnect before its freeze ran out`
+        )
+      )
+    }
+
+    if (!frozen || (await isHarmonyConnected())) {
+      break
+    }
+
     if (signal.aborted) {
       console.log("[wait-util-unfreeze] Aborted while waiting for reconnect")
       AppSerialPort.unfreeze(device.id)
@@ -68,16 +88,9 @@ export const waitUntilUnfreeze = async ({
   return AppResultFactory.success()
 }
 
-const isNotReconnected = async (device: HarmonyMsc) => {
+const isHarmonyConnected = async () => {
   const connectedDevices = await AppSerialPort.getCurrentDevices()
-  const foundInConnectedDevices = connectedDevices.some((d) => {
+  return connectedDevices.some((d) => {
     return d.deviceType === SerialPortDeviceType.Harmony
   })
-  // A device the main process no longer holds answers `undefined`, and it is
-  // not going to reconnect under the same id either - there is nothing left
-  // to wait for.
-  return (
-    (await AppSerialPort.isFrozen(device.id)) === true &&
-    !foundInConnectedDevices
-  )
 }
