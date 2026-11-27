@@ -77,6 +77,51 @@ const describeError = (error: unknown) =>
       ? error.message
       : String(error)
 
+const isAbortError = (error: unknown) =>
+  typeof error === "object" &&
+  error !== null &&
+  "name" in error &&
+  (error as { name?: unknown }).name === "AbortError"
+
+/**
+ * Builds a typed error that still reads like the one it replaces.
+ *
+ * `SerialPortError` keeps its type in the message, and `parse` reads only what
+ * follows the marker - so the original reason can ride in front of it and stay
+ * visible in logs and stack traces.
+ */
+const typedError = (type: SerialPortErrorType, cause: unknown) => {
+  const error = new SerialPortError(type)
+  error.message = `${describeError(cause)} ${error.message}`
+  return error
+}
+
+/**
+ * Only a `SerialPortError` carries its type across the IPC boundary; anything
+ * else reaches the renderer as a bare message and is read as `Unknown`, which
+ * the UI treats as a critical device fault. A timed-out queue entry, a request
+ * cancelled during teardown and a port that was never opened are none of those,
+ * so they get named here instead of being flattened into "something broke".
+ */
+const toSerialPortError = (error: unknown) => {
+  if (error instanceof SerialPortError) {
+    return error
+  }
+  if (error instanceof TimeoutError) {
+    return typedError(SerialPortErrorType.ResponseTimeout, error)
+  }
+  if (isAbortError(error)) {
+    return typedError(SerialPortErrorType.RequestAborted, error)
+  }
+  if (
+    error instanceof Error &&
+    PORT_UNAVAILABLE_MESSAGES.includes(error.message)
+  ) {
+    return typedError(SerialPortErrorType.PortClosed, error)
+  }
+  return error
+}
+
 type RequestEscalation = "wait-for-unfreeze" | "freeze" | "retry" | "reattach"
 
 interface RequestBudget {
@@ -628,7 +673,15 @@ export class SerialPortDevice {
 
     return new Promise((resolve, reject) => {
       const onAbort = () => {
-        reject(new Error("Request aborted."))
+        // Typed at the source: unlike the queue's own abort, which arrives as
+        // a DOMException named AbortError, this one is raised inside the task
+        // and leaves nothing downstream could recognise it by.
+        reject(
+          typedError(
+            SerialPortErrorType.RequestAborted,
+            new Error("Request aborted.")
+          )
+        )
       }
 
       signal?.addEventListener("abort", onAbort)
@@ -763,8 +816,11 @@ export class SerialPortDevice {
    */
   async request(request: SerialPortRequest): Promise<SerialPortResponse> {
     if (this.isUnreachable()) {
-      throw new Error(
-        `Cannot make request to device at path ${this.info.path} because it is disconnected.`
+      throw typedError(
+        SerialPortErrorType.PortClosed,
+        new Error(
+          `Cannot make request to device at path ${this.info.path} because it is disconnected.`
+        )
       )
     }
 
@@ -792,11 +848,13 @@ export class SerialPortDevice {
       // rejector set, so a request queued now would sit on a paused queue with
       // nothing left to settle it.
       if (attempt > 1 && this.isUnreachable()) {
-        throw lastError instanceof Error
-          ? lastError
-          : new Error(
-              `Device at path ${this.info.path} disconnected while retrying request ${requestInfo}.`
-            )
+        throw toSerialPortError(
+          lastError instanceof Error
+            ? lastError
+            : new Error(
+                `Device at path ${this.info.path} disconnected while retrying request ${requestInfo}.`
+              )
+        )
       }
 
       try {
@@ -808,7 +866,7 @@ export class SerialPortDevice {
         lastError = error
 
         if (this.isUnreachable()) {
-          throw error
+          throw toSerialPortError(error)
         }
 
         const escalation = this.planEscalation(error, budget, attempt)
@@ -818,7 +876,7 @@ export class SerialPortDevice {
             "error",
             `Error making request ${requestInfo} for device at path ${this.info.path} after ${attempt} attempt(s): ${describeError(error)}`
           )
-          throw error
+          throw toSerialPortError(error)
         }
 
         AppLogger.log(

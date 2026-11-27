@@ -9,7 +9,7 @@ import {
   SerialPortDeviceType,
 } from "app-serialport/models"
 import { SerialPortError } from "app-serialport/utils"
-import { DeviceErrorType } from "devices/common/models"
+import { DeviceErrorType, getDeviceErrorType } from "devices/common/models"
 import {
   HarmonyMsc,
   HarmonyMscEndpoint,
@@ -91,12 +91,11 @@ export class HarmonyMscSerialPort {
       )) as HarmonyMscResponse<E, M>
     } catch (error) {
       if (error instanceof SerialPortError) {
-        const message = new SerialPortError(error).message
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: DeviceErrorType.Critical,
-          error: message,
+          status: getDeviceErrorType(error.type),
+          error: error.message,
         }
       }
       return {

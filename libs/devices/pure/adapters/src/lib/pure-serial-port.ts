@@ -21,7 +21,7 @@ import {
   PureResponse,
   PureResponseBody,
 } from "devices/pure/models"
-import { DeviceErrorType } from "devices/common/models"
+import { DeviceErrorType, getDeviceErrorType } from "devices/common/models"
 
 export type OKResponse<E extends PureEndpoint, M extends PureMethod<E>> = {
   ok: true
@@ -84,12 +84,11 @@ export class PureSerialPort {
       >
     } catch (error) {
       if (error instanceof SerialPortError) {
-        const message = new SerialPortError(error).message
         return {
           ok: false,
           endpoint: request.endpoint,
-          status: DeviceErrorType.Critical,
-          error: message,
+          status: getDeviceErrorType(error.type),
+          error: error.message,
         }
       }
       return {
