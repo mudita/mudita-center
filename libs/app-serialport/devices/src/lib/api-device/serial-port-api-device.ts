@@ -4,6 +4,7 @@
  */
 
 import {
+  DeviceNProductID,
   KompaktProductID,
   KompaktVendorID,
   SerialPortDeviceSubtype,
@@ -31,9 +32,31 @@ export const kompaktProductIds: string[] = [
   KompaktProductID.NoDebugDec,
 ]
 
+export const deviceNVendorIds: string[] = [...kompaktVendorIds]
+export const deviceNProductIds: string[] = [
+  DeviceNProductID.Hex,
+  DeviceNProductID.Hex.toUpperCase(),
+  DeviceNProductID.Dec,
+]
+
+// TODO(CP-4075): Temporary - remove once Device N firmware reports its own Product ID.
+// The Device N prototype reports Kompakt's "NoDebug" Product ID, so it cannot be
+// told apart from Kompakt by USB IDs. Setting MC_DEVICE_N_PROTOTYPE=1 treats that
+// Product ID as Device N (development only - a real Kompakt in NoDebug mode will
+// then be recognized as Device N too).
+const deviceNPrototypeProductIds: string[] = [
+  KompaktProductID.NoDebugHex,
+  KompaktProductID.NoDebugDec,
+]
+const isDeviceNPrototypeModeEnabled = () =>
+  process.env.MC_DEVICE_N_PROTOTYPE === "1"
+
 export class SerialPortApiDevice extends SerialPortHandler {
   static readonly matchingVendorIds = [...kompaktVendorIds]
-  static readonly matchingProductIds = [...kompaktProductIds]
+  static readonly matchingProductIds = [
+    ...kompaktProductIds,
+    ...deviceNProductIds,
+  ]
   static readonly deviceType = SerialPortDeviceType.ApiDevice
   readonly requestIdKey = "rid"
 
@@ -50,6 +73,19 @@ export class SerialPortApiDevice extends SerialPortHandler {
       return undefined
     }
     if (
+      isDeviceNPrototypeModeEnabled() &&
+      deviceNVendorIds.includes(vendorId) &&
+      deviceNPrototypeProductIds.includes(productId)
+    ) {
+      return SerialPortDeviceSubtype.DeviceN
+    }
+    if (
+      deviceNVendorIds.includes(vendorId) &&
+      deviceNProductIds.includes(productId)
+    ) {
+      return SerialPortDeviceSubtype.DeviceN
+    }
+    if (
       kompaktVendorIds.includes(vendorId) &&
       kompaktProductIds.includes(productId)
     ) {
@@ -63,6 +99,10 @@ export class SerialPortApiDevice extends SerialPortHandler {
       {
         vendorIds: kompaktVendorIds,
         productIds: kompaktProductIds,
+      },
+      {
+        vendorIds: deviceNVendorIds,
+        productIds: deviceNProductIds,
       },
     ]
   }

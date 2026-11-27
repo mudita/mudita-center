@@ -27,8 +27,8 @@ export const McOverviewScreen: FunctionComponent = () => {
   const { data: feature } = useApiFeatureQuery("mc-overview", device)
 
   const deviceImageType = useMemo(() => {
-    if (device?.deviceSubtype === SerialPortDeviceSubtype.Kompakt) {
-      return DeviceImageType.Kompakt
+    if (device?.deviceSubtype === SerialPortDeviceSubtype.DeviceN) {
+      return DeviceImageType.DeviceN
     }
     return DeviceImageType.Kompakt
   }, [device?.deviceSubtype])

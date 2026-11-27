@@ -8,6 +8,7 @@ export enum Product {
   HarmonyMsc = "MuditaHarmonyMsc",
   Pure = "MuditaPure",
   Kompakt = "MuditaKompakt",
+  DeviceN = "MuditaDeviceN",
 }
 
 /**

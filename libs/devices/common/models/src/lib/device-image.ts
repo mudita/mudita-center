@@ -9,6 +9,7 @@ export enum DeviceImageType {
   Harmony2 = "harmony2",
   HarmonyMsc = "harmonyMsc",
   Pure = "pure",
+  DeviceN = "deviceN",
 }
 
 export enum DeviceImageColor {
