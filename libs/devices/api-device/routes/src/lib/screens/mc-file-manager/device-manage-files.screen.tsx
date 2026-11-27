@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent, useMemo, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { DashboardHeaderTitle } from "app-routing/feature"
 import { ApiDevice } from "devices/api-device/models"
 import { OpenDialogOptionsLite } from "app-utils/models"
@@ -54,21 +54,22 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     progress,
     isLoading,
     isConfigError,
+    isConfigSuccess,
     refetch,
   } = useDeviceManageFiles(feature)
 
-  const [activeCategoryId, setActiveCategoryId] = useState<string>(
-    storageInfo.categories?.[0]?.id
-  )
-
-  if (storageInfo.categories?.length && !activeCategoryId) {
-    setActiveCategoryId(storageInfo.categories[0].id)
-  }
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>()
+  const activeCategory =
+    storageInfo.categories.find(({ id }) => id === selectedCategoryId) ??
+    storageInfo.categories[0]
+  const activeCategoryId = activeCategory?.id
+  const filesCategoryId =
+    isConfigSuccess && !isConfigError ? activeCategoryId : undefined
 
   const { data: files } = useApiEntitiesDataQuery<
     FileEntity[],
     FileManagerFile[]
-  >(activeCategoryId, device, (data) => {
+  >(filesCategoryId, device, (data) => {
     return (
       data
         .filter((file) => {
@@ -106,11 +107,6 @@ export const DeviceManageFilesScreen: FunctionComponent<{
     )
   })
 
-  const targetDirectoryPath = useMemo(() => {
-    return storageInfo.categories.find(({ id }) => id === activeCategoryId)
-      ?.directoryPath
-  }, [activeCategoryId, storageInfo.categories])
-
   const { mutateAsync: deleteMutation } =
     useApiDeviceDeleteEntitiesMutation(device)
 
@@ -119,7 +115,7 @@ export const DeviceManageFilesScreen: FunctionComponent<{
   const { mutateAsync: transferFiles } = useDeviceFileTransferMutation(
     activeCategoryId,
     device,
-    targetDirectoryPath
+    activeCategory?.directoryPath
   )
 
   const deleteFiles: ManageFilesViewProps["deleteFiles"] = async (
@@ -164,12 +160,18 @@ export const DeviceManageFilesScreen: FunctionComponent<{
         progress={progress}
       >
         <ManageFiles
+          key={JSON.stringify([
+            device?.id,
+            feature,
+            filesCategoryId,
+            activeCategory?.directoryPath,
+          ])}
           files={files}
           feature={feature}
           storageInfo={{ ...storageInfo, otherFiles: OTHER_FILES_LABEL_TEXTS }}
           deviceId={device?.id}
           activeCategoryId={activeCategoryId}
-          onActiveCategoryChange={setActiveCategoryId}
+          onActiveCategoryChange={setSelectedCategoryId}
           deleteFiles={deleteFiles}
           openFileDialog={openFileDialog}
           openDirectoryDialog={openDirectoryDialog}
