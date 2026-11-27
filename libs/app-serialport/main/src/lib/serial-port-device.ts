@@ -878,7 +878,10 @@ export class SerialPortDevice {
     }
 
     const { body, data, ...rest } = request
-    const requestInfo = JSON.stringify(rest)
+    // Only the retry and failure messages below ever ask for this, and both
+    // are exceptional. Serializing it up front spends the work on every
+    // request to answer a question almost none of them raise.
+    const requestInfo = () => JSON.stringify(rest)
 
     const budget: RequestBudget = {
       timeoutRetries: request.options?.retries ?? 0,
@@ -905,7 +908,7 @@ export class SerialPortDevice {
           lastError instanceof Error
             ? lastError
             : new Error(
-                `Device at path ${this.info.path} disconnected while retrying request ${requestInfo}.`
+                `Device at path ${this.info.path} disconnected while retrying request ${requestInfo()}.`
               )
         )
       }
@@ -927,14 +930,14 @@ export class SerialPortDevice {
         if (escalation === undefined) {
           AppLogger.log(
             "error",
-            `Error making request ${requestInfo} for device at path ${this.info.path} after ${attempt} attempt(s): ${describeError(error)}`
+            `Error making request ${requestInfo()} for device at path ${this.info.path} after ${attempt} attempt(s): ${describeError(error)}`
           )
           throw toSerialPortError(error)
         }
 
         AppLogger.log(
           "warn",
-          `Request ${requestInfo} for device at path ${this.info.path} failed on attempt ${attempt} (${describeError(error)}). Next: ${escalation}.`,
+          `Request ${requestInfo()} for device at path ${this.info.path} failed on attempt ${attempt} (${describeError(error)}). Next: ${escalation}.`,
           { color: "yellow" }
         )
 

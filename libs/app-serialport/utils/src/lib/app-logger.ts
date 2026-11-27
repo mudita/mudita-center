@@ -24,13 +24,81 @@ interface Options {
   addNewLine?: boolean
 }
 
+/**
+ * A message that costs something to build - serializing a request, a response
+ * or the device list. Handed over unevaluated so a line nothing will write
+ * costs nothing to not write.
+ */
+type Message = string | (() => string)
+
+/**
+ * Longest message written without `doNotTrim`. The transport writes to disk
+ * on the main thread, so an unbounded line is time the event loop spends not
+ * serving the device - and a response body is as long as the device wants it
+ * to be.
+ */
+const DEFAULT_MESSAGE_LIMIT = 2_000
+
+const LEVELS: LogLevel[] = [
+  "error",
+  "warn",
+  "info",
+  "verbose",
+  "debug",
+  "silly",
+]
+
 export class AppLogger {
-  static log(level: LogLevel, message: string, options?: Options) {
+  static log(level: LogLevel, message: Message, options?: Options) {
     if (options?.devOnly && process.env.NODE_ENV !== "development") {
       return
     }
 
-    logger[level](...this.format(message, level, options))
+    if (!this.isLevelEnabled(level)) {
+      return
+    }
+
+    logger[level](
+      ...this.format(
+        typeof message === "function" ? message() : message,
+        level,
+        options
+      )
+    )
+  }
+
+  /**
+   * Whether any transport would write this level. Mirrors electron-log's own
+   * comparison, down to an unconfigured transport accepting everything.
+   */
+  private static isLevelEnabled(level: LogLevel): boolean {
+    const transports = logger.transports as
+      | Record<string, { level?: LogLevel | false } | undefined>
+      | undefined
+
+    if (!transports) {
+      return true
+    }
+
+    const entries = Object.values(transports).filter(Boolean)
+
+    if (entries.length === 0) {
+      return true
+    }
+
+    const requested = LEVELS.indexOf(level)
+
+    return entries.some((transport) => {
+      const transportLevel = transport?.level
+
+      if (transportLevel === false) {
+        return false
+      }
+
+      const allowed = LEVELS.indexOf(transportLevel as LogLevel)
+
+      return allowed === -1 || requested === -1 || requested <= allowed
+    })
   }
 
   private static format(
@@ -89,6 +157,6 @@ export class AppLogger {
         return limit
       }
     }
-    return Infinity
+    return DEFAULT_MESSAGE_LIMIT
   }
 }

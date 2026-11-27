@@ -268,7 +268,7 @@ export class SerialPortHandler extends SerialPort {
             color: "magenta",
           }
         )
-        AppLogger.log("debug", JSON.stringify(dataWithId), {
+        AppLogger.log("debug", () => JSON.stringify(dataWithId), {
           color: "gray",
           addNewLine: true,
         })
@@ -281,7 +281,7 @@ export class SerialPortHandler extends SerialPort {
             color: "magenta",
           }
         )
-        AppLogger.log("debug", JSON.stringify(rest), {
+        AppLogger.log("debug", () => JSON.stringify(rest), {
           color: "gray",
           addNewLine: true,
         })
@@ -305,7 +305,10 @@ export class SerialPortHandler extends SerialPort {
           `Received response for device at path ${this.path}:`,
           { color: "green" }
         )
-        AppLogger.log("debug", rawResponse, { color: "gray", addNewLine: true })
+        AppLogger.log("debug", () => rawResponse, {
+          color: "gray",
+          addNewLine: true,
+        })
       }
       const response = JSON.parse(rawResponse)
       const id = get(response, this.requestIdKey) as string | number | undefined
@@ -321,7 +324,7 @@ export class SerialPortHandler extends SerialPort {
           `Received response for device at path ${this.path}:`,
           { color: "green" }
         )
-        AppLogger.log("debug", JSON.stringify(rest), {
+        AppLogger.log("debug", () => JSON.stringify(rest), {
           color: "gray",
           addNewLine: true,
         })
