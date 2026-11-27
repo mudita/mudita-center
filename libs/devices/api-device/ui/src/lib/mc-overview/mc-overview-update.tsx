@@ -30,18 +30,20 @@ export const McOverviewUpdate: FunctionComponent<Props> = ({
         <Typography.P3>{version.label}</Typography.P3>
         <Typography.P1 color={"black"}>{version.value}</Typography.P1>
       </Info>
-      <HelpButton
-        type={ButtonType.Text}
-        modifiers={[
-          ButtonTextModifier.Link,
-          ButtonTextModifier.DefaultCase,
-          ButtonTextModifier.HoverUnderline,
-        ]}
-        onClick={onHelpButtonClick}
-      >
-        <HelpIcon type={IconType.Info} />
-        {formatMessage(messages.howToUpdateButtonLabel)}
-      </HelpButton>
+      {onHelpButtonClick && (
+        <HelpButton
+          type={ButtonType.Text}
+          modifiers={[
+            ButtonTextModifier.Link,
+            ButtonTextModifier.DefaultCase,
+            ButtonTextModifier.HoverUnderline,
+          ]}
+          onClick={onHelpButtonClick}
+        >
+          <HelpIcon type={IconType.Info} />
+          {formatMessage(messages.howToUpdateButtonLabel)}
+        </HelpButton>
+      )}
     </Wrapper>
   )
 }
