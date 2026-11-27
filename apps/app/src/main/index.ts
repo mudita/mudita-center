@@ -3,6 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+// First, and before anything that might log: electron-log builds the day's
+// log file on the first line written to it and caches it under its path,
+// reading `transports.file.sync` only at that moment. A log line from any
+// module imported ahead of this one would pin the file to synchronous
+// writes for the rest of the session.
+import "./setup-logger"
 import * as electron from "electron"
 import { app, BrowserWindow, shell } from "electron"
 import * as path from "path"
@@ -15,7 +21,6 @@ import installExtension, {
 import { mockServer } from "e2e-mock/server"
 import icon from "../../resources/icons/icon.png"
 import { initAppLibs } from "./init-app-libs"
-import "./setup-logger"
 import logger from "electron-log/main"
 
 const appWidth = process.env.APP_WIDTH
