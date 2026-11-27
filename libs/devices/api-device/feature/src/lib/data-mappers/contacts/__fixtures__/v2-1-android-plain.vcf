@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:2.1
+N:O'Connor;Sean;;;
+FN:Sean O'Connor
+TEL;CELL:+353 86 123 4567
+TEL;HOME:+353 1 234 5678
+EMAIL;INTERNET:sean@example.ie
+ADR;HOME:;;12 O'Connell St.;Dublin;;D01 F5P2;Ireland
+ORG:O'Connor & Sons
+END:VCARD
+BEGIN:VCARD
+VERSION:2.1
+N:Smith;John;Q;Dr.;Jr.
+FN:Dr. John Q Smith Jr.
+TEL;CELL:+1 555 0100
+END:VCARD

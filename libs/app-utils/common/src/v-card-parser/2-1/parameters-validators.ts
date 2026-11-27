@@ -5,6 +5,7 @@
 
 import z from "zod"
 import { clearQuotationMarks } from "../helpers/clear-quotation-marks"
+import { splitByDelimiter } from "../helpers/split-by-delimiter"
 
 const charsetParamValidator = z
   .string()
@@ -28,10 +29,17 @@ const encodingParamValidator = z
     } as const
   })
 
+/**
+ * vCard 2.1 writes a sub-type as a bare parameter ("TEL;HOME:"), but producers
+ * that also emit later versions often keep the "TYPE=" form. Both are accepted,
+ * and a comma separated list is split the way 3.0 and 4.0 write it.
+ */
 const anyParamValidator = z.string().transform((value) => {
   return {
     param: "TYPE",
-    value: value.toLowerCase(),
+    value: splitByDelimiter(value.replace(/^TYPE=/i, ""), ",").map((val) =>
+      val.trim().toLowerCase()
+    ),
   }
 })
 

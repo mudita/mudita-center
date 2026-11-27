@@ -1,0 +1,3 @@
+# vCard fixtures carry meaningful CRLF line endings and encoded bytes;
+# git must not normalize them.
+*.vcf -text

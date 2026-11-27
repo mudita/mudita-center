@@ -10,13 +10,13 @@ const version = z.enum(VCardVersion)
 
 export const versionValidator = z
   .string()
-  .startsWith("VERSION")
+  .regex(/^VERSION/i)
   .refine((val) => {
-    const ver = val.split(/^VERSION./)[1]
+    const ver = val.split(/^VERSION./i)[1]
     return version.safeParse(ver).success
   }, "Invalid VERSION value")
   .transform((val) => {
-    const version = val.split(/^VERSION./)[1]
+    const version = val.split(/^VERSION./i)[1]
     return {
       type: "VERSION" as const,
       value: version as VCardVersion,

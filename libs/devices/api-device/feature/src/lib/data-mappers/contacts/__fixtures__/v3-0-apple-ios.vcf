@@ -1,0 +1,68 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 26.0//EN
+N:Example;Anna;;;
+FN:Anna Example
+NICKNAME:Annie
+EMAIL;type=INTERNET;type=HOME;type=pref:anna@example.com
+TEL;type=HOME;type=VOICE;type=pref:555-010-0001
+item1.ADR;type=HOME;type=pref:;;1001  Example Street;Example City;EX;94965
+ ;USA
+item1.X-ABADR:us
+BDAY;value=date:1985-08-29
+item2.X-ABDATE;type=pref:2002-02-15
+item2.X-ABLabel:_$!<Anniversary>!$_
+REV:2020-07-29T01:14:35Z
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 26.0//EN
+N:Second;Daniel;;;Jr.
+FN:Daniel Second Jr.
+EMAIL;type=INTERNET;type=HOME;type=pref:daniel@example.com
+TEL;type=HOME;type=VOICE;type=pref:555-010-0002
+TEL;type=CELL;type=VOICE:(408) 555-0103
+TEL;type=HOME;type=FAX:(408) 555-0104
+item1.ADR;type=HOME;type=pref:;;332 Example Street;Other City;EX;94925;USA
+item1.X-ABADR:us
+NOTE:Sister: Emily
+REV:2020-07-29T01:14:35Z
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 26.0//EN
+N:Third;David;;;
+FN:David Third
+TEL;type=HOME;type=VOICE;type=pref:555-010-0005
+item1.ADR;type=HOME;type=pref:;;1747 Example Street;Third City;EX;94920;USA
+item1.X-ABADR:us
+NOTE:Plays on Cole's Little League Baseball Team\n
+BDAY;value=date:1998-06-15
+REV:2020-07-29T01:14:35Z
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iOS 26.0//EN
+N:Fourth;Kate;;;
+FN:Kate Fourth
+ORG:Example Consulting;
+TITLE:Producer
+EMAIL;type=INTERNET;type=WORK;type=pref:kate@example.com
+TEL;type=CELL;type=VOICE;type=pref:(555) 010-0106
+TEL;type=MAIN:(415) 555-0107
+item1.ADR;type=WORK;type=pref:;;165 Example Street;Fourth City;EX;94010;
+item1.X-ABADR:us
+item2.URL;type=pref:www.example.com
+item2.X-ABLabel:_$!<HomePage>!$_
+BDAY;value=date:1978-01-20
+REV:2020-07-29T01:14:35Z
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//macOS 12.3.1//EN
+N:;fifth@example.com;;;
+FN:fifth@example.com
+item1.EMAIL;type=INTERNET;type=pref:fifth@example.com
+item1.X-ABLabel:_$!<Other>!$_
+REV:2022-04-11T18:22:22Z
+END:VCARD

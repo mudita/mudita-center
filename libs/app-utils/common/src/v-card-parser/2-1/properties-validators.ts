@@ -5,12 +5,16 @@
 
 import { z } from "zod"
 import { splitByDelimiter } from "../helpers/split-by-delimiter"
+import { unescapeSemicolon } from "../helpers/unescape-value"
+import { isExtensionProperty, isProperty } from "../helpers/property-name"
 import { paramsValidators } from "./parameters-validators"
 import { decodeValue } from "../helpers/decode-value"
 
 const baseParser = (data: string) => {
-  const [propertyWithParameters, ...value] = splitByDelimiter(data, ":")
-  const [name, ...parameters] = propertyWithParameters.split(";")
+  const [propertyWithParameters, ...value] = splitByDelimiter(data, ":", {
+    stripQuotes: false,
+  })
+  const [name, ...parameters] = splitByDelimiter(propertyWithParameters, ";")
 
   const parsedParameters = parameters
     .map((param) => paramsValidators.safeParse(param))
@@ -20,8 +24,13 @@ const baseParser = (data: string) => {
 
   let joinedValue = value.join(":")
 
-  const encoding = parsedParameters.find((p) => p?.param === "ENCODING")?.value
-  const charset = parsedParameters.find((p) => p?.param === "CHARSET")?.value
+  const findTextParameter = (param: string) => {
+    const found = parsedParameters.find((p) => p?.param === param)?.value
+    return typeof found === "string" ? found : undefined
+  }
+
+  const encoding = findTextParameter("ENCODING")
+  const charset = findTextParameter("CHARSET")
 
   if (encoding || charset) {
     joinedValue = decodeValue(joinedValue, charset, encoding)
@@ -38,23 +47,23 @@ const baseParser = (data: string) => {
 
 const fullNameValidator = z
   .string()
-  .startsWith("FN")
+  .refine(isProperty("FN"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
     return {
       type: "FN" as const,
-      value,
+      value: unescapeSemicolon(value),
       parameters,
     } as const
   })
 
 const nameValidator = z
   .string()
-  .startsWith("N")
+  .refine(isProperty("N"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
     const [lastName, firstName, middleName, namePrefix, nameSuffix] =
-      value.split(";")
+      splitByDelimiter(value, ";", { quoteAware: false }).map(unescapeSemicolon)
 
     return {
       type: "N" as const,
@@ -69,48 +78,90 @@ const nameValidator = z
     } as const
   })
 
+const nicknameValidator = z
+  .string()
+  .refine(isProperty("NICKNAME"))
+  .transform((val) => {
+    const { value, parameters } = baseParser(val)
+
+    return {
+      type: "NICKNAME" as const,
+      value: splitByDelimiter(value, ",", { quoteAware: false }).map(
+        unescapeSemicolon
+      ),
+      parameters,
+    } as const
+  })
+
+/**
+ * A tel URI carries the number after the scheme and may append parameters such
+ * as an extension (RFC 3966 sec. 3). vCard 4.0 recommends the URI form for TEL
+ * (RFC 6350 sec. 6.4.1) and producers write it with or without VALUE=uri, so
+ * the scheme is stripped whenever the value actually is one.
+ */
+const parseTelephoneValue = (
+  value: string,
+  isUriValue: boolean
+): { phoneNumber: string; extension?: string } => {
+  if (!/^tel:/i.test(value) && !isUriValue) {
+    return { phoneNumber: value }
+  }
+
+  const [uriPart = "", ...uriParameters] = splitByDelimiter(value, ";", {
+    stripQuotes: false,
+  })
+  const extension = uriParameters
+    .find((parameter) => /^ext=/i.test(parameter))
+    ?.replace(/^ext=/i, "")
+
+  return {
+    phoneNumber: uriPart.replace(/^[a-z][a-z0-9+.-]*:/i, ""),
+    extension,
+  }
+}
+
 const telephoneValidator = z
   .string()
-  .startsWith("TEL")
+  .refine(isProperty("TEL"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
 
     return {
       type: "TEL" as const,
-      value: {
-        phoneNumber: value,
-      },
+      value: parseTelephoneValue(value, false),
       parameters,
     } as const
   })
 
 const emailValidator = z
   .string()
-  .startsWith("EMAIL")
+  .refine(isProperty("EMAIL"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
 
     return {
       type: "EMAIL" as const,
-      value,
+      value: unescapeSemicolon(value),
       parameters,
     } as const
   })
 
 const addressValidator = z
   .string()
-  .startsWith("ADR")
+  .refine(isProperty("ADR"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
     const [
       poBox,
-      streetAddress,
       secondStreetAddress,
+      streetAddress,
       city,
       state,
       zipCode,
       country,
-    ] = splitByDelimiter(value, ";")
+    ] = splitByDelimiter(value, ";", { quoteAware: false }).map(
+      unescapeSemicolon
+    )
 
     return {
       type: "ADR" as const,
@@ -129,16 +180,20 @@ const addressValidator = z
 
 const organizationValidator = z
   .string()
-  .startsWith("ORG")
+  .refine(isProperty("ORG"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
-    const [name, unit] = splitByDelimiter(value, ";")
+    // An organisation name may be followed by any number of
+    // organisational units (vCard 2.1 sec. 2.5.5).
+    const [name, ...units] = splitByDelimiter(value, ";", {
+      stripQuotes: false,
+    }).map(unescapeSemicolon)
 
     return {
       type: "ORG" as const,
       value: {
         name,
-        unit,
+        unit: units.filter(Boolean).join(", "),
       },
       parameters,
     } as const
@@ -146,46 +201,46 @@ const organizationValidator = z
 
 const titleValidator = z
   .string()
-  .startsWith("TITLE")
+  .refine(isProperty("TITLE"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
 
     return {
       type: "TITLE" as const,
-      value,
+      value: unescapeSemicolon(value),
       parameters,
     } as const
   })
 
 const roleValidator = z
   .string()
-  .startsWith("ROLE")
+  .refine(isProperty("ROLE"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
 
     return {
       type: "ROLE" as const,
-      value,
+      value: unescapeSemicolon(value),
       parameters,
     } as const
   })
 
 const noteValidator = z
   .string()
-  .startsWith("NOTE")
+  .refine(isProperty("NOTE"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
 
     return {
       type: "NOTE" as const,
-      value,
+      value: unescapeSemicolon(value),
       parameters,
     } as const
   })
 
 const urlValidator = z
   .string()
-  .startsWith("URL")
+  .refine(isProperty("URL"))
   .transform((val) => {
     const { value, parameters } = baseParser(val)
 
@@ -198,7 +253,7 @@ const urlValidator = z
 
 const customPropertyValidator = z
   .string()
-  .startsWith("X-")
+  .refine(isExtensionProperty)
   .transform((val) => {
     const { name, value, parameters } = baseParser(val)
 
@@ -210,6 +265,7 @@ const customPropertyValidator = z
   })
 
 const baseValidators = z.union([
+  nicknameValidator,
   addressValidator,
   telephoneValidator,
   emailValidator,
@@ -223,28 +279,32 @@ const baseValidators = z.union([
   customPropertyValidator,
 ])
 
-const itemValidator = z.string().regex(/^item\d+/)
+// A group name prefixes the property it belongs to. RFC 6350 sec. 3.3 defines
+// it as group = 1*(ALPHA / DIGIT / "-"), and vCard 2.1 ("Grouping") requires a
+// reader to parse a grouped property (sec. 2.1.4), so it is not limited to
+// "item<N>".
+const groupNameValidator = z.string().regex(/^[A-Za-z0-9-]+\./)
+
+const withoutGroupName = (val: string) => {
+  const [, ...propertyParts] = splitByDelimiter(val, ".")
+  return propertyParts.join(".")
+}
 
 const groupedPropertyValidator = z
   .string()
-  .startsWith("item")
-  .refine((val) => {
-    return itemValidator.safeParse(val).success
-  })
+  .refine((val) => groupNameValidator.safeParse(val).success)
+  // The grouped property has to be one we support; rejecting it here keeps an
+  // unsupported one from failing the whole file instead of just its own line.
+  .refine((val) => baseValidators.safeParse(withoutGroupName(val)).success)
   .transform((val) => {
-    const [groupName, ...propertyParts] = splitByDelimiter(val, ".")
-    const propertyString = propertyParts.join(".")
-
-    const result = baseValidators.safeParse(propertyString)
-    if (!result.success) {
-      throw new Error("Invalid grouped property")
-    }
+    const [groupName] = splitByDelimiter(val, ".")
+    const result = baseValidators.parse(withoutGroupName(val))
 
     return {
-      type: result.data.type,
-      value: result.data.value,
+      type: result.type,
+      value: result.value,
       parameters: [
-        ...result.data.parameters,
+        ...result.parameters,
         {
           param: "CUSTOM_GROUP_NAME",
           value: groupName,

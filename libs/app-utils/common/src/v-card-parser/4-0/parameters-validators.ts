@@ -37,11 +37,11 @@ const valueParamValidator = z
   .string()
   .regex(/^VALUE/i)
   .refine((val) => {
-    const dataType = val.split(/^VALUE./i)[1]
+    const dataType = clearQuotationMarks(val.split(/^VALUE./i)[1])
     return valueParamValues.safeParse(dataType).success
   }, "Invalid VALUE parameter")
   .transform((value) => {
-    const dataType = value.split(/^VALUE./i)[1]
+    const dataType = clearQuotationMarks(value.split(/^VALUE./i)[1])
     return {
       param: "VALUE",
       value: dataType as z.infer<typeof valueParamValues>,
@@ -64,11 +64,11 @@ const prefParamValidator = z
   .string()
   .regex(/^PREF/i)
   .refine((val) => {
-    const prefValue = val.split(/^PREF./i)[1]
+    const prefValue = clearQuotationMarks(val.split(/^PREF./i)[1])
     return prefParam.safeParse(prefValue).success
   }, "Invalid PREF parameter")
   .transform((value) => {
-    const prefValue = value.split(/^PREF./i)[1]
+    const prefValue = clearQuotationMarks(value.split(/^PREF./i)[1])
     return {
       param: "PREF",
       value: prefParam.safeParse(prefValue).data,
@@ -92,7 +92,7 @@ const pidParamValidator = z
   .string()
   .regex(/^PID/i)
   .refine((val) => {
-    const pidValue = val.split(/^PID./i)[1]
+    const pidValue = clearQuotationMarks(val.split(/^PID./i)[1])
     return pidParam.safeParse(pidValue).success
   }, "Invalid PID parameter")
   .transform((value) => {
@@ -155,7 +155,7 @@ const geoParamValidator = z
   .string()
   .regex(/^GEO/i)
   .refine((val) => {
-    const geoValue = val.split(/^GEO./i)[1]
+    const geoValue = clearQuotationMarks(val.split(/^GEO./i)[1])
     return geoParam.safeParse(geoValue).success
   }, "Invalid GEO parameter")
   .transform((value) => {

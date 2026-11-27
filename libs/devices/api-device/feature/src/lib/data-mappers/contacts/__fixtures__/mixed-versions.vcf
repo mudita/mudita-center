@@ -1,0 +1,34 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Nowak;Piotr;Jan;;
+FN:Piotr Nowak
+ORG:Przykład Sp. z o.o.;Dział Sprzedaży;Zespół B
+TITLE:Specjalista
+EMAIL;TYPE=INTERNET;TYPE=HOME:piotr.nowak@example.com
+EMAIL;TYPE=INTERNET;TYPE=WORK:p.nowak@example.org
+TEL;TYPE=CELL:+48 602 345 678
+TEL;TYPE=WORK:+48 22 222 22 22
+TEL;TYPE=HOME:+48 22 333 33 33
+ADR;TYPE=HOME:;;ul. Polna 7\, m. 12;Kraków;małopolskie;30-001;Polska
+ADR;TYPE=WORK:;;al. Jerozolimskie 100;Warszawa;mazowieckie;00-807;Polska
+NOTE:Pierwsza linia notatki.\nDruga linia po escape'owanym znaku nowej lini
+ i\, z przecinkiem. Trzecia część jest wystarczająco długa, żeby wymusić za
+ wijanie linii zgodnie ze specyfikacją.
+URL:http://example.com/piotr
+END:VCARD
+BEGIN:VCARD
+VERSION:2.1
+N:O'Connor;Sean;;;
+FN:Sean O'Connor
+TEL;CELL:+353 86 123 4567
+TEL;HOME:+353 1 234 5678
+EMAIL;INTERNET:sean@example.ie
+ADR;HOME:;;12 O'Connell St.;Dublin;;D01 F5P2;Ireland
+ORG:O'Connor & Sons
+END:VCARD
+BEGIN:VCARD
+VERSION:2.1
+N:Smith;John;Q;Dr.;Jr.
+FN:Dr. John Q Smith Jr.
+TEL;CELL:+1 555 0100
+END:VCARD

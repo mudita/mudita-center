@@ -32,11 +32,11 @@ const valueParamValidator = z
   .string()
   .regex(/^VALUE/i)
   .refine((val) => {
-    const dataType = val.split(/^VALUE./i)[1]
+    const dataType = clearQuotationMarks(val.split(/^VALUE./i)[1])
     return valueParamValues.safeParse(dataType).success
   }, "Invalid VALUE parameter")
   .transform((value) => {
-    const dataType = value.split(/^VALUE./i)[1]
+    const dataType = clearQuotationMarks(value.split(/^VALUE./i)[1])
     return {
       param: "VALUE",
       value: dataType as z.infer<typeof valueParamValues>,
