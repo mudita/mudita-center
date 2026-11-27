@@ -28,6 +28,63 @@ const WINDOWS_OPEN_RETRY_ATTEMPTS = 3
 const WINDOWS_OPEN_RETRY_BASE_DELAY_MS = 300
 const WINDOWS_OPEN_RETRY_MAX_DELAY_MS = 2_000
 const REATTACH_AFTER_UNFREEZE_DELAY_MS = 250
+const REATTACH_SETTLE_DELAY_MS = 1_000
+
+/**
+ * Budget for a single `request()` call. Every rung of the retry ladder spends
+ * from it, so one call can never produce an unbounded chain of retries.
+ */
+const MAX_REQUEST_ATTEMPTS = 6
+
+/**
+ * A frozen device keeps its queue paused, so a queued request normally waits
+ * there instead of failing. This budget bounds the other case: a request that
+ * *fails* while the device is frozen, which would otherwise be re-queued for
+ * as long as the freeze lasts.
+ */
+const MAX_FREEZE_WAITS = 2
+const MAX_FREEZE_ATTEMPTS = 1
+const MAX_REATTACH_ATTEMPTS = 1
+
+/**
+ * Errors raised by `makeRequest` before the request reaches the wire.
+ */
+const PORT_UNAVAILABLE_MESSAGES = [
+  "SerialPortHandler is not initialized.",
+  "Serial port is not open.",
+]
+
+const isTimeoutFailure = (error: unknown) =>
+  (error instanceof SerialPortError &&
+    error.type === SerialPortErrorType.ResponseTimeout) ||
+  error instanceof TimeoutError
+
+/**
+ * A failure of the transport itself, as opposed to a device or protocol error.
+ * Only these justify freezing a freezable device: a malformed payload or a
+ * rejected command says nothing about the port being usable.
+ */
+const isTransportFailure = (error: unknown) =>
+  isTimeoutFailure(error) ||
+  (error instanceof SerialPortError &&
+    error.type === SerialPortErrorType.PortClosed) ||
+  (error instanceof Error && PORT_UNAVAILABLE_MESSAGES.includes(error.message))
+
+const describeError = (error: unknown) =>
+  error instanceof SerialPortError
+    ? error.type
+    : error instanceof Error
+      ? error.message
+      : String(error)
+
+type RequestEscalation = "wait-for-unfreeze" | "freeze" | "retry" | "reattach"
+
+interface RequestBudget {
+  timeoutRetries: number
+  freezeWaits: number
+  freezes: number
+  reattaches: number
+}
 
 export enum SerialPortDeviceStatus {
   /**
@@ -590,24 +647,13 @@ export class SerialPortDevice {
   }
 
   /**
-   * Public method to make a request to the serial port device.
-   * This method adds the request to the queue and handles errors gracefully.
-   * It returns a promise that resolves with the response or rejects with an error.
-   * In case of errors, if the device is freezable, it will retry the request once the device is unfrozen.
+   * Runs one attempt through the queue and settles it, whichever comes first:
+   * the queued task, or an explicit cancellation when the device goes away.
    */
-  async request(request: SerialPortRequest): Promise<SerialPortResponse> {
-    const retriesLeft = request.options?.retries || 0
-    const priority = request.options?.priority ?? 1
-
-    if (
-      this.status === SerialPortDeviceStatus.DeviceDisconnected &&
-      !this.instance.nonSerialPortDevice
-    ) {
-      throw new Error(
-        `Cannot make request to device at path ${this.info.path} because it is disconnected.`
-      )
-    }
-
+  private async runQueuedRequest(
+    request: SerialPortRequest,
+    priority: number
+  ): Promise<SerialPortResponse> {
     const pending = this.trackPendingRequest()
 
     try {
@@ -625,98 +671,163 @@ export class SerialPortDevice {
       // The losing side of the race can still settle later; keep it handled.
       void queued.catch(() => undefined)
 
-      const response = await Promise.race([queued, pending.cancelled])
+      return (await Promise.race([
+        queued,
+        pending.cancelled,
+      ])) as SerialPortResponse
+    } finally {
       pending.release()
+    }
+  }
 
-      return response as SerialPortResponse
-    } catch (error) {
-      pending.release()
+  /**
+   * A disconnected serial device cannot serve a retry. A non-serial device
+   * (MSC, mock) is not backed by a port, so `request()` keeps serving it.
+   */
+  private isUnreachable() {
+    return (
+      this.status === SerialPortDeviceStatus.DeviceDisconnected &&
+      !this.instance.nonSerialPortDevice
+    )
+  }
 
-      // A disconnected device cannot serve a retry: freezing, re-attaching or
-      // re-queueing below would all operate on a device that is already gone.
-      if (
-        this.status === SerialPortDeviceStatus.DeviceDisconnected &&
-        !this.instance.nonSerialPortDevice
-      ) {
-        throw error
+  /**
+   * Decides the next rung of the retry ladder, spending from `budget`.
+   * Returning `undefined` ends the ladder and lets the error through.
+   */
+  private planEscalation(
+    error: unknown,
+    budget: RequestBudget,
+    attempt: number
+  ): RequestEscalation | undefined {
+    if (attempt >= MAX_REQUEST_ATTEMPTS) {
+      return undefined
+    }
+
+    // A frozen device is expected to fail; the next attempt waits on the
+    // paused queue until the device is unfrozen or destroyed.
+    if (this.freezeHandler.isFrozen) {
+      if (budget.freezeWaits <= 0) {
+        return undefined
+      }
+      budget.freezeWaits -= 1
+      return "wait-for-unfreeze"
+    }
+
+    if (this.freezeHandler.isFreezable && isTransportFailure(error)) {
+      if (budget.freezes <= 0) {
+        return undefined
+      }
+      budget.freezes -= 1
+      return "freeze"
+    }
+
+    if (!isTimeoutFailure(error)) {
+      return undefined
+    }
+
+    if (budget.timeoutRetries > 0) {
+      budget.timeoutRetries -= 1
+      return "retry"
+    }
+
+    if (budget.reattaches > 0) {
+      budget.reattaches -= 1
+      return "reattach"
+    }
+
+    return undefined
+  }
+
+  private async applyEscalation(escalation: RequestEscalation) {
+    if (escalation === "freeze") {
+      this.freezeHandler.freeze()
+      return
+    }
+
+    if (escalation === "reattach") {
+      this.attachPort()
+      // Slight delay to allow the port to initialize properly before retrying.
+      await delay(REATTACH_SETTLE_DELAY_MS)
+    }
+  }
+
+  /**
+   * Public method to make a request to the serial port device.
+   *
+   * The request is queued; on failure it escalates through a single bounded
+   * ladder - wait out a freeze, freeze a freezable device, retry a timeout,
+   * re-attach the port once - and each rung spends from a per-call budget.
+   * Escalation is iterative rather than recursive, so a device that keeps
+   * failing produces a fixed number of attempts instead of a retry storm.
+   */
+  async request(request: SerialPortRequest): Promise<SerialPortResponse> {
+    if (this.isUnreachable()) {
+      throw new Error(
+        `Cannot make request to device at path ${this.info.path} because it is disconnected.`
+      )
+    }
+
+    const { body, data, ...rest } = request
+    const requestInfo = JSON.stringify(rest)
+
+    const budget: RequestBudget = {
+      timeoutRetries: request.options?.retries ?? 0,
+      freezeWaits: MAX_FREEZE_WAITS,
+      freezes: MAX_FREEZE_ATTEMPTS,
+      reattaches: MAX_REATTACH_ATTEMPTS,
+    }
+
+    const basePriority = request.options?.priority ?? 1
+    // A retry keeps its place ahead of work queued while it was failing, but it
+    // does not climb: raising the priority on every rung would let one failing
+    // request displace fresh ones again and again.
+    const retryPriority = basePriority + 1
+
+    let lastError: unknown
+
+    for (let attempt = 1; ; attempt++) {
+      // The device can go away between attempts - while a re-attach settles,
+      // for instance. By then `transition(DeviceDisconnected)` has drained the
+      // rejector set, so a request queued now would sit on a paused queue with
+      // nothing left to settle it.
+      if (attempt > 1 && this.isUnreachable()) {
+        throw lastError instanceof Error
+          ? lastError
+          : new Error(
+              `Device at path ${this.info.path} disconnected while retrying request ${requestInfo}.`
+            )
       }
 
-      const { body, data, ...rest } = request
-      const requestInfo = JSON.stringify(rest)
-
-      const isFrozen = this.freezeHandler.isFrozen
-      const isFreezable = this.freezeHandler.isFreezable
-
-      const isSerialPortTimeout =
-        error instanceof SerialPortError &&
-        error.type === SerialPortErrorType.ResponseTimeout
-      const isQueueTimeout = error instanceof TimeoutError
-      const isTimeout = isSerialPortTimeout || isQueueTimeout
-
-      if (isFrozen) {
-        AppLogger.log(
-          "debug",
-          `Device at path ${this.info.path} is currently frozen. Request ${requestInfo} will be retried once the device is unfrozen.`,
-          { color: "yellow" }
+      try {
+        return await this.runQueuedRequest(
+          request,
+          attempt === 1 ? basePriority : retryPriority
         )
+      } catch (error) {
+        lastError = error
 
-        return await this.request({
-          ...request,
-          options: { ...request.options, priority: priority + 1 },
-        })
-      } else if (isFreezable) {
-        AppLogger.log(
-          "debug",
-          `Device at path ${this.info.path} is not frozen but is freezable. Request ${requestInfo} will be retried with a freeze attempt. Freezing`,
-          { color: "yellow" }
-        )
-        this.freezeHandler.freeze()
+        if (this.isUnreachable()) {
+          throw error
+        }
 
-        return await this.request({
-          ...request,
-          options: { ...request.options, priority: priority + 1 },
-        })
-      } else if (isTimeout && retriesLeft > 0) {
+        const escalation = this.planEscalation(error, budget, attempt)
+
+        if (escalation === undefined) {
+          AppLogger.log(
+            "error",
+            `Error making request ${requestInfo} for device at path ${this.info.path} after ${attempt} attempt(s): ${describeError(error)}`
+          )
+          throw error
+        }
+
         AppLogger.log(
           "warn",
-          `Request ${requestInfo} timed out for device at path ${this.info.path}. Retries left: ${retriesLeft}. Retrying request...`,
+          `Request ${requestInfo} for device at path ${this.info.path} failed on attempt ${attempt} (${describeError(error)}). Next: ${escalation}.`,
           { color: "yellow" }
         )
 
-        return await this.request({
-          ...request,
-          options: {
-            ...request.options,
-            priority: priority + 1,
-            retries: retriesLeft - 1,
-          },
-        })
-      } else if (isTimeout && retriesLeft === 0) {
-        AppLogger.log(
-          "warn",
-          `Request ${requestInfo} timed out for device at path ${this.info.path}. No more retries left. Reattaching device and retrying request one more time.`,
-          { color: "red" }
-        )
-        this.attachPort()
-        // Slight delay to allow the port to initialize properly before retrying the request
-        await delay(1000)
-
-        return await this.request({
-          ...request,
-          options: { ...request.options, priority: priority + 1, retries: -1 },
-        })
-      } else {
-        AppLogger.log(
-          "error",
-          `Error making request ${requestInfo} for device at path ${this.info.path}: ${
-            error instanceof SerialPortError
-              ? error.type
-              : error instanceof Error
-                ? error.message
-                : error
-          }`
-        )
-        throw error
+        await this.applyEscalation(escalation)
       }
     }
   }
