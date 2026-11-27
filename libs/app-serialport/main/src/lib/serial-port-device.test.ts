@@ -324,6 +324,64 @@ describe("SerialPortDevice", () => {
       expect(cleanup).toHaveBeenCalled()
     })
 
+    it("waits for a pending close even once the port field is clear", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      const close = holdPortOpen(device["serialPort"] as SerialPortHandler)
+
+      // The first reattach clears `serialPort` and leaves the close running.
+      device.attachPort()
+      await jest.advanceTimersByTimeAsync(0)
+      expect(close).toHaveBeenCalledTimes(1)
+
+      // A second one arriving in that window sees no port at all. Taking
+      // that for "nothing holds the path" reopens it from under the handle
+      // that is still closing on it - the access-denied race again.
+      device.attachPort()
+      await jest.advanceTimersByTimeAsync(0)
+
+      expect(device["serialPort"]).toBeUndefined()
+
+      await jest.advanceTimersByTimeAsync(2000)
+      expect(device["serialPort"]).toBeDefined()
+    })
+
+    it("does not open a port for an attach that destroy has overtaken", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+
+      holdPortOpen(device["serialPort"] as SerialPortHandler)
+
+      device.attachPort()
+      device.destroy()
+
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // The close lands after the device is gone. Letting its continuation
+      // through would open a port that nothing will ever close again.
+      expect(device["serialPort"]).toBeUndefined()
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+    })
+
+    it("ignores a close that lands after the device was destroyed", async () => {
+      const device = new SerialPortDevice(mockDeviceInfo)
+      device.attachPort()
+      device["freezeHandler"].prepareToFreeze(5000)
+
+      const port = device["serialPort"] as SerialPortHandler
+      device.destroy()
+      port.emit("close")
+
+      await jest.advanceTimersByTimeAsync(2000)
+
+      // `destroy` only unhooks the freeze handler's listeners, so a close
+      // still reaching `handleClose` would freeze a device that is already
+      // gone, and leave the freeze timeout running behind it.
+      expect(device["freezeHandler"].isFrozen).toBe(false)
+      expect(device.status).toBe(SerialPortDeviceStatus.DeviceDisconnected)
+    })
+
     it("drops a port replacement that a newer attach superseded", async () => {
       const device = new SerialPortDevice(mockDeviceInfo)
       device.attachPort()
